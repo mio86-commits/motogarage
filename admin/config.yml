@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: mio86-commits/motogarage
   branch: main
+  base_url: https://decap-auth.mio86.workers.dev
+  auth_endpoint: /auth
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"

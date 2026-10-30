@@ -1,44 +1,36 @@
 {
   "items": [
     {
-      "title": "Akrapovič Racing Line (Carbon)",
-      "price": "65 000 ₽",
-      "desc": "Kawasaki Z1000 / Ninja 1000.",
+      "title": "Kawasaki Ninja 400 2017 (ABS)",
+      "price": "495 000 ₽",
+      "desc": "Пробег 1800 км. Аукцион BDS 5 баллов.",
       "status": "В наличии",
-      "link": "akrap1.html",
-      "image": "ak1.jpg"
+      "link": "moto1.html",
+      "image": "photo1.jpg"
     },
     {
-      "title": "Akrapovič Yamaha MT-09",
-      "price": "85 000 ₽",
-      "desc": "Tracer 9 с 2021 г. Производство 2024 г.",
+      "title": "Kawasaki Ninja 400 2015 (ABS)",
+      "price": "485 000 ₽",
+      "desc": "JBA 4 балла. Пробег 17000 км.",
       "status": "В наличии",
-      "link": "akrap2.html",
-      "image": "ak2.jpg"
+      "link": "moto2.html",
+      "image": "photo2.jpg"
     },
     {
-      "title": "Akrapovič Titan S-Y9R3",
-      "price": "90 000 ₽",
-      "desc": "Yamaha MT-09 / XSR900 / Tracer.",
-      "status": "В пути",
-      "link": "akrap3.html",
-      "image": "ak3.jpg"
+      "title": "Kawasaki Ninja 400R 2012",
+      "price": "415 000 ₽",
+      "desc": "Пробег 16000 км. Выхлоп Nassert Beet.",
+      "status": "В наличии",
+      "link": "moto3.html",
+      "image": "photo3.jpg"
     },
     {
-      "title": "Akrapovič (Carbon)",
-      "price": "79 000 ₽",
-      "desc": "Yamaha MT-09 / XSR900 / Tracer. В пути.",
+      "title": "Suzuki GSX-S 1000 F 2015",
+      "price": "785 000 ₽",
+      "desc": "Аукцион BDS 5 баллов, Пробег 32000км, 145 л.с. Прибытие в декабре.",
       "status": "В пути",
-      "link": "akrap4.html",
-      "image": "ak4.jpg"
-    },
-    {
-      "title": "Akrapovič Titan (400 км)",
-      "price": "90 000 ₽",
-      "desc": "Yamaha MT-09. Состояние нового.",
-      "status": "В пути",
-      "link": "akrap5.html",
-      "image": "ak5.jpg"
+      "link": "moto4.html",
+      "image": "photo4.jpg"
     }
   ]
 }

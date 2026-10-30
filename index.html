@@ -75,6 +75,11 @@
 
   footer { border-top:1px solid #222; padding:26px 0; text-align:center; font-size:13px; color:#666; }
 
+  /* --- СКРЫВАЕМ ЗНАЧОК NETLIFY --- */
+  div[id="netlify-badge"], iframe[title="Netlify"] {
+    display: none !important;
+  }
+
   /* --- НАСТРОЙКИ ДЛЯ МОБИЛЬНЫХ ТЕЛЕФОНОВ --- */
   @media (max-width: 600px){
     .logo { font-size: 19px; gap: 8px; }
@@ -155,14 +160,11 @@
 
 <div class="wrap">
   <h2 class="section-title">🏍 Мотоциклы в наличии</h2>
-  <!-- Сюда будут автоматически загружаться мотоциклы из админки -->
   <div class="grid" id="moto-container"></div>
 
   <h2 class="section-title">🔥 Выхлоп Akrapovič</h2>
-  <!-- Сюда будут автоматически загружаться выхлопы из админки -->
   <div class="grid" id="akrap-container"></div>
 
-  <!-- СТАТИЧНЫЙ БЛОК: ИСТОРИЯ ПРОДАННЫХ -->
   <h2 class="section-title" style="margin-top: 50px;">🏆 Наша гордость: уже продано</h2>
   <p style="text-align: center; color: #9a9a9a; margin-bottom: 20px;">С 2019 года мы привезли и передали владельцам десятки мотоциклов. Вот лишь некоторые из них:</p>
   
@@ -298,7 +300,7 @@
 <!-- СКРИПТ АВТОМАТИЧЕСКОЙ ЗАГРУЗКИ ТОВАРОВ -->
 <script>
   // Загрузка мотоциклов
-  fetch('/data/moto.json')
+  fetch('data/moto.json')
     .then(response => {
       if (!response.ok) throw new Error('Нет файла moto.json');
       return response.json();
@@ -326,7 +328,7 @@
     .catch(error => console.log('Ошибка загрузки мотоциклов:', error));
 
   // Загрузка выхлопов
-  fetch('/data/akrap.json')
+  fetch('data/akrap.json')
     .then(response => {
       if (!response.ok) throw new Error('Нет файла akrap.json');
       return response.json();

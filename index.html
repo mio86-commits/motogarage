@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MotoGarage NSK — мотоциклы и выхлоп Akrapovič</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; background:#0e0e10; color:#eaeaea; line-height:1.5; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+  /* --- ШАПКА САЙТА --- */
+  header { padding: 12px 0; border-bottom: 1px solid #222; position: sticky; top:0; background:#0e0e10ee; backdrop-filter: blur(6px); z-index:10; }
+  header .wrap { display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 12px;}
+  
+  /* --- ЛОГОТИП СО СПИДОМЕТРОМ --- */
+  .logo { 
+    display: flex; 
+    align-items: center; 
+    font-weight: 900; 
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 1px;
+    gap: 12px;
+    line-height: 1; 
+  }
+  
+  .logo-text-wrap {
+    display: flex;
+    align-items: center;
+  }
+
+  .speedo-icon {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: block; 
+    margin-top: 16px; /* УВЕЛИЧИЛИ ОТСТУП, ЧТОБЫ ОПУСТИТЬ ИКОНКУ ЕЩЕ НИЖЕ */
+  }
+
+  /* Анимация газовки */
+  .needle {
+    transform-origin: 50px 50px;
+    animation: rev-engine 3.5s ease-in-out infinite; 
+  }
+  
+  @keyframes rev-engine {
+    0%   { transform: rotate(-90deg); }
+    10%  { transform: rotate(15deg); }
+    20%  { transform: rotate(-20deg); }
+    30%  { transform: rotate(50deg); }
+    40%  { transform: rotate(10deg); }
+    50%  { transform: rotate(85deg); }
+    55%  { transform: rotate(70deg); }
+    60%  { transform: rotate(85deg); }
+    65%  { transform: rotate(75deg); }
+    75%  { transform: rotate(85deg); }
+    90%  { transform: rotate(-90deg); }
+    100% { transform: rotate(-90deg); }
+  }
+  
+  /* Рамка вокруг GARAGE */
+  .logo-badge {
+    border: 2px solid #ff5a1f;
+    color: #ff5a1f;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin: 0 6px;
+    transition: 0.3s;
+  }
+  .logo:hover .logo-badge {
+    background: #ff5a1f;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 90, 31, 0.4);
+  }
+
+  .logo-nsk { 
+    font-size: 15px; 
+    color: #777; 
+    font-weight: 600; 
+  }
+
+  /* Контакты в шапке */
+  .header-contacts { display: flex; align-items: center; gap: 10px; }
+  .contact-text { color: #9a9a9a; font-size: 14px; font-weight: 500; margin-right: 5px; }
+  .header-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  
+  .social-btn {
+    display: flex; align-items: center; justify-content: center;
+    background: #16161a; border: 1px solid #24242a; border-radius: 8px;
+    height: 36px; padding: 0 10px; transition: 0.2s;
+    color: #fff; font-size: 13px; font-weight: 600; gap: 6px;
+  }
+  .social-btn:hover { border-color: #ff5a1f; background: #24242a; transform: translateY(-1px); }
+  .social-btn img { height: 18px; width: auto; }
+  .tg-icon { fill: #229ED9; width: 18px; height: 18px; }
+
+  /* --- ОСНОВНОЙ КОНТЕНТ --- */
+  .hero { padding: 15px 0 25px; text-align:center; }
+  .hero h1 { font-size: 40px; line-height:1.15; margin-bottom: 16px; }
+  .hero h1 span { color:#ff5a1f; }
+  .hero p { color:#9a9a9a; max-width: 680px; margin: 0 auto; font-size: 17px; }
+  .hero .experience { display: inline-block; margin-top: 15px; background: #ff5a1f22; color: #ff5a1f; padding: 6px 16px; border-radius: 20px; font-weight: 600; font-size: 15px; }
+
+  .section-title { font-size: 24px; margin: 2px 0 20px; text-align: center; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+
+  .card { display: flex; flex-direction: column; background:#16161a; border:1px solid #24242a; border-radius: 12px; overflow:hidden; position: relative; -webkit-tap-highlight-color: transparent;}
+  .card.active-card { transition: .2s; cursor: pointer; }
+  .card.active-card:hover { border-color:#ff5a1f55; transform: translateY(-2px); }
+  .card.active-card:active { transform: scale(0.98); }
+  .card.active-card:hover .btn { background:#ff5a1f; }
+  .card.sold-card { cursor: default; opacity: 0.85; }
+  
+  .card .img { aspect-ratio: 4/3; background:#222 center/cover no-repeat; display:flex; align-items:center; justify-content:center; color:#555; font-size:13px; }
+  .card .body { padding: 14px 16px 16px; display:flex; flex-direction:column; gap:6px; flex:1; }
+  .card h3 { font-size: 16px; }
+  .card .desc { font-size: 13px; color:#9a9a9a; flex:1; }
+  .card .price { font-weight:700; color:#ff5a1f; font-size: 17px; }
+  .card .btn { margin-top:8px; text-align:center; background:#24242a; padding:10px; border-radius:8px; font-size:14px; font-weight:600; color: #fff; transition: 0.2s; display: block;}
+  .card .btn-detail { background:#ff5a1f; color:#fff; }
+
+  .status-badge { position: absolute; top: 10px; right: 10px; background: #0077FF; color: white; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+  .status-sold { position: absolute; top: 10px; right: 10px; background: #e63946; color: white; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.5); text-transform: uppercase; }
+
+  .info { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:18px; margin-top: 20px; }
+  .info div { background:#16161a; border:1px solid #24242a; border-radius:12px; padding:20px; }
+  .info h4 { margin-bottom:8px; color:#ff5a1f; font-size:15px; }
+  .info p { font-size:14px; color:#b5b5b5; }
+
+  .cta { margin: 60px 0; background:linear-gradient(135deg,#1a1a1f,#16161a); border:1px solid #24242a; border-radius:16px; padding:40px 30px; text-align:center; }
+  .cta h2 { font-size:26px; margin-bottom:10px; }
+  .cta p { color:#9a9a9a; margin-bottom:22px; }
+
+  footer { border-top:1px solid #222; padding:26px 0; text-align:center; font-size:13px; color:#666; }
+
+  /* --- НАСТРОЙКИ ДЛЯ МОБИЛЬНЫХ ТЕЛЕФОНОВ --- */
+  @media (max-width: 600px){
+    .logo { font-size: 19px; gap: 8px; }
+    .speedo-icon { width: 32px; height: 32px; margin-top: 12px; /* Отступ для мобилок */ }
+    .logo-badge { padding: 2px 6px; margin: 0 4px; border-width: 1.5px; }
+    .logo-nsk { font-size: 12px; }
+    
+    .hero h1 { font-size: 26px; }
+    .hero p { font-size: 15px; }
+    header .wrap { justify-content: center; }
+    .contact-text { display: none; }
+    .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .card .body { padding: 10px; gap: 4px; }
+    .card h3 { font-size: 13px; line-height: 1.3; }
+    .card .desc { font-size: 11px; line-height: 1.3; }
+    .card .price { font-size: 14px; margin: 4px 0; }
+    .card .btn { padding: 8px; font-size: 12px; margin-top: 4px; border-radius: 6px; }
+    .status-badge { font-size: 10px; padding: 2px 6px; top: 5px; right: 5px; }
+    .status-sold { font-size: 10px; padding: 2px 6px; top: 5px; right: 5px; }
+    .section-title { font-size: 20px; margin: 20px 0 15px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    
+    <a href="index.html" class="logo" title="На главную">
+      
+      <!-- Спидометр -->
+      <svg class="speedo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#444" stroke-width="7" stroke-linecap="round"/>
+        <path d="M 10 50 L 18 50" stroke="#777" stroke-width="4"/>
+        <path d="M 30 20 L 34 26" stroke="#777" stroke-width="4"/>
+        <path d="M 50 10 L 50 18" stroke="#777" stroke-width="4"/>
+        <path d="M 70 20 L 66 26" stroke="#777" stroke-width="4"/>
+        <path d="M 90 50 L 82 50" stroke="#777" stroke-width="4"/>
+        <g class="needle">
+          <path d="M 45 50 L 55 50 L 50 15 Z" fill="#ff5a1f" />
+        </g>
+        <circle cx="50" cy="50" r="8" fill="#fff" />
+        <circle cx="50" cy="50" r="4" fill="#ff5a1f" />
+      </svg>
+      
+      <!-- Текст -->
+      <div class="logo-text-wrap">
+        MOTO <span class="logo-badge">GARAGE</span> <span class="logo-nsk">NSK</span>
+      </div>
+    </a>
+    
+    <div class="header-contacts">
+      <span class="contact-text">Написать нам:</span>
+      <div class="header-buttons">
+        <a class="social-btn" href="https://www.avito.ru/user/61802a3f2baf9ed9b426a1ccdd2c506c/profile?src=sharing" target="_blank" title="Мы на Авито">
+          <img src="avito.png" alt="Авито" style="background:#fff; padding:2px; border-radius:3px; height: 20px;">
+        </a>
+        <a class="social-btn" href="https://www.drom.ru/my/bulletins/actual/moto/" target="_blank" title="Мы на Дроме">
+          <img src="drom.png" alt="Дром" style="background:#fff; padding:2px; border-radius:3px; height: 20px;">
+        </a>
+        <a class="social-btn" href="https://t.me/Ivan_IM_Moto" target="_blank" title="Написать в Telegram">
+          <svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+        </a>
+        <a class="social-btn" href="https://t.me/MotoGarage_NSK" target="_blank" title="Наш Telegram-канал">
+          <svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+          <span style="font-size: 12px; color: #229ED9;">Канал</span>
+        </a>
+        <a class="social-btn" href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" title="Написать в MAX">
+          <img src="max.png" alt="MAX" style="height: 24px; border-radius: 4px;">
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Мотоциклы и выхлоп <span>Akrapovič</span></h1>
+    <p>Проверенная техника и оригинальные комплекты выхлопных систем. Доставка из Японии. Подберём под ваш мотоцикл — напишите нам.</p>
+    <div class="experience">🇯🇵 Привозим мототехнику из Японии с 2019 года</div>
+  </div>
+</section>
+
+<div class="wrap">
+  <h2 class="section-title">🏍 Мотоциклы в наличии</h2>
+    <div class="grid">
+
+    <a class="card active-card" href="moto1.html">
+      <div class="img" style="background-image:url('photo1.jpg')"></div>
+      <div class="body">
+        <h3>Kawasaki Ninja 400 2017 (ABS)</h3>
+        <div class="desc">Пробег 1800 км. Аукцион BDS 5 баллов.</div>
+        <div class="price">495 000 ₽</div>
+        <div class="btn btn-detail">Подробнее</div>
+      </div>
+    </a>
+
+    <a class="card active-card" href="moto2.html">
+      <div class="img" style="background-image:url('photo2.jpg')"></div>
+      <div class="body">
+        <h3>Kawasaki Ninja 400 2015 (ABS)</h3>
+        <div class="desc">JBA 4 балла. Пробег 17000 км.</div>
+        <div class="price">485 000 ₽</div>
+        <div class="btn btn-detail">Подробнее</div>
+      </div>
+    </a>
+
+    <a class="card active-card" href="moto3.html">
+      <div class="img" style="background-image:url('photo3.jpg')"></div>
+      <div class="body">
+        <h3>Kawasaki Ninja 400R 2012</h3>
+        <div class="desc">Пробег 16000 км. Выхлоп Nassert Beet.</div>
+        <div class="price">415 000 ₽</div>
+        <div class="btn btn-detail">Подробнее</div>
+      </div>
+    </a>
+
+    <a class="card active-card" href="moto4.html">
+      <div class="status-badge">🚢 В пути</div>
+      <div class="img" style="background-image:url('photo4.jpg')"></div>
+      <div class="body">
+        <h3>Suzuki GSX-S 1000 F 2015</h3>
+        <div class="desc"> Аукцион BDS 5 баллов, Пробег 32000км, 145 л.с. Прибытие в декабре.</div>
+        <div class="price">785 000 ₽</div>
+        <div class="btn btn-detail">Подробнее</div>
+      </div>
+    </a>
+  </div>
+
+  <h2 class="section-title">🔥 Выхлоп Akrapovič</h2>
+  <div class="grid">
+    <a class="card active-card" href="akrap1.html">
+      <div class="img" style="background-image:url('ak1.jpg')"></div>
+      <div class="body">
+        <h3>Akrapovič Racing Line (Carbon)</h3>
+        <div class="desc">Kawasaki Z1000 / Ninja 1000.</div>
+        <div class="price">65 000 ₽</div>
+        <div class="btn btn-detail">Подробнее</div>
+      </div>
+    </a>
+    
+    <a class="card active-card" href="akrap2.html">
+      <div class="img" style="background-image:url('ak2.jpg')"></div>
+      <div class="body">
+        <h3>Akrapovič Yamaha MT-09</h3>
+        <div class="desc">Tracer 9 с 2021 г. Производство 2024 г.</div>
+        <div class="price">85 000 ₽</div>
+        <div class="btn btn-detail">Подробнее</div>
+      </div>
+    </a>
+    
+    <a class="card active-card" href="akrap3.html">
+      <div class="status-badge">🚢 В пути</div>
+      <div class="img" style="background-image:url('ak3.jpg')"></div>
+      <div class="body">
+        <h3>Akrapovič Titan S-Y9R3</h3>
+        <div class="desc">Yamaha MT-09 / XSR900 / Tracer.</div>
+        <div class="price">90 000 ₽</div>
+        <div class="btn btn-detail">Подробнее</div>
+      </div>
+    </a>
+    
+    <a class="card active-card" href="akrap4.html">
+      <div class="status-badge">🚢 В пути</div>
+      <div class="img" style="background-image:url('ak4.jpg')"></div>
+      <div class="body">
+        <h3>Akrapovič (Carbon)</h3>
+        <div class="desc">Yamaha MT-09 / XSR900 / Tracer. В пути.</div>
+        <div class="price">79 000 ₽</div>
+        <div class="btn btn-detail">Подробнее</div>
+      </div>
+    </a>
+    
+    <a class="card active-card" href="akrap5.html">
+      <div class="status-badge">🚢 В пути</div>
+      <div class="img" style="background-image:url('ak5.jpg')"></div>
+      <div class="body">
+        <h3>Akrapovič Titan (400 км)</h3>
+        <div class="desc">Yamaha MT-09. Состояние нового.</div>
+        <div class="price">90 000 ₽</div>
+        <div class="btn btn-detail">Подробнее</div>
+      </div>
+    </a>
+  </div>
+
+  <h2 class="section-title" style="margin-top: 50px;">🏆 Наша гордость: уже продано</h2>
+  <p style="text-align: center; color: #9a9a9a; margin-bottom: 20px;">С 2019 года мы привезли и передали владельцам десятки мотоциклов. Вот лишь некоторые из них:</p>
+  
+  <div class="grid">
+    <div class="card sold-card">
+      <div class="status-sold">Продан</div>
+      <div class="img" style="background-image:url('x1.jpg')"></div>
+      <div class="body">
+        <h3>Honda CBR 650R 2019</h3>
+        <div class="desc">Пробег 34 000 км.</div>
+        <div class="price" style="color: #666; text-decoration: line-through;">765 000 ₽</div>
+      </div>
+    </div>
+
+    <div class="card sold-card">
+      <div class="status-sold">Продан</div>
+      <div class="img" style="background-image:url('x2.jpg')"></div>
+      <div class="body">
+        <h3>Kawasaki Ninja 400 2019</h3>
+        <div class="desc">Пробег 32 000 км.</div>
+        <div class="price" style="color: #666; text-decoration: line-through;">515 000 ₽</div>
+      </div>
+    </div>
+
+    <div class="card sold-card">
+      <div class="status-sold">Продан</div>
+      <div class="img" style="background-image:url('x3.jpg')"></div>
+      <div class="body">
+        <h3>KTM 390 DUKE 2023</h3>
+        <div class="desc">НОВЫЙ.</div>
+        <div class="price" style="color: #666; text-decoration: line-through;">540 000 ₽</div>
+      </div>
+    </div>
+
+    <div class="card sold-card">
+      <div class="status-sold">Продан</div>
+      <div class="img" style="background-image:url('x4.jpg')"></div>
+      <div class="body">
+        <h3>Kawasaki Ninja 400 2017</h3>
+        <div class="desc">Пробег 27 000 км.</div>
+        <div class="price" style="color: #666; text-decoration: line-through;">485 000 ₽</div>
+      </div>
+    </div>
+
+    <div class="card sold-card">
+      <div class="status-sold">Продан</div>
+      <div class="img" style="background-image:url('x5.jpg')"></div>
+      <div class="body">
+        <h3>KTM 390 DUKE 2022</h3>
+        <div class="desc">НОВЫЙ.</div>
+        <div class="price" style="color: #666; text-decoration: line-through;">540 000 ₽</div>
+      </div>
+    </div>
+
+    <div class="card sold-card">
+      <div class="status-sold">Продан</div>
+      <div class="img" style="background-image:url('x6.jpg')"></div>
+      <div class="body">
+        <h3>Kawasaki Ninja 650R 2012</h3>
+        <div class="desc">Пробег 4 000 км.</div>
+        <div class="price" style="color: #666; text-decoration: line-through;">515 000 ₽</div>
+      </div>
+    </div>
+
+    <div class="card sold-card">
+      <div class="status-sold">Продан</div>
+      <div class="img" style="background-image:url('x7.jpg')"></div>
+      <div class="body">
+        <h3>BMW F800ST 2012</h3>
+        <div class="desc">Пробег 14 000 км.</div>
+        <div class="price" style="color: #666; text-decoration: line-through;">540 000 ₽</div>
+      </div>
+    </div>
+
+    <div class="card sold-card">
+      <div class="status-sold">Продан</div>
+      <div class="img" style="background-image:url('x8.jpg')"></div>
+      <div class="body">
+        <h3>Kawasaki Ninja 400 2014</h3>
+        <div class="desc">Пробег 16 000 км.</div>
+        <div class="price" style="color: #666; text-decoration: line-through;">485 000 ₽</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title" style="margin-top: 50px;">Почему мы</h2>
+  <div class="info">
+    <div><h4>Опыт с 2019 года</h4><p>Более 5 лет успешной работы на рынке Японии и России. Знаем каждый нюанс растаможки.</p></div>
+    <div><h4>Оригинал</h4><p>Все комплекты Akrapovič с проверкой подлинности и документами.</p></div>
+    <div><h4>Доставка</h4><p>По России: СДЭК, Почта, транспортные компании. Отправка в день оплаты.</p></div>
+  </div>
+
+  <div style="margin-top: 50px; text-align: center;">
+    <h2 class="section-title" style="margin-bottom: 10px;">🤝 Мы на торговых площадках</h2>
+    <p style="color: #9a9a9a; margin-bottom: 25px; font-size: 15px;">Читайте отзывы и смотрите другие наши объявления на официальных страницах:</p>
+    
+    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+      
+      <a href="https://www.avito.ru/user/61802a3f2baf9ed9b426a1ccdd2c506c/profile?src=sharing" target="_blank" style="display: flex; align-items: center; gap: 12px; background: #16161a; border: 1px solid #24242a; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 15px; transition: 0.2s; color: #fff; text-decoration: none;" onmouseover="this.style.borderColor='#00AAFF'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#24242a'; this.style.transform='translateY(0)'">
+        <img src="avito.png" alt="Авито" style="height: 22px; width: auto; background: #fff; padding: 2px 4px; border-radius: 4px;">
+        Мы на Авито
+      </a>
+
+      <a href="https://www.drom.ru/my/bulletins/actual/moto/" target="_blank" style="display: flex; align-items: center; gap: 12px; background: #16161a; border: 1px solid #24242a; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 15px; transition: 0.2s; color: #fff; text-decoration: none;" onmouseover="this.style.borderColor='#ff5a1f'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#24242a'; this.style.transform='translateY(0)'">
+        <img src="drom.png" alt="Дром" style="height: 22px; width: auto; background: #fff; padding: 2px; border-radius: 4px;">
+        Мы на Дроме
+      </a>
+
+    </div>
+  </div>
+
+  <div class="cta" style="background: linear-gradient(135deg, #1c2536, #16161a); border-color: #229ED9; margin-top: 30px; margin-bottom: 30px;">
+    <h2>📢 У нас есть Telegram-канал!</h2>
+    <p>Публикуем новые поступления, видео со звуком выхлопов и эксклюзивы из Японии. Подписывайтесь, чтобы первыми узнать о новинках.</p>
+    <a href="https://t.me/MotoGarage_NSK" target="_blank" class="btn-tg" style="background: #229ED9; font-size: 16px; padding: 12px 24px; display: inline-block;">
+      ✈️ Подписаться на MotoGarage NSK
+    </a>
+  </div>
+
+  <div class="cta">
+    <h2>Не нашли нужный комплект?</h2>
+    <p>Напишите модель вашего мотоцикла — подберём выхлоп и пришлём цену.</p>
+    <a class="btn-tg" href="https://t.me/Ivan_IM_Moto" target="_blank">Написать в Telegram</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    © MotoGarage NSK. Продажа мотоциклов и выхлопных систем с 2019 года.
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Выхлоп Akrapovič Racing Line — MotoGarage NSK</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; background:#0e0e10; color:#eaeaea; line-height:1.6; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+  /* --- ОБНОВЛЕННАЯ ШАПКА САЙТА --- */
+  header { padding: 12px 0; border-bottom: 1px solid #222; margin-bottom: 15px; }
+  header .wrap { display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 12px;}
+  .logo { display: flex; align-items: center; font-weight: 900; font-size: 22px; text-transform: uppercase; color: #fff; letter-spacing: 1px; gap: 10px; line-height: 1; }
+  .logo-text-wrap { display: flex; align-items: center; }
+  .speedo-icon { width: 34px; height: 34px; flex-shrink: 0; display: block; margin-top: 14px; }
+  .needle { transform-origin: 50px 50px; animation: rev-engine 3.5s ease-in-out infinite; }
+  @keyframes rev-engine {
+    0% { transform: rotate(-90deg); } 10% { transform: rotate(15deg); } 20% { transform: rotate(-20deg); } 30% { transform: rotate(50deg); } 40% { transform: rotate(10deg); } 50% { transform: rotate(85deg); } 55% { transform: rotate(70deg); } 60% { transform: rotate(85deg); } 65% { transform: rotate(75deg); } 75% { transform: rotate(85deg); } 90% { transform: rotate(-90deg); } 100% { transform: rotate(-90deg); }
+  }
+  .logo-badge { border: 2px solid #ff5a1f; color: #ff5a1f; padding: 2px 6px; border-radius: 6px; margin: 0 4px; transition: 0.3s; }
+  .logo:hover .logo-badge { background: #ff5a1f; color: #fff; box-shadow: 0 0 15px rgba(255, 90, 31, 0.4); }
+  .logo-nsk { font-size: 14px; color: #777; font-weight: 600; }
+  .header-contacts { display: flex; align-items: center; gap: 10px; }
+  .contact-text { color: #9a9a9a; font-size: 14px; font-weight: 500; margin-right: 5px; }
+  .header-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .social-btn { display: flex; align-items: center; justify-content: center; background: #16161a; border: 1px solid #24242a; border-radius: 8px; height: 34px; padding: 0 10px; transition: 0.2s; color: #fff; font-size: 13px; font-weight: 600; gap: 6px; }
+  .social-btn:hover { border-color: #ff5a1f; background: #24242a; transform: translateY(-1px); }
+  .social-btn img { height: 18px; width: auto; }
+  .tg-icon { fill: #229ED9; width: 18px; height: 18px; }
+  .back-link { color: #9a9a9a; font-size: 14px; display: block; margin-bottom: 10px; }
+  .back-link:hover { color: #ff5a1f; }
+  .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  @media (max-width: 800px) { 
+    .product-grid { grid-template-columns: 1fr; gap: 20px; } 
+    .contact-text { display: none; }
+    .speedo-icon { width: 28px; height: 28px; margin-top: 10px; }
+    .logo { font-size: 18px; gap: 6px; }
+    .logo-nsk { font-size: 12px; }
+    header .wrap { justify-content: center; }
+  }
+
+  /* Галерея */
+  .gallery { display: flex; flex-direction: column; gap: 10px; }
+  .main-img { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid #24242a; aspect-ratio: 4/3; background: #16161a; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .main-img::-webkit-scrollbar { display: none; }
+  .main-img img { flex: 0 0 100%; scroll-snap-align: start; width: 100%; height: 100%; object-fit: contain; background: #16161a; cursor: zoom-in; }
+  .thumbs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .thumb { aspect-ratio: 1/1; border-radius: 6px; overflow: hidden; border: 2px solid transparent; cursor: pointer; opacity: 0.6; transition: 0.2s; background: #222; }
+  .thumb:hover, .thumb.active { opacity: 1; border-color: #ff5a1f; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Информация о товаре */
+  .info-block h1 { font-size: 26px; margin-bottom: 8px; line-height: 1.2; }
+  .badge { display: inline-block; background: #ff5a1f22; color: #ff5a1f; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-bottom: 10px; margin-right: 5px; }
+  .price { font-size: 32px; font-weight: 800; color: #ff5a1f; margin-bottom: 24px; margin-top: 10px; }
+  .specs { list-style: none; margin-bottom: 30px; border-top: 1px solid #24242a; border-bottom: 1px solid #24242a; padding: 20px 0; }
+  .specs li { display: flex; margin-bottom: 12px; font-size: 15px; }
+  .specs li:last-child { margin-bottom: 0; }
+  .specs .label { width: 160px; color: #9a9a9a; flex-shrink: 0; }
+  .specs .value { color: #eaeaea; font-weight: 500; }
+  .desc-title { font-size: 18px; margin-bottom: 10px; color: #fff; }
+  .desc-text { color: #b5b5b5; font-size: 15px; margin-bottom: 20px; }
+  .desc-text p { margin-bottom: 10px; }
+  .desc-text strong { color: #fff; }
+  
+  /* Кнопки */
+  .btn-buy { display: block; width: 100%; text-align: center; background: #ff5a1f; color: #fff; padding: 16px; border-radius: 10px; font-weight: 700; font-size: 18px; border: none; cursor: pointer; transition: 0.2s; margin-top: 20px; }
+  .btn-buy:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* Модальное окно */
+  .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
+  .modal.show { display: flex; opacity: 1; }
+  .modal-content { max-width: 90%; max-height: 90vh; object-fit: contain; border-radius: 8px; box-shadow: 0 0 30px rgba(0,0,0,0.8); animation: zoomIn 0.3s ease; }
+  @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 1001; transition: 0.2s; }
+  .modal-close:hover { color: #ff5a1f; }
+  .modal-prev, .modal-next { position: absolute; top: 50%; transform: translateY(-50%); color: #fff; font-size: 30px; font-weight: bold; cursor: pointer; padding: 15px; user-select: none; z-index: 1001; background: rgba(255,255,255,0.1); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+  .modal-prev:hover, .modal-next:hover { background: #ff5a1f; }
+  .modal-prev { left: 20px; }
+  .modal-next { right: 20px; }
+  @media (max-width: 800px) { .modal-prev, .modal-next { width: 45px; height: 45px; font-size: 20px; } .modal-close { font-size: 35px; top: 10px; right: 15px; } }
+</style>
+</head>
+<body>
+
+<!-- НОВАЯ ШАПКА -->
+<header>
+  <div class="wrap" style="padding-top:0; padding-bottom:0;">
+    <a href="index.html" class="logo" title="На главную">
+      <svg class="speedo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#444" stroke-width="7" stroke-linecap="round"/>
+        <path d="M 10 50 L 18 50" stroke="#777" stroke-width="4"/>
+        <path d="M 30 20 L 34 26" stroke="#777" stroke-width="4"/>
+        <path d="M 50 10 L 50 18" stroke="#777" stroke-width="4"/>
+        <path d="M 70 20 L 66 26" stroke="#777" stroke-width="4"/>
+        <path d="M 90 50 L 82 50" stroke="#777" stroke-width="4"/>
+        <g class="needle"><path d="M 45 50 L 55 50 L 50 15 Z" fill="#ff5a1f" /></g>
+        <circle cx="50" cy="50" r="8" fill="#fff" />
+        <circle cx="50" cy="50" r="4" fill="#ff5a1f" />
+      </svg>
+      <div class="logo-text-wrap">
+        MOTO <span class="logo-badge">GARAGE</span> <span class="logo-nsk">NSK</span>
+      </div>
+    </a>
+    
+    <div class="header-contacts">
+      <span class="contact-text">Написать нам:</span>
+      <div class="header-buttons">
+        <a class="social-btn" href="https://www.avito.ru/user/61802a3f2baf9ed9b426a1ccdd2c506c/profile?src=sharing" target="_blank" title="Мы на Авито">
+          <img src="avito.png" alt="Авито" style="background:#fff; padding:2px; border-radius:3px; height: 18px;">
+        </a>
+        <a class="social-btn" href="https://www.drom.ru/my/bulletins/actual/moto/" target="_blank" title="Мы на Дроме">
+          <img src="drom.png" alt="Дром" style="background:#fff; padding:2px; border-radius:3px; height: 18px;">
+        </a>
+        <a class="social-btn" href="https://t.me/Ivan_IM_Moto" target="_blank" title="Написать в Telegram">
+          <svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+        </a>
+        <a class="social-btn" href="https://t.me/MotoGarage_NSK" target="_blank" title="Наш Telegram-канал">
+          <svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+        </a>
+        <a class="social-btn" href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" title="Написать в MAX">
+          <img src="max.png" alt="MAX" style="height: 22px; border-radius: 4px;">
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <a href="index.html" class="back-link">← Вернуться в каталог</a>
+  <div class="product-grid">
+    <div class="gallery">
+      <div class="main-img" id="mainSlider">
+        <img src="a1.jpg" alt="фото 1" onclick="openModal(0)">
+        <img src="a2.jpg" alt="фото 2" onclick="openModal(1)">
+        <img src="a3.jpg" alt="фото 3" onclick="openModal(2)">
+        <img src="a4.jpg" alt="фото 4" onclick="openModal(3)">
+        <img src="a5.jpg" alt="фото 5" onclick="openModal(4)">
+        <img src="a6.jpg" alt="фото 6" onclick="openModal(5)">
+      </div>
+      <div class="thumbs">
+        <div class="thumb active" onclick="changePhoto(0, this)"><img src="a1.jpg" alt="фото 1"></div>
+        <div class="thumb" onclick="changePhoto(1, this)"><img src="a2.jpg" alt="фото 2"></div>
+        <div class="thumb" onclick="changePhoto(2, this)"><img src="a3.jpg" alt="фото 3"></div>
+        <div class="thumb" onclick="changePhoto(3, this)"><img src="a4.jpg" alt="фото 4"></div>
+        <div class="thumb" onclick="changePhoto(4, this)"><img src="a5.jpg" alt="фото 5"></div>
+        <div class="thumb" onclick="changePhoto(5, this)"><img src="a6.jpg" alt="фото 6"></div>
+      </div>
+    </div>
+    <div class="info-block">
+      <h1>Выхлоп Akrapovič Racing Line (Carbon) Kawasaki Z1000SX / Ninja 1000 / Z1000</h1>
+      <div>
+        <span class="badge">В наличии в Новосибирске</span>
+        <span class="badge">Оригинал</span>
+        <span class="badge">Полный комплект</span>
+      </div>
+      <div class="price">65 000 руб.</div>
+      <ul class="specs">
+        <li><span class="label">Совместимость</span><span class="value">Kawasaki Z1000SX / Ninja 1000 / Z1000</span></li>
+        <li><span class="label">Годы выпуска</span><span class="value">с 2010 по 2020</span></li>
+        <li><span class="label">Модель</span><span class="value">S-K10R6-ZC</span></li>
+        <li><span class="label">Тип</span><span class="value">Полная трасса (Full System)</span></li>
+        <li><span class="label">Состояние</span><span class="value">Есть небольшая притертость (убирается полировкой)</span></li>
+      </ul>
+      <div class="desc-title">Описание</div>
+      <div class="desc-text">
+        <p>Оригинальная полная выпускная система <strong>Akrapovič Racing Line (Carbon)</strong>. Полный комплект, без пробега по РФ.</p>
+        <p>В наличии в Новосибирске. Все вопросы по состоянию и цене — пишите в мессенджеры или звоните.</p>
+      </div>
+      <div style="text-align: center; margin-top: 20px; padding: 15px; background: #16161a; border: 1px solid #24242a; border-radius: 10px;">
+          <div style="color: #9a9a9a; font-size: 14px; margin-bottom: 8px;">Связаться напрямую:</div>
+          <a href="tel:+79833112444" style="display: inline-block; font-size: 24px; font-weight: 800; color: #ff5a1f; text-decoration: none; letter-spacing: 1px; padding: 8px 16px; background: #24242a; border-radius: 8px; transition: 0.2s;" onmouseover="this.style.background='#33333a'" onmouseout="this.style.background='#24242a'">+7 (983) 311-24-44</a>
+          <div style="color: #9a9a9a; font-size: 12px; margin-top: 8px;">Нажмите, чтобы позвонить с телефона</div>
+      </div>
+
+      <!-- ОБНОВЛЕННЫЕ КНОПКИ С ЛОГОТИПАМИ -->
+      <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+          <a href="https://t.me/Ivan_IM_Moto" target="_blank" class="btn-buy" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 140px; margin-top: 0; text-decoration: none; font-size: 16px;">
+              <svg style="fill: #fff; width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+              Telegram
+          </a>
+          <a href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" class="btn-buy" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 140px; margin-top: 0; background: #0077FF; color: #fff; text-decoration: none; font-size: 16px;">
+              <span style="display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 50%; width: 24px; height: 24px;">
+                  <img src="max.png" alt="MAX" style="height: 16px; width: auto; border-radius: 2px;">
+              </span>
+              MAX
+          </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="photoModal" class="modal">
+  <span class="modal-close" onclick="closeModal()">&times;</span>
+  <span class="modal-prev" onclick="changeModalPhoto(-1)">&#10094;</span>
+  <img class="modal-content" id="modalImg">
+  <span class="modal-next" onclick="changeModalPhoto(1)">&#10095;</span>
+</div>
+
+<script>
+  const slider = document.getElementById('mainSlider');
+  const thumbs = document.querySelectorAll('.thumb');
+  const modal = document.getElementById('photoModal');
+  const modalImg = document.getElementById('modalImg');
+  const images = ['a1.jpg', 'a2.jpg', 'a3.jpg', 'a4.jpg', 'a5.jpg', 'a6.jpg'];
+  let currentIndex = 0;
+  function changePhoto(index, element) { slider.scrollTo({ left: index * slider.clientWidth, behavior: 'smooth' }); thumbs.forEach(t => t.classList.remove('active')); element.classList.add('active'); }
+  slider.addEventListener('scroll', () => { const index = Math.round(slider.scrollLeft / slider.clientWidth); if (thumbs[index]) { thumbs.forEach(t => t.classList.remove('active')); thumbs[index].classList.add('active'); } });
+  function openModal(index) { currentIndex = index; modalImg.src = images[currentIndex]; modal.classList.add('show'); document.body.style.overflow = 'hidden'; }
+  function closeModal() { modal.classList.remove('show'); document.body.style.overflow = ''; changePhoto(currentIndex, thumbs[currentIndex]); }
+  function changeModalPhoto(direction) { currentIndex += direction; if (currentIndex < 0) currentIndex = images.length - 1; if (currentIndex >= images.length) currentIndex = 0; modalImg.src = images[currentIndex]; }
+  document.addEventListener('keydown', function(event) { if (modal.classList.contains('show')) { if (event.key === 'Escape') closeModal(); if (event.key === 'ArrowLeft') changeModalPhoto(-1); if (event.key === 'ArrowRight') changeModalPhoto(1); } });
+  modal.addEventListener('click', function(event) { if (event.target === modal) closeModal(); });
+</script>
+
+</body>
+</html>

@@ -17,12 +17,14 @@ collections:
             name: "items"
             widget: "list"
             fields:
+              - { label: "ID (латиницей, например: ninja-400-2017)", name: "id", widget: "string" }
               - { label: "Название", name: "title", widget: "string" }
               - { label: "Цена", name: "price", widget: "string" }
-              - { label: "Описание (короткое)", name: "desc", widget: "string" }
+              - { label: "Короткое описание (для главной)", name: "desc", widget: "string" }
               - { label: "Статус", name: "status", widget: "select", options: ["В наличии", "В пути"], default: "В наличии" }
-              - { label: "Ссылка на страницу (например, moto1.html)", name: "link", widget: "string" }
               - { label: "Главное фото", name: "image", widget: "image" }
+              - { label: "Галерея (доп. фото)", name: "gallery", widget: "list", required: false, field: { label: "Фото", name: "image", widget: "image" } }
+              - { label: "Полное описание (для страницы)", name: "body", widget: "markdown" }
 
   - name: "akrap"
     label: "Выхлоп Akrapovič"
@@ -35,9 +37,11 @@ collections:
             name: "items"
             widget: "list"
             fields:
+              - { label: "ID (латиницей, например: akrap-yamaha)", name: "id", widget: "string" }
               - { label: "Название", name: "title", widget: "string" }
               - { label: "Цена", name: "price", widget: "string" }
-              - { label: "Описание (короткое)", name: "desc", widget: "string" }
+              - { label: "Короткое описание (для главной)", name: "desc", widget: "string" }
               - { label: "Статус", name: "status", widget: "select", options: ["В наличии", "В пути"], default: "В наличии" }
-              - { label: "Ссылка на страницу (например, akrap1.html)", name: "link", widget: "string" }
               - { label: "Главное фото", name: "image", widget: "image" }
+              - { label: "Галерея (доп. фото)", name: "gallery", widget: "list", required: false, field: { label: "Фото", name: "image", widget: "image" } }
+              - { label: "Полное описание (для страницы)", name: "body", widget: "markdown" }

@@ -75,11 +75,6 @@
 
   footer { border-top:1px solid #222; padding:26px 0; text-align:center; font-size:13px; color:#666; }
 
-  /* --- СКРЫВАЕМ ЗНАЧОК NETLIFY --- */
-  div[id="netlify-badge"], iframe[title="Netlify"] {
-    display: none !important;
-  }
-
   /* --- НАСТРОЙКИ ДЛЯ МОБИЛЬНЫХ ТЕЛЕФОНОВ --- */
   @media (max-width: 600px){
     .logo { font-size: 19px; gap: 8px; }
@@ -160,9 +155,11 @@
 
 <div class="wrap">
   <h2 class="section-title">🏍 Мотоциклы в наличии</h2>
+  <!-- Сюда автоматически загружаются мотоциклы -->
   <div class="grid" id="moto-container"></div>
 
   <h2 class="section-title">🔥 Выхлоп Akrapovič</h2>
+  <!-- Сюда автоматически загружаются выхлопы -->
   <div class="grid" id="akrap-container"></div>
 
   <h2 class="section-title" style="margin-top: 50px;">🏆 Наша гордость: уже продано</h2>
@@ -297,9 +294,18 @@
   </div>
 </footer>
 
-<!-- СКРИПТ АВТОМАТИЧЕСКОЙ ЗАГРУЗКИ ТОВАРОВ -->
+<!-- СКРИПТ АВТОМАТИЧЕСКОЙ ЗАГРУЗКИ ТОВАРОВ И УДАЛЕНИЯ ЗНАЧКА NETLIFY -->
 <script>
-  // Загрузка мотоциклов
+  // 1. Жесткое удаление значка Netlify
+  setInterval(function() {
+    const badge = document.querySelector('#netlify-badge, a[href*="netlify.com"], div[class*="netlify"]');
+    if (badge) {
+      badge.style.display = 'none';
+      badge.remove();
+    }
+  }, 500); // Проверяем каждые полсекунды
+
+  // 2. Загрузка мотоциклов
   fetch('data/moto.json')
     .then(response => {
       if (!response.ok) throw new Error('Нет файла moto.json');
@@ -327,7 +333,7 @@
     })
     .catch(error => console.log('Ошибка загрузки мотоциклов:', error));
 
-  // Загрузка выхлопов
+  // 3. Загрузка выхлопов
   fetch('data/akrap.json')
     .then(response => {
       if (!response.ok) throw new Error('Нет файла akrap.json');

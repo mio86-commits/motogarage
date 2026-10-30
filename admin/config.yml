@@ -1,0 +1,34 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "moto"
+    label: "Мотоциклы в наличии"
+    folder: "data/moto"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Название", name: "title", widget: "string" }
+      - { label: "Цена", name: "price", widget: "string" }
+      - { label: "Пробег", name: "mileage", widget: "string", required: false }
+      - { label: "Статус", name: "status", widget: "select", options: ["В наличии", "В пути"], default: "В наличии" }
+      - { label: "Главное фото", name: "main_image", widget: "image" }
+      - { label: "Галерея (доп. фото)", name: "gallery", widget: "list", required: false, field: { label: "Фото", name: "image", widget: "image" } }
+      - { label: "Описание", name: "body", widget: "markdown" }
+
+  - name: "akrap"
+    label: "Выхлоп Akrapovič"
+    folder: "data/akrap"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Название", name: "title", widget: "string" }
+      - { label: "Цена", name: "price", widget: "string" }
+      - { label: "Совместимость", name: "compatibility", widget: "string" }
+      - { label: "Статус", name: "status", widget: "select", options: ["В наличии", "В пути"], default: "В наличии" }
+      - { label: "Главное фото", name: "main_image", widget: "image" }
+      - { label: "Описание", name: "body", widget: "markdown" }

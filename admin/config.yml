@@ -8,27 +8,36 @@ public_folder: "/images/uploads"
 collections:
   - name: "moto"
     label: "Мотоциклы в наличии"
-    folder: "data/moto"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Название", name: "title", widget: "string" }
-      - { label: "Цена", name: "price", widget: "string" }
-      - { label: "Пробег", name: "mileage", widget: "string", required: false }
-      - { label: "Статус", name: "status", widget: "select", options: ["В наличии", "В пути"], default: "В наличии" }
-      - { label: "Главное фото", name: "main_image", widget: "image" }
-      - { label: "Галерея (доп. фото)", name: "gallery", widget: "list", required: false, field: { label: "Фото", name: "image", widget: "image" } }
-      - { label: "Описание", name: "body", widget: "markdown" }
+    files:
+      - name: "moto_list"
+        label: "Список мотоциклов"
+        file: "data/moto.json"
+        fields:
+          - label: "Мотоциклы"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "Название", name: "title", widget: "string" }
+              - { label: "Цена", name: "price", widget: "string" }
+              - { label: "Описание (короткое)", name: "desc", widget: "string" }
+              - { label: "Статус", name: "status", widget: "select", options: ["В наличии", "В пути"], default: "В наличии" }
+              - { label: "Ссылка на страницу (например, moto1.html)", name: "link", widget: "string" }
+              - { label: "Главное фото", name: "image", widget: "image" }
 
   - name: "akrap"
     label: "Выхлоп Akrapovič"
-    folder: "data/akrap"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Название", name: "title", widget: "string" }
-      - { label: "Цена", name: "price", widget: "string" }
-      - { label: "Совместимость", name: "compatibility", widget: "string" }
-      - { label: "Статус", name: "status", widget: "select", options: ["В наличии", "В пути"], default: "В наличии" }
-      - { label: "Главное фото", name: "main_image", widget: "image" }
-      - { label: "Описание", name: "body", widget: "markdown" }
+    files:
+      - name: "akrap_list"
+        label: "Список выхлопов"
+        file: "data/akrap.json"
+        fields:
+          - label: "Выхлопы"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "Название", name: "title", widget: "string" }
+              - { label: "Цена", name: "price", widget: "string" }
+              - { label: "Описание (короткое)", name: "desc", widget: "string" }
+              - { label: "Статус", name: "status", widget: "select", options: ["В наличии", "В пути"], default: "В наличии" }
+              - { label: "Ссылка на страницу (например, akrap1.html)", name: "link", widget: "string" }
+              - { label: "Главное фото", name: "image", widget: "image" }

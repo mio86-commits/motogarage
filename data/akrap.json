@@ -1,6 +1,7 @@
 {
   "items": [
     {
+      "id": "akrap-racing-line-carbon",
       "title": "Akrapovič Racing Line (Carbon)",
       "price": "65 000 ₽",
       "desc": "Kawasaki Z1000 / Ninja 1000.",
@@ -9,6 +10,7 @@
       "image": "ak1.jpg"
     },
     {
+      "id": "akrap-yamaha-mt09",
       "title": "Akrapovič Yamaha MT-09",
       "price": "85 000 ₽",
       "desc": "Yamaha MT-09/Tracer 9 с 2021 г. Производство 2024 г.",
@@ -17,6 +19,7 @@
       "image": "ak2.jpg"
     },
     {
+      "id": "akrap-titan-s-y9r3",
       "title": "Akrapovič Titan S-Y9R3",
       "price": "90 000 ₽",
       "desc": "Yamaha MT-09 / XSR900 / Tracer.",
@@ -25,6 +28,7 @@
       "image": "ak3.jpg"
     },
     {
+      "id": "akrap-carbon",
       "title": "Akrapovič (Carbon)",
       "price": "79 000 ₽",
       "desc": "Yamaha MT-09 / XSR900 / Tracer. В пути.",
@@ -33,6 +37,7 @@
       "image": "ak4.jpg"
     },
     {
+      "id": "akrap-titan-400km",
       "title": "Akrapovič Titan (400 км)",
       "price": "90 000 ₽",
       "desc": "Yamaha MT-09. Состояние нового.",

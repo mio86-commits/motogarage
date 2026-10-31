@@ -294,7 +294,7 @@
   </div>
 </footer>
 
-<!-- СКРИПТ АВТОМАТИЧЕСКОЙ ЗАГРУЗКИ ТОВАРОВ И УДАЛЕНИЯ ЗНАЧКА NETLIFY -->
+<!-- ИСПРАВЛЕННЫЙ СКРИПТ (ССЫЛКИ ВЕДУТ НА СТАРЫЕ КРАСИВЫЕ СТРАНИЦЫ) -->
 <script>
   // 1. Жесткое удаление значка Netlify
   setInterval(function() {
@@ -317,7 +317,8 @@
         data.items.forEach(item => {
           const statusBadge = item.status === 'В пути' ? '<div class="status-badge">🚢 В пути</div>' : '';
           container.innerHTML += `
-             <a class="card active-card" href="product.html?type=moto&id=${item.id}">
+             <!-- ССЫЛКА ИЗМЕНЕНА НА ${item.link} -->
+             <a class="card active-card" href="${item.link}">
               ${statusBadge}
               <div class="img" style="background-image:url('${item.image}')"></div>
               <div class="body">
@@ -345,7 +346,8 @@
         data.items.forEach(item => {
           const statusBadge = item.status === 'В пути' ? '<div class="status-badge">🚢 В пути</div>' : '';
           container.innerHTML += `
-             <a class="card active-card" href="product.html?type=akrap&id=${item.id}">
+             <!-- ССЫЛКА ИЗМЕНЕНА НА ${item.link} -->
+             <a class="card active-card" href="${item.link}">
               ${statusBadge}
               <div class="img" style="background-image:url('${item.image}')"></div>
               <div class="body">

@@ -2,8 +2,8 @@ backend:
   name: github
   repo: mio86-commits/motogarage
   branch: main
-  base_url: https://auth.motogarage-nsk.ru
-  auth_endpoint: /auth
+  base_url: https://motogarage-nsk.ru
+  auth_endpoint: /admin/client.html
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"

@@ -7,7 +7,15 @@
       "desc": "Kawasaki Z1000 / Ninja 1000.",
       "status": "В наличии",
       "link": "akrap1.html",
-      "image": "ak1.JPG"
+      "image": "ak1.JPG",
+      "body": "Оригинальная полная выпускная система Akrapovič Racing Line (Carbon). Полный комплект, без пробега по РФ. В наличии в Новосибирске. Все вопросы по состоянию и цене — пишите в мессенджеры или звоните. Есть небольшая притертость, которая убирается полировкой.",
+      "gallery": [
+        { "image": "ak2.jpg" },
+        { "image": "ak3.jpg" },
+        { "image": "ak4.jpg" },
+        { "image": "ak5.JPG" },
+        { "image": "ak6.jpg" }
+      ]
     },
     {
       "id": "akrap-yamaha-mt09",
@@ -16,7 +24,15 @@
       "desc": "Yamaha MT-09/Tracer 9 с 2021 г. Производство 2024 г.",
       "status": "В наличии",
       "link": "akrap2.html",
-      "image": "ak2.jpg"
+      "image": "ak2.jpg",
+      "body": "Оригинальная выхлопная система Akrapovič для мотоциклов Yamaha. Без пробега по РФ. В наличии в Новосибирске. Полный комплект для установки. Производство 35 неделя 2024 года.",
+      "gallery": [
+        { "image": "y2.jpg" },
+        { "image": "y3.jpg" },
+        { "image": "y4.jpg" },
+        { "image": "y5.jpg" },
+        { "image": "y6.jpg" }
+      ]
     },
     {
       "id": "akrap-titan-s-y9r3",
@@ -25,7 +41,15 @@
       "desc": "Yamaha MT-09 / XSR900 / Tracer.",
       "status": "В пути",
       "link": "akrap3.html",
-      "image": "ak3.jpg"
+      "image": "ak3.jpg",
+      "body": "Оригинальная выхлопная система Akrapovič Racing Line Titan (S-Y9R3-HAFT). Состояние отличное, полный комплект для установки. Доставим в Новосибирск.",
+      "gallery": [
+        { "image": "p2.jpg" },
+        { "image": "p3.jpg" },
+        { "image": "p4.jpg" },
+        { "image": "p5.jpg" },
+        { "image": "p6.jpg" }
+      ]
     },
     {
       "id": "akrap-carbon",
@@ -34,7 +58,15 @@
       "desc": "Yamaha MT-09 / XSR900 / Tracer. В пути.",
       "status": "В пути",
       "link": "akrap4.html",
-      "image": "ak4.jpg"
+      "image": "ak4.jpg",
+      "body": "Оригинальная выхлопная система Akrapovič Racing Line (Carbon) для мотоциклов Yamaha MT-09. Состояние отличное. Полный комплект для установки. Доставим в Новосибирск.",
+      "gallery": [
+        { "image": "c2.jpg" },
+        { "image": "c3.jpg" },
+        { "image": "c4.jpg" },
+        { "image": "c5.jpg" },
+        { "image": "c6.jpg" }
+      ]
     },
     {
       "id": "akrap-titan-400km",
@@ -43,7 +75,13 @@
       "desc": "Yamaha MT-09. Состояние нового.",
       "status": "В пути",
       "link": "akrap5.html",
-      "image": "ak5.jpg"
+      "image": "ak5.JPG",
+      "body": "Оригинальная выхлопная система Akrapovič Racing Line Titan (S-Y9R3-HAFT). Практически новый выхлоп — пробег всего 400 км по Японии. Без пробега по РФ. Полный комплект для установки. В пути в Новосибирск.",
+      "gallery": [
+        { "image": "l2.jpg" },
+        { "image": "l3.jpg" },
+        { "image": "l4.jpg" }
+      ]
     }
   ]
 }

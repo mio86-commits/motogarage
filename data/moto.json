@@ -1,6 +1,7 @@
 {
   "items": [
     {
+      "id": "kawasaki-ninja-400-2017",
       "title": "Kawasaki Ninja 400 2017 (ABS)",
       "price": "495 000 ₽",
       "desc": "Пробег 1800 км. Аукцион BDS 5 баллов.",
@@ -9,6 +10,7 @@
       "image": "photo1.jpg"
     },
     {
+      "id": "kawasaki-ninja-400-2015",
       "title": "Kawasaki Ninja 400 2015 (ABS)",
       "price": "485 000 ₽",
       "desc": "JBA 4 балла. Пробег 17000 км.",
@@ -17,6 +19,7 @@
       "image": "photo2.jpg"
     },
     {
+      "id": "kawasaki-ninja-400r-2012",
       "title": "Kawasaki Ninja 400R 2012",
       "price": "415 000 ₽",
       "desc": "Пробег 16000 км. Выхлоп Nassert Beet.",
@@ -25,6 +28,7 @@
       "image": "photo3.jpg"
     },
     {
+      "id": "suzuki-gsx-s-1000-f-2015",
       "title": "Suzuki GSX-S 1000 F 2015",
       "price": "785 000 ₽",
       "desc": "Аукцион BDS 5 баллов, Пробег 32000км, 145 л.с. Прибытие в декабре.",

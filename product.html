@@ -10,47 +10,79 @@
   body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; background:#0e0e10; color:#eaeaea; line-height:1.6; }
   a { color: inherit; text-decoration: none; }
   .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
-  
+
+  /* Шапка */
   header { padding: 12px 0; border-bottom: 1px solid #222; margin-bottom: 15px; }
   header .wrap { display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 12px;}
-  .logo { display: flex; align-items: center; font-weight: 900; font-size: 22px; text-transform: uppercase; color: #fff; gap: 10px; line-height: 1; }
+  .logo { display: flex; align-items: center; font-weight: 900; font-size: 22px; text-transform: uppercase; color: #fff; letter-spacing: 1px; gap: 10px; line-height: 1; }
   .speedo-icon { width: 34px; height: 34px; flex-shrink: 0; display: block; margin-top: 14px; }
-  .logo-badge { border: 2px solid #ff5a1f; color: #ff5a1f; padding: 2px 6px; border-radius: 6px; margin: 0 4px; }
+  .needle { transform-origin: 50px 50px; animation: rev-engine 3.5s ease-in-out infinite; }
+  @keyframes rev-engine { 0% { transform: rotate(-90deg); } 10% { transform: rotate(15deg); } 20% { transform: rotate(-20deg); } 30% { transform: rotate(50deg); } 40% { transform: rotate(10deg); } 50% { transform: rotate(85deg); } 55% { transform: rotate(70deg); } 60% { transform: rotate(85deg); } 65% { transform: rotate(75deg); } 75% { transform: rotate(85deg); } 90% { transform: rotate(-90deg); } 100% { transform: rotate(-90deg); } }
+  .logo-badge { border: 2px solid #ff5a1f; color: #ff5a1f; padding: 2px 6px; border-radius: 6px; margin: 0 4px; transition: 0.3s; }
+  .logo:hover .logo-badge { background: #ff5a1f; color: #fff; }
   .logo-nsk { font-size: 14px; color: #777; font-weight: 600; }
+  .header-contacts { display: flex; align-items: center; gap: 10px; }
+  .header-buttons { display: flex; gap: 8px; }
+  .social-btn { display: flex; align-items: center; justify-content: center; background: #16161a; border: 1px solid #24242a; border-radius: 8px; height: 34px; padding: 0 10px; color: #fff; font-size: 13px; font-weight: 600; gap: 6px; }
+  .social-btn img { height: 18px; width: auto; }
+  .tg-icon { fill: #229ED9; width: 18px; height: 18px; }
   .back-link { color: #9a9a9a; font-size: 14px; display: block; margin-bottom: 10px; }
-  
+  .back-link:hover { color: #ff5a1f; }
+
+  /* Сетка товара */
   .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
-  @media (max-width: 800px) { .product-grid { grid-template-columns: 1fr; gap: 20px; } }
-  
+  @media (max-width: 800px) { .product-grid { grid-template-columns: 1fr; gap: 20px; } .contact-text { display: none; } header .wrap { justify-content: center; } .speedo-icon { width: 28px; height: 28px; margin-top: 10px; } .logo { font-size: 18px; gap: 6px; } .logo-nsk { font-size: 12px; } }
+
+  /* Галерея */
   .gallery { display: flex; flex-direction: column; gap: 10px; }
   .main-img { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid #24242a; aspect-ratio: 4/3; background: #16161a; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
   .main-img::-webkit-scrollbar { display: none; }
-  .main-img img { flex: 0 0 100%; scroll-snap-align: start; width: 100%; height: 100%; object-fit: contain; background: #16161a; }
-  
-  .thumbs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
-  .thumbs::-webkit-scrollbar { display: none; }
-  .thumb { width: 70px; height: 70px; flex-shrink: 0; border-radius: 6px; overflow: hidden; border: 2px solid transparent; cursor: pointer; opacity: 0.6; }
-  .thumb.active { opacity: 1; border-color: #ff5a1f; }
+  .main-img img { flex: 0 0 100%; scroll-snap-align: start; width: 100%; height: 100%; object-fit: contain; background: #16161a; cursor: zoom-in; }
+  .thumbs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .thumb { aspect-ratio: 1/1; border-radius: 6px; overflow: hidden; border: 2px solid transparent; cursor: pointer; opacity: 0.6; transition: 0.2s; background: #222; }
+  .thumb:hover, .thumb.active { opacity: 1; border-color: #ff5a1f; }
   .thumb img { width: 100%; height: 100%; object-fit: cover; }
-  
-  .info-block h1 { font-size: 28px; margin-bottom: 8px; line-height: 1.2; }
+
+  /* Инфо */
+  .info-block h1 { font-size: 26px; margin-bottom: 8px; line-height: 1.2; }
   .badge { display: inline-block; background: #ff5a1f22; color: #ff5a1f; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-bottom: 10px; margin-right: 5px; }
   .badge-blue { background: #0077FF22; color: #4da6ff; }
   .price { font-size: 32px; font-weight: 800; color: #ff5a1f; margin-bottom: 24px; margin-top: 10px; }
-  .desc-title { font-size: 18px; margin-bottom: 10px; color: #fff; margin-top: 20px; }
+  .specs { list-style: none; margin-bottom: 30px; border-top: 1px solid #24242a; border-bottom: 1px solid #24242a; padding: 20px 0; }
+  .specs li { display: flex; margin-bottom: 12px; font-size: 15px; }
+  .specs li:last-child { margin-bottom: 0; }
+  .specs .label { width: 160px; color: #9a9a9a; flex-shrink: 0; }
+  .specs .value { color: #eaeaea; font-weight: 500; }
+  .desc-title { font-size: 18px; margin-bottom: 10px; color: #fff; }
   .desc-text { color: #b5b5b5; font-size: 15px; margin-bottom: 20px; }
   .desc-text p { margin-bottom: 10px; }
   .desc-text strong { color: #fff; }
+  .features-list { list-style: none; padding-left: 0; margin: 15px 0; background: #16161a; padding: 15px; border-radius: 8px; border: 1px solid #24242a; }
+  .features-list li { margin-bottom: 8px; display: flex; align-items: flex-start; font-size: 15px; color: #fff; font-weight: 500; }
+  .features-list li:last-child { margin-bottom: 0; }
   
-  .btn-buy { display: block; width: 100%; text-align: center; background: #ff5a1f; color: #fff; padding: 16px; border-radius: 10px; font-weight: 700; font-size: 18px; transition: 0.2s; margin-top: 20px; }
+  /* Кнопки */
+  .btn-buy { display: block; width: 100%; text-align: center; background: #ff5a1f; color: #fff; padding: 16px; border-radius: 10px; font-weight: 700; font-size: 18px; border: none; cursor: pointer; transition: 0.2s; margin-top: 20px; text-decoration: none; }
   .btn-buy:hover { opacity: 0.9; }
+
+  /* Модалка */
+  .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
+  .modal.show { display: flex; opacity: 1; }
+  .modal-content { max-width: 90%; max-height: 90vh; object-fit: contain; border-radius: 8px; animation: zoomIn 0.3s ease; }
+  @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 1001; }
+  .modal-prev, .modal-next { position: absolute; top: 50%; transform: translateY(-50%); color: #fff; font-size: 30px; font-weight: bold; cursor: pointer; padding: 15px; user-select: none; z-index: 1001; background: rgba(255,255,255,0.1); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
+  .modal-prev:hover, .modal-next:hover { background: #ff5a1f; }
+  .modal-prev { left: 20px; }
+  .modal-next { right: 20px; }
+  @media (max-width: 800px) { .modal-prev, .modal-next { width: 45px; height: 45px; font-size: 20px; } .modal-close { font-size: 35px; top: 10px; right: 15px; } }
 </style>
 </head>
 <body>
 
 <header>
   <div class="wrap" style="padding-top:0; padding-bottom:0;">
-    <a href="index.html" class="logo">
+    <a href="index.html" class="logo" title="На главную">
       <svg class="speedo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#444" stroke-width="7" stroke-linecap="round"/>
         <path d="M 10 50 L 18 50" stroke="#777" stroke-width="4"/>
@@ -62,8 +94,17 @@
         <circle cx="50" cy="50" r="8" fill="#fff" />
         <circle cx="50" cy="50" r="4" fill="#ff5a1f" />
       </svg>
-      <div>MOTO <span class="logo-badge">GARAGE</span> <span class="logo-nsk">NSK</span></div>
+      <div class="logo-text-wrap">MOTO <span class="logo-badge">GARAGE</span> <span class="logo-nsk">NSK</span></div>
     </a>
+    <div class="header-contacts">
+      <span class="contact-text">Написать нам:</span>
+      <div class="header-buttons">
+        <a class="social-btn" href="https://www.avito.ru/user/61802a3f2baf9ed9b426a1ccdd2c506c/profile?src=sharing" target="_blank"><img src="avito.png" alt="Авито" style="background:#fff; padding:2px; border-radius:3px; height: 18px;"></a>
+        <a class="social-btn" href="https://www.drom.ru/my/bulletins/actual/moto/" target="_blank"><img src="drom.png" alt="Дром" style="background:#fff; padding:2px; border-radius:3px; height: 18px;"></a>
+        <a class="social-btn" href="https://t.me/Ivan_IM_Moto" target="_blank"><svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg></a>
+        <a class="social-btn" href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank"><img src="MAX.png" alt="MAX" style="height: 22px; border-radius: 4px;"></a>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -75,10 +116,16 @@
   <div id="loading" style="text-align:center; padding: 50px; color: #ff5a1f; font-weight: bold;">Загрузка данных...</div>
 </div>
 
+<div id="photoModal" class="modal">
+  <span class="modal-close" onclick="closeModal()">&times;</span>
+  <span class="modal-prev" onclick="changeModalPhoto(-1)">&#10094;</span>
+  <img class="modal-content" id="modalImg">
+  <span class="modal-next" onclick="changeModalPhoto(1)">&#10095;</span>
+</div>
+
 <script>
-  // Получаем ID из ссылки (например, product.html?id=ninja-400&type=moto)
   const params = new URLSearchParams(window.location.search);
-  const type = params.get('type') || 'moto'; // 'moto' или 'akrap'
+  const type = params.get('type') || 'moto';
   const id = params.get('id');
 
   if (!id) {
@@ -92,11 +139,8 @@
 
         document.title = item.title + " — MotoGarage NSK";
         
-        // Формируем галерею (главное фото + доп фото)
         let allImages = [item.image];
-        if (item.gallery) {
-          item.gallery.forEach(g => allImages.push(g.image));
-        }
+        if (item.gallery) { item.gallery.forEach(g => allImages.push(g.image)); }
 
         let mainImgHtml = `<img id="mainPhoto" src="${allImages[0]}" alt="${item.title}">`;
         let thumbsHtml = '';
@@ -106,7 +150,29 @@
 
         const statusBadge = item.status === 'В пути' ? '<span class="badge badge-blue">🚢 В пути</span>' : '<span class="badge">В наличии</span>';
 
-        // Вставляем HTML
+        let specsHtml = '';
+        if (item.specs && item.specs.length > 0) {
+          specsHtml = '<ul class="specs">';
+          item.specs.forEach(spec => {
+            specsHtml += `<li><span class="label">${spec.label}</span><span class="value">${spec.value}</span></li>`;
+          });
+          specsHtml += '</ul>';
+        }
+
+        let featuresHtml = '';
+        if (item.features && item.features.length > 0) {
+          featuresHtml = '<div class="desc-title">Главные фишки:</div><ul class="features-list">';
+          item.features.forEach(feat => {
+            featuresHtml += `<li>🔥 ${feat.text}</li>`;
+          });
+          featuresHtml += '</ul>';
+        }
+
+        let docsHtml = '';
+        if (item.docs) {
+          docsHtml = `<div class="desc-title" style="margin-top:20px;">Документы и доставка</div><div class="desc-text">${item.docs}</div>`;
+        }
+
         document.getElementById('product-content').innerHTML = `
           <div class="gallery">
             <div class="main-img" id="mainSlider">${mainImgHtml}</div>
@@ -116,8 +182,10 @@
             <h1>${item.title}</h1>
             <div>${statusBadge}</div>
             <div class="price">${item.price}</div>
-            <div class="desc-title">Описание</div>
-            <div class="desc-text">${item.body || item.desc}</div>
+            
+            ${specsHtml}
+            ${featuresHtml}
+            ${docsHtml}
             
             <div style="text-align: center; margin-top: 20px; padding: 15px; background: #16161a; border: 1px solid #24242a; border-radius: 10px;">
                 <div style="color: #9a9a9a; font-size: 14px; margin-bottom: 8px;">Связаться напрямую:</div>
@@ -132,6 +200,17 @@
         
         document.getElementById('loading').style.display = 'none';
         document.getElementById('product-content').style.display = 'grid';
+
+        // Инициализация галереи после рендера
+        const slider = document.getElementById('mainSlider');
+        const mainImgEl = document.getElementById('mainPhoto');
+        
+        // Обработчик клика для увеличения (упрощенный)
+        mainImgEl.onclick = function() {
+          document.getElementById('modalImg').src = this.src;
+          document.getElementById('photoModal').classList.add('show');
+          document.body.style.overflow = 'hidden';
+        };
       })
       .catch(err => {
         document.getElementById('loading').innerText = "Ошибка загрузки: " + err.message;
@@ -143,6 +222,16 @@
     document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
     element.classList.add('active');
   }
+
+  function closeModal() {
+    document.getElementById('photoModal').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('photoModal').addEventListener('click', function(event) {
+    if (event.target === this) closeModal();
+  });
 </script>
+
 </body>
 </html>

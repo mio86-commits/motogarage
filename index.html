@@ -294,7 +294,7 @@
   </div>
 </footer>
 
-<!-- ИСПРАВЛЕННЫЙ СКРИПТ (ССЫЛКИ ВЕДУТ НА СТАРЫЕ КРАСИВЫЕ СТРАНИЦЫ) -->
+<!-- СКРИПТ АВТОМАТИЧЕСКОЙ ЗАГРУЗКИ ТОВАРОВ -->
 <script>
   // 1. Жесткое удаление значка Netlify
   setInterval(function() {
@@ -303,7 +303,7 @@
       badge.style.display = 'none';
       badge.remove();
     }
-  }, 500); // Проверяем каждые полсекунды
+  }, 500);
 
   // 2. Загрузка мотоциклов
   fetch('data/moto.json')
@@ -317,8 +317,8 @@
         data.items.forEach(item => {
           const statusBadge = item.status === 'В пути' ? '<div class="status-badge">🚢 В пути</div>' : '';
           container.innerHTML += `
-             <!-- ССЫЛКА ИЗМЕНЕНА НА ${item.link} -->
-             <a class="card active-card" href="${item.link}">
+             <!-- ССЫЛКА ВЕДЕТ НА PRODUCT.HTML С ID -->
+             <a class="card active-card" href="product.html?type=moto&id=${item.id}">
               ${statusBadge}
               <div class="img" style="background-image:url('${item.image}')"></div>
               <div class="body">
@@ -346,8 +346,8 @@
         data.items.forEach(item => {
           const statusBadge = item.status === 'В пути' ? '<div class="status-badge">🚢 В пути</div>' : '';
           container.innerHTML += `
-             <!-- ССЫЛКА ИЗМЕНЕНА НА ${item.link} -->
-             <a class="card active-card" href="${item.link}">
+             <!-- ССЫЛКА ВЕДЕТ НА PRODUCT.HTML С ID -->
+             <a class="card active-card" href="product.html?type=akrap&id=${item.id}">
               ${statusBadge}
               <div class="img" style="background-image:url('${item.image}')"></div>
               <div class="body">

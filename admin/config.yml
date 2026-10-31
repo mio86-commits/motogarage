@@ -2,7 +2,7 @@ backend:
   name: github
   repo: mio86-commits/motogarage
   branch: main
-  base_url: https://decap-auth.mio86.workers.dev
+  base_url: https://auth.motogarage-nsk.ru
   auth_endpoint: /auth
 
 media_folder: "images/uploads"

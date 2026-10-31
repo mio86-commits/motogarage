@@ -11,7 +11,6 @@
   a { color: inherit; text-decoration: none; }
   .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
-  /* --- ОБНОВЛЕННАЯ ШАПКА САЙТА --- */
   header { padding: 12px 0; border-bottom: 1px solid #222; margin-bottom: 15px; }
   header .wrap { display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 12px;}
   .logo { display: flex; align-items: center; font-weight: 900; font-size: 22px; text-transform: uppercase; color: #fff; letter-spacing: 1px; gap: 10px; line-height: 1; }
@@ -43,17 +42,15 @@
     header .wrap { justify-content: center; }
   }
 
-  /* Галерея */
   .gallery { display: flex; flex-direction: column; gap: 10px; }
   .main-img { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid #24242a; aspect-ratio: 4/3; background: #16161a; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .main-img::-webkit-scrollbar { display: none; }
   .main-img img { flex: 0 0 100%; scroll-snap-align: start; width: 100%; height: 100%; object-fit: contain; background: #16161a; cursor: zoom-in; }
-  .thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; } /* 4 колонки для 4 фото */
+  .thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .thumb { aspect-ratio: 1/1; border-radius: 6px; overflow: hidden; border: 2px solid transparent; cursor: pointer; opacity: 0.6; transition: 0.2s; background: #222; }
   .thumb:hover, .thumb.active { opacity: 1; border-color: #ff5a1f; }
   .thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-  /* Информация о товаре */
   .info-block h1 { font-size: 26px; margin-bottom: 8px; line-height: 1.2; }
   .badge { display: inline-block; background: #ff5a1f22; color: #ff5a1f; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-bottom: 10px; margin-right: 5px; }
   .badge-blue { background: #0077FF22; color: #4da6ff; }
@@ -68,11 +65,9 @@
   .desc-text p { margin-bottom: 10px; }
   .desc-text strong { color: #fff; }
   
-  /* Кнопки */
   .btn-buy { display: block; width: 100%; text-align: center; background: #ff5a1f; color: #fff; padding: 16px; border-radius: 10px; font-weight: 700; font-size: 18px; border: none; cursor: pointer; transition: 0.2s; margin-top: 20px; }
   .btn-buy:hover { opacity: 0.9; transform: translateY(-1px); }
 
-  /* Модальное окно */
   .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
   .modal.show { display: flex; opacity: 1; }
   .modal-content { max-width: 90%; max-height: 90vh; object-fit: contain; border-radius: 8px; box-shadow: 0 0 30px rgba(0,0,0,0.8); animation: zoomIn 0.3s ease; }
@@ -88,7 +83,6 @@
 </head>
 <body>
 
-<!-- НОВАЯ ШАПКА -->
 <header>
   <div class="wrap" style="padding-top:0; padding-bottom:0;">
     <a href="index.html" class="logo" title="На главную">
@@ -124,7 +118,7 @@
           <svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
         </a>
         <a class="social-btn" href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" title="Написать в MAX">
-          <img src="max.png" alt="MAX" style="height: 22px; border-radius: 4px;">
+          <img src="MAX.png" alt="MAX" style="height: 22px; border-radius: 4px;">
         </a>
       </div>
     </div>
@@ -175,7 +169,6 @@
           <div style="color: #9a9a9a; font-size: 12px; margin-top: 8px;">Нажмите, чтобы позвонить с телефона</div>
       </div>
 
-      <!-- ОБНОВЛЕННЫЕ КНОПКИ С ЛОГОТИПАМИ -->
       <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
           <a href="https://t.me/Ivan_IM_Moto" target="_blank" class="btn-buy" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 140px; margin-top: 0; text-decoration: none; font-size: 16px;">
               <svg style="fill: #fff; width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
@@ -183,7 +176,7 @@
           </a>
           <a href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" class="btn-buy" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 140px; margin-top: 0; background: #0077FF; color: #fff; text-decoration: none; font-size: 16px;">
               <span style="display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 50%; width: 24px; height: 24px;">
-                  <img src="max.png" alt="MAX" style="height: 16px; width: auto; border-radius: 2px;">
+                  <img src="MAX.png" alt="MAX" style="height: 16px; width: auto; border-radius: 2px;">
               </span>
               MAX
           </a>
@@ -205,7 +198,7 @@
   const thumbs = document.querySelectorAll('.thumb');
   const modal = document.getElementById('photoModal');
   const modalImg = document.getElementById('modalImg');
-  const images = ['l1.jpg', 'l2.jpg', 'l3.jpg', 'l4.jpg']; // Тут 4 фото
+  const images = ['l1.jpg', 'l2.jpg', 'l3.jpg', 'l4.jpg'];
   let currentIndex = 0;
   function changePhoto(index, element) { slider.scrollTo({ left: index * slider.clientWidth, behavior: 'smooth' }); thumbs.forEach(t => t.classList.remove('active')); element.classList.add('active'); }
   slider.addEventListener('scroll', () => { const index = Math.round(slider.scrollLeft / slider.clientWidth); if (thumbs[index]) { thumbs.forEach(t => t.classList.remove('active')); thumbs[index].classList.add('active'); } });

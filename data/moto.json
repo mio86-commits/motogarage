@@ -214,6 +214,16 @@
           "text": "Максималка 260 км/ч"
         }
       ]
+    },
+    {
+      "status": "В пути",
+      "id": "KTM 390 DUKE 2023",
+      "title": "KTM 390 DUKE 2023",
+      "price": "540000",
+      "desc": "Без пробега ",
+      "gallery": [
+        "/images/uploads/img_1561.jpeg"
+      ]
     }
   ]
 }

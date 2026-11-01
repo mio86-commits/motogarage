@@ -1,0 +1,48 @@
+{
+  "id": "akrap-titan-s-y9r3",
+  "title": "Akrapovič Titan S-Y9R3",
+  "price": "90 000 ₽",
+  "desc": "Yamaha MT-09 / XSR900 / Tracer.",
+  "status": "В пути",
+  "image": "ak3.jpg",
+  "gallery": [
+    {
+      "image": "p2.jpg"
+    },
+    {
+      "image": "p3.jpg"
+    },
+    {
+      "image": "p4.jpg"
+    },
+    {
+      "image": "p5.jpg"
+    },
+    {
+      "image": "p6.jpg"
+    }
+  ],
+  "specs": [
+    {
+      "label": "Модель",
+      "value": "S-Y9R3-HAFT"
+    },
+    {
+      "label": "Совместимость",
+      "value": "MT-09 (14-20) / XSR900 / Tracer"
+    },
+    {
+      "label": "Состояние",
+      "value": "Отличное"
+    }
+  ],
+  "features": [
+    {
+      "text": "Полный комплект для установки"
+    },
+    {
+      "text": "Без пробега по РФ"
+    }
+  ],
+  "docs": "Доставим в Новосибирск."
+}

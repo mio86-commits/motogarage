@@ -1,0 +1,52 @@
+{
+  "id": "akrap-racing-line-carbon",
+  "title": "Akrapovič Racing Line (Carbon)",
+  "price": "65 000 ₽",
+  "desc": "Kawasaki Z1000 / Ninja 1000.",
+  "status": "В наличии",
+  "image": "ak1.jpg",
+  "gallery": [
+    {
+      "image": "a2.jpg"
+    },
+    {
+      "image": "a3.jpg"
+    },
+    {
+      "image": "a4.jpg"
+    },
+    {
+      "image": "a5.jpg"
+    },
+    {
+      "image": "a6.jpg"
+    }
+  ],
+  "specs": [
+    {
+      "label": "Совместимость",
+      "value": "Kawasaki Z1000SX / Ninja 1000 / Z1000"
+    },
+    {
+      "label": "Годы",
+      "value": "2010-2020"
+    },
+    {
+      "label": "Модель",
+      "value": "S-K10R6-ZC"
+    },
+    {
+      "label": "Тип",
+      "value": "Полная трасса"
+    }
+  ],
+  "features": [
+    {
+      "text": "Есть небольшая притертость (убирается полировкой)"
+    },
+    {
+      "text": "Полный комплект, без пробега по РФ"
+    }
+  ],
+  "docs": "В наличии в Новосибирске. Все вопросы по состоянию и цене — пишите в мессенджеры."
+}

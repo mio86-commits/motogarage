@@ -1,0 +1,44 @@
+{
+  "id": "akrap-carbon",
+  "title": "Akrapovič (Carbon)",
+  "price": "79 000 ₽",
+  "desc": "Yamaha MT-09 / XSR900 / Tracer. В пути.",
+  "status": "В пути",
+  "image": "ak4.jpg",
+  "gallery": [
+    {
+      "image": "c2.jpg"
+    },
+    {
+      "image": "c3.jpg"
+    },
+    {
+      "image": "c4.jpg"
+    },
+    {
+      "image": "c5.jpg"
+    },
+    {
+      "image": "c6.jpg"
+    }
+  ],
+  "specs": [
+    {
+      "label": "Совместимость",
+      "value": "MT-09 (14-20) / XSR900 / Tracer"
+    },
+    {
+      "label": "Состояние",
+      "value": "Отличное"
+    }
+  ],
+  "features": [
+    {
+      "text": "Полный комплект для установки"
+    },
+    {
+      "text": "Без пробега по РФ"
+    }
+  ],
+  "docs": "Доставим в Новосибирск."
+}

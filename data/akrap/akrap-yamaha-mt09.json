@@ -1,0 +1,48 @@
+{
+  "id": "akrap-yamaha-mt09",
+  "title": "Akrapovič Yamaha MT-09",
+  "price": "85 000 ₽",
+  "desc": "Yamaha MT-09/Tracer 9 с 2021 г. Производство 2024 г.",
+  "status": "В наличии",
+  "image": "ak2.jpg",
+  "gallery": [
+    {
+      "image": "y2.jpg"
+    },
+    {
+      "image": "y3.jpg"
+    },
+    {
+      "image": "y4.jpg"
+    },
+    {
+      "image": "y5.jpg"
+    },
+    {
+      "image": "y6.jpg"
+    }
+  ],
+  "specs": [
+    {
+      "label": "Совместимость",
+      "value": "MT-09 / Tracer 9 / GT / GT+"
+    },
+    {
+      "label": "Годы",
+      "value": "с 2021"
+    },
+    {
+      "label": "Производство",
+      "value": "35 неделя 2024"
+    }
+  ],
+  "features": [
+    {
+      "text": "Полный комплект для установки"
+    },
+    {
+      "text": "Без пробега по РФ"
+    }
+  ],
+  "docs": "В наличии в Новосибирске."
+}

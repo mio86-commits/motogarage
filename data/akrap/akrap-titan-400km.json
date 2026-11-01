@@ -1,0 +1,42 @@
+{
+  "id": "akrap-titan-400km",
+  "title": "Akrapovič Titan (400 км)",
+  "price": "90 000 ₽",
+  "desc": "Yamaha MT-09. Состояние нового.",
+  "status": "В пути",
+  "image": "ak5.jpg",
+  "gallery": [
+    {
+      "image": "l2.jpg"
+    },
+    {
+      "image": "l3.jpg"
+    },
+    {
+      "image": "l4.jpg"
+    }
+  ],
+  "specs": [
+    {
+      "label": "Модель",
+      "value": "S-Y9R3-HAFT"
+    },
+    {
+      "label": "Совместимость",
+      "value": "MT-09 (14-20) / XSR900 / Tracer"
+    },
+    {
+      "label": "Пробег",
+      "value": "400 км по Японии"
+    }
+  ],
+  "features": [
+    {
+      "text": "Практически новый выхлоп"
+    },
+    {
+      "text": "Полный комплект для установки"
+    }
+  ],
+  "docs": "В пути в Новосибирск."
+}

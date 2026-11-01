@@ -135,12 +135,12 @@
   <div class="product-grid">
     <div class="gallery">
       <div class="main-img" id="mainSlider">
-        <img src="a1.jpg" alt="фото 1" onclick="openModal(0)">
-        <img src="a2.jpg" alt="фото 2" onclick="openModal(1)">
-        <img src="a3.jpg" alt="фото 3" onclick="openModal(2)">
-        <img src="a4.jpg" alt="фото 4" onclick="openModal(3)">
-        <img src="a5.jpg" alt="фото 5" onclick="openModal(4)">
-        <img src="a6.jpg" alt="фото 6" onclick="openModal(5)">
+        <img src="a1.jpg" alt="фото 1">
+        <img src="a2.jpg" alt="фото 2">
+        <img src="a3.jpg" alt="фото 3">
+        <img src="a4.jpg" alt="фото 4">
+        <img src="a5.jpg" alt="фото 5">
+        <img src="a6.jpg" alt="фото 6">
       </div>
       <div class="thumbs">
         <div class="thumb active" onclick="changePhoto(0, this)"><img src="a1.jpg" alt="фото 1"></div>
@@ -177,7 +177,6 @@
           <div style="color: #9a9a9a; font-size: 12px; margin-top: 8px;">Нажмите, чтобы позвонить с телефона</div>
       </div>
 
-      <!-- ОБНОВЛЕННЫЕ КНОПКИ С ЛОГОТИПАМИ -->
       <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
           <a href="https://t.me/Ivan_IM_Moto" target="_blank" class="btn-buy" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 140px; margin-top: 0; text-decoration: none; font-size: 16px;">
               <svg style="fill: #fff; width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
@@ -209,11 +208,68 @@
   const modalImg = document.getElementById('modalImg');
   const images = ['a1.jpg', 'a2.jpg', 'a3.jpg', 'a4.jpg', 'a5.jpg', 'a6.jpg'];
   let currentIndex = 0;
-  function changePhoto(index, element) { slider.scrollTo({ left: index * slider.clientWidth, behavior: 'smooth' }); thumbs.forEach(t => t.classList.remove('active')); element.classList.add('active'); }
-  slider.addEventListener('scroll', () => { const index = Math.round(slider.scrollLeft / slider.clientWidth); if (thumbs[index]) { thumbs.forEach(t => t.classList.remove('active')); thumbs[index].classList.add('active'); } });
-  function openModal(index) { currentIndex = index; modalImg.src = images[currentIndex]; modal.classList.add('show'); document.body.style.overflow = 'hidden'; }
-  function closeModal() { modal.classList.remove('show'); document.body.style.overflow = ''; changePhoto(currentIndex, thumbs[currentIndex]); }
-  function changeModalPhoto(direction) { currentIndex += direction; if (currentIndex < 0) currentIndex = images.length - 1; if (currentIndex >= images.length) currentIndex = 0; modalImg.src = images[currentIndex]; }
+
+  function changePhoto(index, element) { 
+    slider.scrollTo({ left: index * slider.clientWidth, behavior: 'smooth' }); 
+    thumbs.forEach(t => t.classList.remove('active')); 
+    if (element) element.classList.add('active'); 
+  }
+
+  slider.addEventListener('scroll', () => { 
+    const index = Math.round(slider.scrollLeft / slider.clientWidth); 
+    if (thumbs[index]) { 
+      thumbs.forEach(t => t.classList.remove('active')); 
+      thumbs[index].classList.add('active'); 
+    } 
+  });
+
+  function openModal(index) { 
+    currentIndex = index; 
+    modalImg.src = images[currentIndex]; 
+    modal.classList.add('show'); 
+    document.body.style.overflow = 'hidden'; 
+  }
+
+  function closeModal() { 
+    modal.classList.remove('show'); 
+    document.body.style.overflow = ''; 
+    changePhoto(currentIndex, thumbs[currentIndex]); 
+  }
+
+  function changeModalPhoto(direction) { 
+    currentIndex += direction; 
+    if (currentIndex < 0) currentIndex = images.length - 1; 
+    if (currentIndex >= images.length) currentIndex = 0; 
+    modalImg.src = images[currentIndex]; 
+  }
+
+  // Умный свайп и клик
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  slider.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, {passive: true});
+
+  slider.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    if (Math.abs(touchEndX - touchStartX) < 10) {
+      const index = Math.round(slider.scrollLeft / slider.clientWidth);
+      openModal(index);
+    }
+  }, {passive: true});
+
+  let isDragging = false;
+  let startX = 0;
+  slider.addEventListener('mousedown', (e) => { isDragging = false; startX = e.pageX; });
+  slider.addEventListener('mousemove', (e) => { if (Math.abs(e.pageX - startX) > 10) isDragging = true; });
+  slider.addEventListener('mouseup', (e) => { 
+    if (!isDragging) {
+      const index = Math.round(slider.scrollLeft / slider.clientWidth);
+      openModal(index);
+    }
+  });
+
   document.addEventListener('keydown', function(event) { if (modal.classList.contains('show')) { if (event.key === 'Escape') closeModal(); if (event.key === 'ArrowLeft') changeModalPhoto(-1); if (event.key === 'ArrowRight') changeModalPhoto(1); } });
   modal.addEventListener('click', function(event) { if (event.target === modal) closeModal(); });
 </script>

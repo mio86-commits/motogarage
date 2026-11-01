@@ -1,10 +1,7 @@
 {
-  "id": "akrap-carbon",
-  "title": "Akrapovič (Carbon)",
+  "body": "Akrapovic Racing Line (Carbon)\nMT-09 14-20 /XSR900 16-20 /tracer 14-21\nБез пробега по РФ.\nСостояние Отличное.",
   "price": "79 000 ₽",
   "desc": "Yamaha MT-09 / XSR900 / Tracer. В пути.",
-  "status": "В пути",
-  "image": "ak4.jpg",
   "gallery": [
     {
       "image": "c2.jpg"
@@ -22,6 +19,7 @@
       "image": "c6.jpg"
     }
   ],
+  "status": "В пути",
   "specs": [
     {
       "label": "Совместимость",
@@ -32,6 +30,10 @@
       "value": "Отличное"
     }
   ],
+  "title": "Глушитель Akrapovic Yamaha MT-09",
+  "id": "akrap-carbon",
+  "image": "ak4.jpg",
+  "docs": "Доставим в Новосибирск.",
   "features": [
     {
       "text": "Полный комплект для установки"
@@ -39,6 +41,5 @@
     {
       "text": "Без пробега по РФ"
     }
-  ],
-  "docs": "Доставим в Новосибирск."
+  ]
 }

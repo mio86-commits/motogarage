@@ -18,7 +18,6 @@ collections:
     create: true
     slug: "{{fields.id}}"
     extension: "json"
-    # preview: false # Если превью справа всё равно будет глючить, раскомментируй эту строку, чтобы отключить его
     fields:
       - { label: "ID (латиницей)", name: "id", widget: "string" }
       - { label: "Название", name: "title", widget: "string" }
@@ -27,7 +26,6 @@ collections:
       - { label: "Статус", name: "status", widget: "select", options: ["В наличии", "В пути"], default: "В наличии" }
       - { label: "Главное фото", name: "image", widget: "image" }
       - label: "Галерея"
-         label: "Галерея"
         name: "gallery"
         widget: "list"
         required: false
@@ -35,7 +33,7 @@ collections:
         summary: "Фото добавлено"
         media_library:
           config:
-            allow_multiple: true   # ← вот эта строка
+            allow_multiple: true
         field: { label: "Фото", name: "image", widget: "image" }
       - label: "Характеристики"
         name: "specs"

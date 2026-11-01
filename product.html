@@ -40,7 +40,7 @@
 
   /* Галерея */
   .gallery { display: flex; flex-direction: column; gap: 10px; }
-  .main-img { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid #24242a; aspect-ratio: 4/3; background: #16161a; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+  .main-img { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid #24242a; aspect-ratio: 4/3; background: #16161a; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .main-img::-webkit-scrollbar { display: none; }
   .main-img img { flex: 0 0 100%; scroll-snap-align: start; width: 100%; height: 100%; object-fit: contain; background: #16161a; cursor: zoom-in; }
   .thumbs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
@@ -102,26 +102,14 @@
       <div class="logo-text-wrap">MOTO <span class="logo-badge">GARAGE</span> <span class="logo-nsk">NSK</span></div>
     </a>
     
-    <!-- ВОЗВРАЩЕНА КРАСИВАЯ ШАПКА С ГЛАВНОЙ -->
     <div class="header-contacts">
       <span class="contact-text">Написать нам:</span>
       <div class="header-buttons">
-        <a class="social-btn" href="https://www.avito.ru/user/61802a3f2baf9ed9b426a1ccdd2c506c/profile?src=sharing" target="_blank" title="Мы на Авито">
-          <img src="avito.png" alt="Авито" style="background:#fff; padding:2px; border-radius:3px; height: 18px;">
-        </a>
-        <a class="social-btn" href="https://www.drom.ru/my/bulletins/actual/moto/" target="_blank" title="Мы на Дроме">
-          <img src="drom.png" alt="Дром" style="background:#fff; padding:2px; border-radius:3px; height: 18px;">
-        </a>
-        <a class="social-btn" href="https://t.me/Ivan_IM_Moto" target="_blank" title="Написать в Telegram">
-          <svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-        </a>
-        <a class="social-btn" href="https://t.me/MotoGarage_NSK" target="_blank" title="Наш Telegram-канал">
-          <svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-          <span style="font-size: 12px; color: #229ED9;">Канал</span>
-        </a>
-        <a class="social-btn" href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" title="Написать в MAX">
-          <img src="MAX.png" alt="MAX" style="height: 24px; border-radius: 4px;">
-        </a>
+        <a class="social-btn" href="https://www.avito.ru/user/61802a3f2baf9ed9b426a1ccdd2c506c/profile?src=sharing" target="_blank" title="Мы на Авито"><img src="avito.png" alt="Авито" style="background:#fff; padding:2px; border-radius:3px; height: 18px;"></a>
+        <a class="social-btn" href="https://www.drom.ru/my/bulletins/actual/moto/" target="_blank" title="Мы на Дроме"><img src="drom.png" alt="Дром" style="background:#fff; padding:2px; border-radius:3px; height: 18px;"></a>
+        <a class="social-btn" href="https://t.me/Ivan_IM_Moto" target="_blank" title="Написать в Telegram"><svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg></a>
+        <a class="social-btn" href="https://t.me/MotoGarage_NSK" target="_blank" title="Наш Telegram-канал"><svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg></a>
+        <a class="social-btn" href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" title="Написать в MAX"><img src="MAX.png" alt="MAX" style="height: 24px; border-radius: 4px;"></a>
       </div>
     </div>
   </div>
@@ -143,6 +131,9 @@
 </div>
 
 <script>
+  let currentImages = [];
+  let currentIndex = 0;
+
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type') || 'moto';
   const id = params.get('id');
@@ -154,17 +145,25 @@
       .then(res => res.json())
       .then(data => {
         const item = data.items.find(i => i.id === id);
-        if (!item) throw new Error("Товар не найден");
+        if (!item) throw new Error("Товар не найден в базе");
 
         document.title = item.title + " — MotoGarage NSK";
         
-        let allImages = [item.image];
-        if (item.gallery) { item.gallery.forEach(g => allImages.push(g.image)); }
+        // Собираем картинки
+        currentImages = [item.image];
+        if (item.gallery) { 
+            item.gallery.forEach(g => {
+                if (typeof g === 'string') currentImages.push(g);
+                else if (g.image) currentImages.push(g.image);
+            }); 
+        }
 
-        let mainImgHtml = `<img id="mainPhoto" src="${allImages[0]}" alt="${item.title}">`;
+        let mainImgHtml = '';
         let thumbsHtml = '';
-        allImages.forEach((img, index) => {
-          thumbsHtml += `<div class="thumb ${index===0?'active':''}" onclick="changePhoto('${img}', this)"><img src="${img}"></div>`;
+        
+        currentImages.forEach((img, index) => {
+          mainImgHtml += `<img src="${img}" alt="${item.title}" onclick="handleImgClick(${index})">`;
+          thumbsHtml += `<div class="thumb ${index===0?'active':''}" onclick="changePhoto(${index}, this)"><img src="${img}"></div>`;
         });
 
         const statusBadge = item.status === 'В пути' ? '<span class="badge badge-blue">🚢 В пути</span>' : '<span class="badge">В наличии</span>';
@@ -178,11 +177,13 @@
           specsHtml += '</ul>';
         }
 
+        // ИСПРАВЛЕН БАГ С UNDEFINED В ФИШКАХ
         let featuresHtml = '';
         if (item.features && item.features.length > 0) {
           featuresHtml = '<div class="desc-title">Главные фишки:</div><ul class="features-list">';
           item.features.forEach(feat => {
-            featuresHtml += `<li>🔥 ${feat.text}</li>`;
+            const text = typeof feat === 'string' ? feat : feat.text; 
+            if (text) featuresHtml += `<li>🔥 ${text}</li>`;
           });
           featuresHtml += '</ul>';
         }
@@ -190,9 +191,10 @@
         let docsHtml = '';
         if (item.docs) {
           docsHtml = `<div class="desc-title" style="margin-top:20px;">Документы и доставка</div><div class="desc-text">${item.docs}</div>`;
+        } else if (item.body) {
+          docsHtml = `<div class="desc-title" style="margin-top:20px;">Описание</div><div class="desc-text">${item.body}</div>`;
         }
 
-        // НИЖНИЕ КНОПКИ С ЛОГОТИПАМИ
         document.getElementById('product-content').innerHTML = `
           <div class="gallery">
             <div class="main-img" id="mainSlider">${mainImgHtml}</div>
@@ -230,32 +232,88 @@
         document.getElementById('loading').style.display = 'none';
         document.getElementById('product-content').style.display = 'grid';
 
-        // Инициализация галереи после рендера
-        const slider = document.getElementById('mainSlider');
-        const mainImgEl = document.getElementById('mainPhoto');
-        
-        // Обработчик клика для увеличения (упрощенный)
-        mainImgEl.onclick = function() {
-          document.getElementById('modalImg').src = this.src;
-          document.getElementById('photoModal').classList.add('show');
-          document.body.style.overflow = 'hidden';
-        };
+        // Инициализация скрипта галереи
+        initGallery();
       })
       .catch(err => {
         document.getElementById('loading').innerText = "Ошибка загрузки: " + err.message;
       });
   }
 
-  function changePhoto(src, element) {
-    document.getElementById('mainPhoto').src = src;
-    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-    element.classList.add('active');
+  function initGallery() {
+    const slider = document.getElementById('mainSlider');
+    const thumbs = document.querySelectorAll('.thumb');
+    
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isSwiping = false;
+
+    // Защита от свайпа на телефоне
+    slider.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      isSwiping = false;
+    }, { passive: true });
+
+    slider.addEventListener('touchmove', (e) => {
+      if (Math.abs(e.touches[0].clientX - touchStartX) > 10 || Math.abs(e.touches[0].clientY - touchStartY) > 10) {
+        isSwiping = true;
+      }
+    }, { passive: true });
+
+    slider.addEventListener('click', (e) => {
+      if (isSwiping) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
+
+    // Обновление активной миниатюры при прокрутке
+    slider.addEventListener('scroll', () => { 
+      const index = Math.round(slider.scrollLeft / slider.clientWidth); 
+      if (thumbs[index]) { 
+        thumbs.forEach(t => t.classList.remove('active')); 
+        thumbs[index].classList.add('active'); 
+      } 
+    });
+  }
+
+  function changePhoto(index, element) { 
+    const slider = document.getElementById('mainSlider');
+    slider.scrollTo({ left: index * slider.clientWidth, behavior: 'smooth' }); 
+    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active')); 
+    if (element) element.classList.add('active'); 
+  }
+
+  function handleImgClick(index) {
+    currentIndex = index;
+    document.getElementById('modalImg').src = currentImages[currentIndex];
+    document.getElementById('photoModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
   }
 
   function closeModal() {
     document.getElementById('photoModal').classList.remove('show');
     document.body.style.overflow = '';
+    // Синхронизируем слайдер с последним просмотренным фото
+    changePhoto(currentIndex, document.querySelectorAll('.thumb')[currentIndex]);
   }
+
+  function changeModalPhoto(direction) {
+    currentIndex += direction;
+    if (currentIndex < 0) currentIndex = currentImages.length - 1;
+    if (currentIndex >= currentImages.length) currentIndex = 0;
+    document.getElementById('modalImg').src = currentImages[currentIndex];
+  }
+
+  document.addEventListener('keydown', function(event) { 
+    const modal = document.getElementById('photoModal');
+    if (modal.classList.contains('show')) { 
+      if (event.key === 'Escape') closeModal(); 
+      if (event.key === 'ArrowLeft') changeModalPhoto(-1); 
+      if (event.key === 'ArrowRight') changeModalPhoto(1); 
+    } 
+  });
 
   document.getElementById('photoModal').addEventListener('click', function(event) {
     if (event.target === this) closeModal();

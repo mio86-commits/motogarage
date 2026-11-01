@@ -18,6 +18,7 @@ collections:
     create: true
     slug: "{{fields.id}}"
     extension: "json"
+    # preview: false # Если превью справа всё равно будет глючить, раскомментируй эту строку, чтобы отключить его
     fields:
       - { label: "ID (латиницей)", name: "id", widget: "string" }
       - { label: "Название", name: "title", widget: "string" }
@@ -30,12 +31,14 @@ collections:
         widget: "list"
         required: false
         collapsed: true
+        summary: "Фото добавлено" # Заголовок свернутого блока
         field: { label: "Фото", name: "image", widget: "image" }
       - label: "Характеристики"
         name: "specs"
         widget: "list"
         required: false
         collapsed: true
+        summary: "{{fields.label}}: {{fields.value}}" # Показывает "Год: 2017" в свернутом виде
         fields:
           - { label: "Название", name: "label", widget: "string" }
           - { label: "Значение", name: "value", widget: "string" }
@@ -44,8 +47,9 @@ collections:
         widget: "list"
         required: false
         collapsed: true
+        summary: "{{fields.text}}" # Показывает сам текст фишки в свернутом виде
         field: { label: "Фишка", name: "text", widget: "string" }
-      - { label: "Описание", name: "docs", widget: "markdown", required: false }
+      - { label: "Описание (Документы)", name: "docs", widget: "markdown", required: false, modes: ["rich_text", "raw"] }
 
   - name: "akrap"
     label: "Выхлоп Akrapovič"
@@ -65,12 +69,14 @@ collections:
         widget: "list"
         required: false
         collapsed: true
+        summary: "Фото добавлено"
         field: { label: "Фото", name: "image", widget: "image" }
       - label: "Характеристики"
         name: "specs"
         widget: "list"
         required: false
         collapsed: true
+        summary: "{{fields.label}}: {{fields.value}}"
         fields:
           - { label: "Название", name: "label", widget: "string" }
           - { label: "Значение", name: "value", widget: "string" }
@@ -79,5 +85,6 @@ collections:
         widget: "list"
         required: false
         collapsed: true
+        summary: "{{fields.text}}"
         field: { label: "Фишка", name: "text", widget: "string" }
-      - { label: "Полное описание", name: "body", widget: "markdown", required: false }
+      - { label: "Полное описание", name: "body", widget: "markdown", required: false, modes: ["rich_text", "raw"] }

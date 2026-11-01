@@ -11,13 +11,16 @@
   a { color: inherit; text-decoration: none; }
   .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
+  /* --- ОБНОВЛЕННАЯ ШАПКА САЙТА --- */
   header { padding: 12px 0; border-bottom: 1px solid #222; margin-bottom: 15px; }
   header .wrap { display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 12px;}
   .logo { display: flex; align-items: center; font-weight: 900; font-size: 22px; text-transform: uppercase; color: #fff; letter-spacing: 1px; gap: 10px; line-height: 1; }
   .logo-text-wrap { display: flex; align-items: center; }
   .speedo-icon { width: 34px; height: 34px; flex-shrink: 0; display: block; margin-top: 14px; }
   .needle { transform-origin: 50px 50px; animation: rev-engine 3.5s ease-in-out infinite; }
-  @keyframes rev-engine { 0% { transform: rotate(-90deg); } 10% { transform: rotate(15deg); } 20% { transform: rotate(-20deg); } 30% { transform: rotate(50deg); } 40% { transform: rotate(10deg); } 50% { transform: rotate(85deg); } 55% { transform: rotate(70deg); } 60% { transform: rotate(85deg); } 65% { transform: rotate(75deg); } 75% { transform: rotate(85deg); } 90% { transform: rotate(-90deg); } 100% { transform: rotate(-90deg); } }
+  @keyframes rev-engine {
+    0% { transform: rotate(-90deg); } 10% { transform: rotate(15deg); } 20% { transform: rotate(-20deg); } 30% { transform: rotate(50deg); } 40% { transform: rotate(10deg); } 50% { transform: rotate(85deg); } 55% { transform: rotate(70deg); } 60% { transform: rotate(85deg); } 65% { transform: rotate(75deg); } 75% { transform: rotate(85deg); } 90% { transform: rotate(-90deg); } 100% { transform: rotate(-90deg); }
+  }
   .logo-badge { border: 2px solid #ff5a1f; color: #ff5a1f; padding: 2px 6px; border-radius: 6px; margin: 0 4px; transition: 0.3s; }
   .logo:hover .logo-badge { background: #ff5a1f; color: #fff; box-shadow: 0 0 15px rgba(255, 90, 31, 0.4); }
   .logo-nsk { font-size: 14px; color: #777; font-weight: 600; }
@@ -50,6 +53,7 @@
   .thumb:hover, .thumb.active { opacity: 1; border-color: #ff5a1f; }
   .thumb img { width: 100%; height: 100%; object-fit: cover; }
 
+  /* Информация о товаре */
   .info-block h1 { font-size: 26px; margin-bottom: 8px; line-height: 1.2; }
   .badge { display: inline-block; background: #ff5a1f22; color: #ff5a1f; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-bottom: 10px; margin-right: 5px; }
   .price { font-size: 32px; font-weight: 800; color: #ff5a1f; margin-bottom: 24px; margin-top: 10px; }
@@ -63,9 +67,11 @@
   .desc-text p { margin-bottom: 10px; }
   .desc-text strong { color: #fff; }
   
+  /* Кнопки */
   .btn-buy { display: block; width: 100%; text-align: center; background: #ff5a1f; color: #fff; padding: 16px; border-radius: 10px; font-weight: 700; font-size: 18px; border: none; cursor: pointer; transition: 0.2s; margin-top: 20px; }
   .btn-buy:hover { opacity: 0.9; transform: translateY(-1px); }
 
+  /* Модальное окно */
   .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
   .modal.show { display: flex; opacity: 1; }
   .modal-content { max-width: 90%; max-height: 90vh; object-fit: contain; border-radius: 8px; box-shadow: 0 0 30px rgba(0,0,0,0.8); animation: zoomIn 0.3s ease; }
@@ -81,6 +87,7 @@
 </head>
 <body>
 
+<!-- НОВАЯ ШАПКА -->
 <header>
   <div class="wrap" style="padding-top:0; padding-bottom:0;">
     <a href="index.html" class="logo" title="На главную">
@@ -95,17 +102,29 @@
         <circle cx="50" cy="50" r="8" fill="#fff" />
         <circle cx="50" cy="50" r="4" fill="#ff5a1f" />
       </svg>
-      <div class="logo-text-wrap">MOTO <span class="logo-badge">GARAGE</span> <span class="logo-nsk">NSK</span></div>
+      <div class="logo-text-wrap">
+        MOTO <span class="logo-badge">GARAGE</span> <span class="logo-nsk">NSK</span>
+      </div>
     </a>
     
     <div class="header-contacts">
       <span class="contact-text">Написать нам:</span>
       <div class="header-buttons">
-        <a class="social-btn" href="https://www.avito.ru/user/61802a3f2baf9ed9b426a1ccdd2c506c/profile?src=sharing" target="_blank" title="Мы на Авито"><img src="avito.png" alt="Авито" style="background:#fff; padding:2px; border-radius:3px; height: 18px;"></a>
-        <a class="social-btn" href="https://www.drom.ru/my/bulletins/actual/moto/" target="_blank" title="Мы на Дроме"><img src="drom.png" alt="Дром" style="background:#fff; padding:2px; border-radius:3px; height: 18px;"></a>
-        <a class="social-btn" href="https://t.me/Ivan_IM_Moto" target="_blank" title="Написать в Telegram"><svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg></a>
-        <a class="social-btn" href="https://t.me/MotoGarage_NSK" target="_blank" title="Наш Telegram-канал"><svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg></a>
-        <a class="social-btn" href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" title="Написать в MAX"><img src="max.png" alt="MAX" style="height: 22px; border-radius: 4px;"></a>
+        <a class="social-btn" href="https://www.avito.ru/user/61802a3f2baf9ed9b426a1ccdd2c506c/profile?src=sharing" target="_blank" title="Мы на Авито">
+          <img src="avito.png" alt="Авито" style="background:#fff; padding:2px; border-radius:3px; height: 18px;">
+        </a>
+        <a class="social-btn" href="https://www.drom.ru/my/bulletins/actual/moto/" target="_blank" title="Мы на Дроме">
+          <img src="drom.png" alt="Дром" style="background:#fff; padding:2px; border-radius:3px; height: 18px;">
+        </a>
+        <a class="social-btn" href="https://t.me/Ivan_IM_Moto" target="_blank" title="Написать в Telegram">
+          <svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+        </a>
+        <a class="social-btn" href="https://t.me/MotoGarage_NSK" target="_blank" title="Наш Telegram-канал">
+          <svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+        </a>
+        <a class="social-btn" href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" title="Написать в MAX">
+          <img src="max.png" alt="MAX" style="height: 22px; border-radius: 4px;">
+        </a>
       </div>
     </div>
   </div>
@@ -115,7 +134,7 @@
   <a href="index.html" class="back-link">← Вернуться в каталог</a>
   <div class="product-grid">
     <div class="gallery">
-      <!-- Убрали onclick, теперь все клики обрабатываются в скрипте -->
+      <!-- ВАЖНО: Здесь убраны все onclick -->
       <div class="main-img" id="mainSlider">
         <img src="a1.jpg" alt="фото 1">
         <img src="a2.jpg" alt="фото 2">
@@ -171,6 +190,7 @@
               MAX
           </a>
       </div>
+
     </div>
   </div>
 </div>
@@ -187,46 +207,62 @@
   const thumbs = document.querySelectorAll('.thumb');
   const modal = document.getElementById('photoModal');
   const modalImg = document.getElementById('modalImg');
-  
-  // ВАЖНО: Картинки для этого файла
   const images = ['a1.jpg', 'a2.jpg', 'a3.jpg', 'a4.jpg', 'a5.jpg', 'a6.jpg'];
-  
   let currentIndex = 0;
-  let isScrolling = false; // Защита от случайного клика при свайпе
+  
+  // Умный скрипт, который понимает: свайп или клик
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isMoving = false;
 
-  // 1. Отслеживаем прокрутку
-  slider.addEventListener('scroll', () => {
-    isScrolling = true;
-    
-    // Меняем активную миниатюру
-    const index = Math.round(slider.scrollLeft / slider.clientWidth);
-    if (thumbs[index]) {
-      thumbs.forEach(t => t.classList.remove('active'));
-      thumbs[index].classList.add('active');
+  slider.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+    isMoving = false;
+  }, {passive: true});
+
+  slider.addEventListener('touchmove', (e) => {
+    const moveX = Math.abs(e.changedTouches[0].screenX - touchStartX);
+    const moveY = Math.abs(e.changedTouches[0].screenY - touchStartY);
+    // Если палец сдвинулся больше 10 пикселей — это свайп
+    if (moveX > 10 || moveY > 10) {
+      isMoving = true;
     }
+  }, {passive: true});
 
-    // Если скролл закончился, разрешаем клики снова
-    clearTimeout(window.scrollTimer);
-    window.scrollTimer = setTimeout(() => { isScrolling = false; }, 150);
-  });
-
-  // 2. Клик по большому фото
-  const slides = slider.querySelectorAll('img');
-  slides.forEach((img, index) => {
-    img.addEventListener('click', (e) => {
-      if (isScrolling) return; // Если это был свайп, ничего не делаем
+  slider.addEventListener('touchend', (e) => {
+    // Если это был не свайп, а обычный клик — открываем фото
+    if (!isMoving) {
+      const index = Math.round(slider.scrollLeft / slider.clientWidth);
       openModal(index);
-    });
+    }
+  }, {passive: true});
+
+  // Для ПК (мышка)
+  let mouseStartX = 0;
+  slider.addEventListener('mousedown', (e) => { mouseStartX = e.pageX; isMoving = false; });
+  slider.addEventListener('mousemove', (e) => { if (Math.abs(e.pageX - mouseStartX) > 10) isMoving = true; });
+  slider.addEventListener('mouseup', (e) => { 
+    if (!isMoving) {
+      const index = Math.round(slider.scrollLeft / slider.clientWidth);
+      openModal(index);
+    }
   });
 
-  // 3. Клик по миниатюрам
   function changePhoto(index, element) { 
     slider.scrollTo({ left: index * slider.clientWidth, behavior: 'smooth' }); 
     thumbs.forEach(t => t.classList.remove('active')); 
     if (element) element.classList.add('active'); 
   }
 
-  // 4. Открытие/закрытие модального окна
+  slider.addEventListener('scroll', () => { 
+    const index = Math.round(slider.scrollLeft / slider.clientWidth); 
+    if (thumbs[index]) { 
+      thumbs.forEach(t => t.classList.remove('active')); 
+      thumbs[index].classList.add('active'); 
+    } 
+  });
+
   function openModal(index) { 
     currentIndex = index; 
     modalImg.src = images[currentIndex]; 

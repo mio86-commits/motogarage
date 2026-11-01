@@ -6,8 +6,8 @@
       "price": "65 000 ₽",
       "desc": "Kawasaki Z1000 / Ninja 1000.",
       "status": "В наличии",
-      "image": "ak1.JPG",
-      "gallery": [{"image": "ak2.jpg"}, {"image": "ak3.jpg"}, {"image": "ak4.jpg"}, {"image": "ak5.JPG"}, {"image": "ak6.jpg"}],
+      "image": "ak1.jpg",
+      "gallery": [{"image": "a2.jpg"}, {"image": "a3.jpg"}, {"image": "a4.jpg"}, {"image": "a5.jpg"}, {"image": "a6.jpg"}],
       "specs": [
         {"label": "Совместимость", "value": "Kawasaki Z1000SX / Ninja 1000 / Z1000"},
         {"label": "Годы", "value": "2010-2020"},

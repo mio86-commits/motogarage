@@ -279,7 +279,7 @@
   </div>
 </footer>
 
-<!-- СКРИПТ АВТОМАТИЧЕСКОЙ ЗАГРУЗКИ ТОВАРОВ ИЗ ПАПОК -->
+<!-- СКРИПТ АВТОМАТИЧЕСКОЙ ЗАГРУЗКИ ТОВАРОВ С АВТООБНОВЛЕНИЕМ -->
 <script>
   // 1. Жесткое удаление значка Netlify
   setInterval(function() {
@@ -287,42 +287,57 @@
     if (badge) { badge.style.display = 'none'; badge.remove(); }
   }, 500);
 
-  // 2. Умная загрузка каталога с кэшированием (чтобы не превысить лимиты GitHub)
+  // 2. Умная загрузка каталога (Stale-While-Revalidate)
   async function loadCatalog(folder, containerId) {
     const container = document.getElementById(containerId);
     const cacheKey = `catalog_${folder}`;
     
-    // Проверяем, есть ли данные в памяти браузера
-    const cachedData = localStorage.getItem(cacheKey);
-    if (cachedData) {
-      renderCards(JSON.parse(cachedData), container, folder);
-      return;
+    let cachedData = null;
+    let cacheTime = 0;
+
+    try {
+      const parsed = JSON.parse(localStorage.getItem(cacheKey));
+      if (parsed && parsed.data) {
+        cachedData = parsed.data;
+        cacheTime = parsed.time || 0;
+      }
+    } catch(e) {}
+
+    // ШАГ 1: Мгновенно показываем старые данные (если они есть)
+    if (cachedData && cachedData.length > 0) {
+      renderCards(cachedData, container, folder);
+    } else {
+      container.innerHTML = '<p style="color:#9a9a9a; text-align:center; grid-column: 1/-1;">Загрузка товаров...</p>';
     }
 
-    container.innerHTML = '<p style="color:#9a9a9a; text-align:center; grid-column: 1/-1;">Загрузка товаров...</p>';
+    // ШАГ 2: Проверяем обновления на GitHub (не чаще 1 раза в минуту)
+    const ttl = 60 * 1000; 
     
-    try {
-      // Получаем список файлов из папки на GitHub
-      const res = await fetch(`https://api.github.com/repos/mio86-commits/motogarage/contents/data/${folder}`);
-      if (!res.ok) throw new Error("Ошибка доступа к GitHub API");
-      
-      const files = await res.json();
-      if (!Array.isArray(files)) throw new Error("Неверный формат ответа от API");
-      
-      // Фильтруем только JSON файлы (игнорируем .gitkeep и placeholder.md)
-      const jsonFiles = files.filter(f => f.name.endsWith('.json'));
-      
-      // Загружаем все файлы параллельно
-      const promises = jsonFiles.map(file => fetch(file.download_url).then(r => r.json()));
-      const items = await Promise.all(promises);
-      
-      // Сохраняем в память, чтобы в следующий раз не дергать API
-      localStorage.setItem(cacheKey, JSON.stringify(items));
-      
-      renderCards(items, container, folder);
-    } catch (e) {
-      console.error(e);
-      container.innerHTML = `<p style="color:red; text-align:center; grid-column: 1/-1;">Ошибка загрузки: ${e.message}</p>`;
+    if (!cachedData || (Date.now() - cacheTime > ttl)) {
+      try {
+        const apiUrl = `https://api.github.com/repos/mio86-commits/motogarage/contents/data/${folder}?t=${Date.now()}`;
+        const res = await fetch(apiUrl);
+        
+        if (!res.ok) throw new Error("Ошибка доступа к GitHub API");
+        const files = await res.json();
+        
+        const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+        
+        const promises = jsonFiles.map(file => fetch(file.download_url + `?t=${Date.now()}`).then(r => r.json()));
+        const items = await Promise.all(promises);
+        
+        // Сохраняем в кэш вместе с текущим временем
+        localStorage.setItem(cacheKey, JSON.stringify({ data: items, time: Date.now() }));
+        
+        // Обновляем карточки на экране свежими данными
+        renderCards(items, container, folder);
+        
+      } catch (e) {
+        console.error(e);
+        if (!cachedData || cachedData.length === 0) {
+          container.innerHTML = `<p style="color:red; text-align:center; grid-column: 1/-1;">Ошибка загрузки: ${e.message}</p>`;
+        }
+      }
     }
   }
 
@@ -338,7 +353,7 @@
       const img = item.image || 'favicon.png';
       
       container.innerHTML += `
-         <a class="card active-card" href="product.html?type=${folder}&id=${item.id}">
+         <a class="card active-card" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
           ${statusBadge}
           <div class="img" style="background-image:url('${img}')"></div>
           <div class="body">
@@ -352,7 +367,7 @@
     });
   }
 
-  // Запускаем загрузку для обеих папок
+  // Запускаем загрузку
   loadCatalog('moto', 'moto-container');
   loadCatalog('akrap', 'akrap-container');
 </script>

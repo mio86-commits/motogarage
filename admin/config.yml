@@ -74,7 +74,7 @@ collections:
         fields:
           - { label: "Название", name: "label", widget: "string" }
           - { label: "Значение", name: "value", widget: "string" }
-      - { label: "Главные фишки"
+      - label: "Главные фишки"
         name: "features"
         widget: "list"
         required: false

@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Загрузка... — MotoGarage NSK</title>
-<!-- Подключаем библиотеку для парсинга Markdown -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- Сначала грузим локальный файл (работает мгновенно и без интернета) -->
+<script src="marked.min.js"></script>
 <script>
-  // Если основной CDN не сработал, пробуем загрузить с резервного (unpkg)
+  // Если локальный файл вдруг не нашелся, грузим из интернета (CDN)
   if (typeof marked === 'undefined') {
-    document.write('<script src="https://unpkg.com/marked/marked.min.js"><\/script>');
+    document.write('<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\/script>');
   }
 </script>
 <link rel="icon" type="image/png" href="favicon.png">

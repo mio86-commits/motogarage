@@ -155,11 +155,9 @@
 
 <div class="wrap">
   <h2 class="section-title">🏍 Мотоциклы в наличии</h2>
-  <!-- Сюда автоматически загружаются мотоциклы -->
   <div class="grid" id="moto-container"></div>
 
   <h2 class="section-title">🔥 Выхлоп Akrapovič</h2>
-  <!-- Сюда автоматически загружаются выхлопы -->
   <div class="grid" id="akrap-container"></div>
 
   <h2 class="section-title" style="margin-top: 50px;">🏆 Наша гордость: уже продано</h2>
@@ -175,7 +173,6 @@
         <div class="price" style="color: #666; text-decoration: line-through;">765 000 ₽</div>
       </div>
     </div>
-
     <div class="card sold-card">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x2.jpg')"></div>
@@ -185,7 +182,6 @@
         <div class="price" style="color: #666; text-decoration: line-through;">515 000 ₽</div>
       </div>
     </div>
-
     <div class="card sold-card">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x3.jpg')"></div>
@@ -195,7 +191,6 @@
         <div class="price" style="color: #666; text-decoration: line-through;">540 000 ₽</div>
       </div>
     </div>
-
     <div class="card sold-card">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x4.jpg')"></div>
@@ -205,7 +200,6 @@
         <div class="price" style="color: #666; text-decoration: line-through;">485 000 ₽</div>
       </div>
     </div>
-
     <div class="card sold-card">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x5.jpg')"></div>
@@ -215,7 +209,6 @@
         <div class="price" style="color: #666; text-decoration: line-through;">540 000 ₽</div>
       </div>
     </div>
-
     <div class="card sold-card">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x6.jpg')"></div>
@@ -225,7 +218,6 @@
         <div class="price" style="color: #666; text-decoration: line-through;">515 000 ₽</div>
       </div>
     </div>
-
     <div class="card sold-card">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x7.jpg')"></div>
@@ -235,7 +227,6 @@
         <div class="price" style="color: #666; text-decoration: line-through;">540 000 ₽</div>
       </div>
     </div>
-
     <div class="card sold-card">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x8.jpg')"></div>
@@ -257,19 +248,13 @@
   <div style="margin-top: 50px; text-align: center;">
     <h2 class="section-title" style="margin-bottom: 10px;">🤝 Мы на торговых площадках</h2>
     <p style="color: #9a9a9a; margin-bottom: 25px; font-size: 15px;">Читайте отзывы и смотрите другие наши объявления на официальных страницах:</p>
-    
     <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-      
       <a href="https://www.avito.ru/user/61802a3f2baf9ed9b426a1ccdd2c506c/profile?src=sharing" target="_blank" style="display: flex; align-items: center; gap: 12px; background: #16161a; border: 1px solid #24242a; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 15px; transition: 0.2s; color: #fff; text-decoration: none;" onmouseover="this.style.borderColor='#00AAFF'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#24242a'; this.style.transform='translateY(0)'">
-        <img src="avito.png" alt="Авито" style="height: 22px; width: auto; background: #fff; padding: 2px 4px; border-radius: 4px;">
-        Мы на Авито
+        <img src="avito.png" alt="Авито" style="height: 22px; width: auto; background: #fff; padding: 2px 4px; border-radius: 4px;"> Мы на Авито
       </a>
-
       <a href="https://www.drom.ru/my/bulletins/actual/moto/" target="_blank" style="display: flex; align-items: center; gap: 12px; background: #16161a; border: 1px solid #24242a; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 15px; transition: 0.2s; color: #fff; text-decoration: none;" onmouseover="this.style.borderColor='#ff5a1f'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#24242a'; this.style.transform='translateY(0)'">
-        <img src="drom.png" alt="Дром" style="height: 22px; width: auto; background: #fff; padding: 2px; border-radius: 4px;">
-        Мы на Дроме
+        <img src="drom.png" alt="Дром" style="height: 22px; width: auto; background: #fff; padding: 2px; border-radius: 4px;"> Мы на Дроме
       </a>
-
     </div>
   </div>
 
@@ -294,74 +279,82 @@
   </div>
 </footer>
 
-<!-- СКРИПТ АВТОМАТИЧЕСКОЙ ЗАГРУЗКИ ТОВАРОВ -->
+<!-- СКРИПТ АВТОМАТИЧЕСКОЙ ЗАГРУЗКИ ТОВАРОВ ИЗ ПАПОК -->
 <script>
   // 1. Жесткое удаление значка Netlify
   setInterval(function() {
     const badge = document.querySelector('#netlify-badge, a[href*="netlify.com"], div[class*="netlify"]');
-    if (badge) {
-      badge.style.display = 'none';
-      badge.remove();
-    }
+    if (badge) { badge.style.display = 'none'; badge.remove(); }
   }, 500);
 
-  // 2. Загрузка мотоциклов
-  fetch('data/moto.json')
-    .then(response => {
-      if (!response.ok) throw new Error('Нет файла moto.json');
-      return response.json();
-    })
-    .then(data => {
-      const container = document.getElementById('moto-container');
-      if (data && data.items) {
-        data.items.forEach(item => {
-          const statusBadge = item.status === 'В пути' ? '<div class="status-badge">🚢 В пути</div>' : '';
-          container.innerHTML += `
-             <!-- ССЫЛКА ВЕДЕТ НА PRODUCT.HTML С ID -->
-             <a class="card active-card" href="product.html?type=moto&id=${item.id}">
-              ${statusBadge}
-              <div class="img" style="background-image:url('${item.image}')"></div>
-              <div class="body">
-                <h3>${item.title}</h3>
-                <div class="desc">${item.desc}</div>
-                <div class="price">${item.price}</div>
-                <div class="btn btn-detail">Подробнее</div>
-              </div>
-            </a>
-          `;
-        });
-      }
-    })
-    .catch(error => console.log('Ошибка загрузки мотоциклов:', error));
+  // 2. Умная загрузка каталога с кэшированием (чтобы не превысить лимиты GitHub)
+  async function loadCatalog(folder, containerId) {
+    const container = document.getElementById(containerId);
+    const cacheKey = `catalog_${folder}`;
+    
+    // Проверяем, есть ли данные в памяти браузера
+    const cachedData = localStorage.getItem(cacheKey);
+    if (cachedData) {
+      renderCards(JSON.parse(cachedData), container, folder);
+      return;
+    }
 
-  // 3. Загрузка выхлопов
-  fetch('data/akrap.json')
-    .then(response => {
-      if (!response.ok) throw new Error('Нет файла akrap.json');
-      return response.json();
-    })
-    .then(data => {
-      const container = document.getElementById('akrap-container');
-      if (data && data.items) {
-        data.items.forEach(item => {
-          const statusBadge = item.status === 'В пути' ? '<div class="status-badge">🚢 В пути</div>' : '';
-          container.innerHTML += `
-             <!-- ССЫЛКА ВЕДЕТ НА PRODUCT.HTML С ID -->
-             <a class="card active-card" href="product.html?type=akrap&id=${item.id}">
-              ${statusBadge}
-              <div class="img" style="background-image:url('${item.image}')"></div>
-              <div class="body">
-                <h3>${item.title}</h3>
-                <div class="desc">${item.desc}</div>
-                <div class="price">${item.price}</div>
-                <div class="btn btn-detail">Подробнее</div>
-              </div>
-            </a>
-          `;
-        });
-      }
-    })
-    .catch(error => console.log('Ошибка загрузки выхлопов:', error));
+    container.innerHTML = '<p style="color:#9a9a9a; text-align:center; grid-column: 1/-1;">Загрузка товаров...</p>';
+    
+    try {
+      // Получаем список файлов из папки на GitHub
+      const res = await fetch(`https://api.github.com/repos/mio86-commits/motogarage/contents/data/${folder}`);
+      if (!res.ok) throw new Error("Ошибка доступа к GitHub API");
+      
+      const files = await res.json();
+      if (!Array.isArray(files)) throw new Error("Неверный формат ответа от API");
+      
+      // Фильтруем только JSON файлы (игнорируем .gitkeep и placeholder.md)
+      const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+      
+      // Загружаем все файлы параллельно
+      const promises = jsonFiles.map(file => fetch(file.download_url).then(r => r.json()));
+      const items = await Promise.all(promises);
+      
+      // Сохраняем в память, чтобы в следующий раз не дергать API
+      localStorage.setItem(cacheKey, JSON.stringify(items));
+      
+      renderCards(items, container, folder);
+    } catch (e) {
+      console.error(e);
+      container.innerHTML = `<p style="color:red; text-align:center; grid-column: 1/-1;">Ошибка загрузки: ${e.message}</p>`;
+    }
+  }
+
+  // 3. Отрисовка карточек
+  function renderCards(items, container, folder) {
+    container.innerHTML = '';
+    if (items.length === 0) {
+       container.innerHTML = '<p style="color:#9a9a9a; text-align:center; grid-column: 1/-1;">Товаров пока нет.</p>';
+       return;
+    }
+    items.forEach(item => {
+      const statusBadge = item.status === 'В пути' ? '<div class="status-badge">🚢 В пути</div>' : '';
+      const img = item.image || 'favicon.png';
+      
+      container.innerHTML += `
+         <a class="card active-card" href="product.html?type=${folder}&id=${item.id}">
+          ${statusBadge}
+          <div class="img" style="background-image:url('${img}')"></div>
+          <div class="body">
+            <h3>${item.title}</h3>
+            <div class="desc">${item.desc}</div>
+            <div class="price">${item.price}</div>
+            <div class="btn btn-detail">Подробнее</div>
+          </div>
+        </a>
+      `;
+    });
+  }
+
+  // Запускаем загрузку для обеих папок
+  loadCatalog('moto', 'moto-container');
+  loadCatalog('akrap', 'akrap-container');
 </script>
 
 </body>

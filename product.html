@@ -138,6 +138,15 @@
   const type = params.get('type') || 'moto';
   const id = params.get('id');
 
+  // Функция для преобразования Markdown в HTML (жирный шрифт и переносы строк)
+  function parseMarkdown(text) {
+    if (!text) return '';
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **жирный**
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')           // *курсив*
+      .replace(/\n/g, '<br>');                        // переносы строк
+  }
+
   if (!id) {
     document.getElementById('loading').innerText = "Ошибка: Товар не найден.";
   } else {
@@ -149,13 +158,28 @@
 
         document.title = item.title + " — MotoGarage NSK";
         
-        // Собираем картинки
-        currentImages = [item.image];
-        if (item.gallery) { 
+        // ==========================================
+        // 1. БЕЗОПАСНАЯ СБОРКА ГАЛЕРЕИ
+        // ==========================================
+        currentImages = [];
+        if (item.image) currentImages.push(item.image);
+        
+        if (item.gallery && Array.isArray(item.gallery)) { 
             item.gallery.forEach(g => {
-                if (typeof g === 'string') currentImages.push(g);
-                else if (g.image) currentImages.push(g.image);
+                // Если это просто строка (старый формат)
+                if (typeof g === 'string' && g.trim() !== '') {
+                    currentImages.push(g);
+                } 
+                // Если это объект вида {"image": "путь"}
+                else if (g && typeof g === 'object' && g.image) {
+                    currentImages.push(g.image);
+                }
             }); 
+        }
+        
+        // Если картинок вообще нет, ставим заглушку
+        if (currentImages.length === 0) {
+            currentImages.push('favicon.png'); 
         }
 
         let mainImgHtml = '';
@@ -168,31 +192,48 @@
 
         const statusBadge = item.status === 'В пути' ? '<span class="badge badge-blue">🚢 В пути</span>' : '<span class="badge">В наличии</span>';
 
+        // ==========================================
+        // 2. БЕЗОПАСНАЯ СБОРКА ХАРАКТЕРИСТИК
+        // ==========================================
         let specsHtml = '';
-        if (item.specs && item.specs.length > 0) {
+        if (item.specs && Array.isArray(item.specs) && item.specs.length > 0) {
           specsHtml = '<ul class="specs">';
           item.specs.forEach(spec => {
-            specsHtml += `<li><span class="label">${spec.label}</span><span class="value">${spec.value}</span></li>`;
+            if (spec.label || spec.value) {
+              specsHtml += `<li><span class="label">${spec.label || ''}</span><span class="value">${spec.value || ''}</span></li>`;
+            }
           });
           specsHtml += '</ul>';
         }
 
-        // ИСПРАВЛЕН БАГ С UNDEFINED В ФИШКАХ
+        // ==========================================
+        // 3. БЕЗОПАСНАЯ СБОРКА ФИШЕК (лечим undefined)
+        // ==========================================
         let featuresHtml = '';
-        if (item.features && item.features.length > 0) {
-          featuresHtml = '<div class="desc-title">Главные фишки:</div><ul class="features-list">';
+        if (item.features && Array.isArray(item.features) && item.features.length > 0) {
+          let tempFeatures = '';
           item.features.forEach(feat => {
-            const text = typeof feat === 'string' ? feat : feat.text; 
-            if (text) featuresHtml += `<li>🔥 ${text}</li>`;
+            let text = '';
+            if (typeof feat === 'string') text = feat;         // Если строка
+            else if (feat && feat.text) text = feat.text;      // Если объект {text: "..."}
+            
+            if (text && text.trim() !== '') {
+              tempFeatures += `<li>🔥 ${text}</li>`;
+            }
           });
-          featuresHtml += '</ul>';
+          
+          if (tempFeatures !== '') {
+             featuresHtml = `<div class="desc-title">Главные фишки:</div><ul class="features-list">${tempFeatures}</ul>`;
+          }
         }
 
+        // ==========================================
+        // 4. ТЕКСТОВОЕ ОПИСАНИЕ
+        // ==========================================
         let docsHtml = '';
-        if (item.docs) {
-          docsHtml = `<div class="desc-title" style="margin-top:20px;">Документы и доставка</div><div class="desc-text">${item.docs}</div>`;
-        } else if (item.body) {
-          docsHtml = `<div class="desc-title" style="margin-top:20px;">Описание</div><div class="desc-text">${item.body}</div>`;
+        const rawText = item.docs || item.body || ''; // У мотоциклов docs, у выхлопов body
+        if (rawText && rawText.trim() !== '') {
+          docsHtml = `<div class="desc-title" style="margin-top:20px;">Описание</div><div class="desc-text">${parseMarkdown(rawText)}</div>`;
         }
 
         document.getElementById('product-content').innerHTML = `
@@ -201,9 +242,9 @@
             <div class="thumbs">${thumbsHtml}</div>
           </div>
           <div class="info-block">
-            <h1>${item.title}</h1>
+            <h1>${item.title || 'Без названия'}</h1>
             <div>${statusBadge}</div>
-            <div class="price">${item.price}</div>
+            <div class="price">${item.price || 'Цена по запросу'}</div>
             
             ${specsHtml}
             ${featuresHtml}
@@ -248,7 +289,6 @@
     let touchStartY = 0;
     let isSwiping = false;
 
-    // Защита от свайпа на телефоне
     slider.addEventListener('touchstart', (e) => {
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
@@ -268,7 +308,6 @@
       }
     }, true);
 
-    // Обновление активной миниатюры при прокрутке
     slider.addEventListener('scroll', () => { 
       const index = Math.round(slider.scrollLeft / slider.clientWidth); 
       if (thumbs[index]) { 
@@ -295,7 +334,6 @@
   function closeModal() {
     document.getElementById('photoModal').classList.remove('show');
     document.body.style.overflow = '';
-    // Синхронизируем слайдер с последним просмотренным фото
     changePhoto(currentIndex, document.querySelectorAll('.thumb')[currentIndex]);
   }
 

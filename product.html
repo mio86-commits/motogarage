@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Загрузка... — MotoGarage NSK</title>
+<!-- Подключаем библиотеку для парсинга Markdown -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <link rel="icon" type="image/png" href="favicon.png">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -62,6 +64,13 @@
   .desc-text { color: #b5b5b5; font-size: 15px; margin-bottom: 20px; }
   .desc-text p { margin-bottom: 10px; }
   .desc-text strong { color: #fff; }
+  
+  /* Стили для Markdown-элементов внутри описания */
+  .desc-text h1, .desc-text h2, .desc-text h3, .desc-text h4 { color: #fff; margin-top: 20px; margin-bottom: 10px; font-weight: 700; }
+  .desc-text ul, .desc-text ol { margin-bottom: 15px; padding-left: 20px; }
+  .desc-text li { margin-bottom: 5px; }
+  .desc-text a { color: #ff5a1f; text-decoration: underline; }
+
   .features-list { list-style: none; padding-left: 0; margin: 15px 0; background: #16161a; padding: 15px; border-radius: 8px; border: 1px solid #24242a; }
   .features-list li { margin-bottom: 8px; display: flex; align-items: flex-start; font-size: 15px; color: #fff; font-weight: 500; }
   .features-list li:last-child { margin-bottom: 0; }
@@ -138,15 +147,48 @@
   const type = params.get('type') || 'moto';
   const id = params.get('id');
 
+  // НОВАЯ ФУНКЦИЯ ПАРСИНГА MARKDOWN И СМАЙЛОВ
   function parseMarkdown(text) {
     if (!text) return '';
-    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    
+    // 1. Замена смайлов
+    const emojiMap = {
+      ':fire:': '🔥',
+      ':white_check_mark:': '✅',
+      ':heavy_check_mark:': '✔️',
+      ':star:': '⭐',
+      ':star2:': '🌟',
+      ':motorcycle:': '🏍️',
+      ':dash:': '💨',
+      ':zap:': '⚡',
+      ':wrench:': '🔧',
+      ':hammer_and_wrench:': '🛠️',
+      ':gear:': '⚙️',
+      ':shield:': '🛡️',
+      ':warning:': '⚠️',
+      ':x:': '❌',
+      ':moneybag:': '💰',
+      ':thumbsup:': '👍',
+      ':100:': '💯',
+      ':gift:': '🎁',
+      ':page_facing_up:': '📄',
+      ':clipboard:': '📋',
+      ':passport_control:': '🛂',
+      ':memo:': '📝'
+    };
+    
+    let processedText = text;
+    for (const [code, emoji] of Object.entries(emojiMap)) {
+      processedText = processedText.split(code).join(emoji);
+    }
+
+    // 2. Конвертация Markdown в HTML
+    return marked.parse(processedText);
   }
 
   if (!id) {
     document.getElementById('loading').innerText = "Ошибка: Товар не найден.";
   } else {
-    // ИЗМЕНЕНИЕ ЗДЕСЬ: Теперь мы ищем файл в папке: data/akrap/id.json
     fetch(`data/${type}/${id}.json`)
       .then(res => {
         if (!res.ok) throw new Error("Файл товара не найден");

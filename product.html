@@ -6,6 +6,12 @@
 <title>Загрузка... — MotoGarage NSK</title>
 <!-- Подключаем библиотеку для парсинга Markdown -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  // Если основной CDN не сработал, пробуем загрузить с резервного (unpkg)
+  if (typeof marked === 'undefined') {
+    document.write('<script src="https://unpkg.com/marked/marked.min.js"><\/script>');
+  }
+</script>
 <link rel="icon" type="image/png" href="favicon.png">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -182,8 +188,13 @@
       processedText = processedText.split(code).join(emoji);
     }
 
-    // 2. Конвертация Markdown в HTML
-    return marked.parse(processedText);
+    // 2. Защита: если библиотека не загрузилась (нет интернета или заблокирована)
+    if (typeof marked !== 'undefined') {
+      return marked.parse(processedText);
+    } else {
+      // Просто делаем переносы строк, чтобы текст не превратился в сплошную кашу
+      return processedText.replace(/\n/g, '<br>');
+    }
   }
 
   if (!id) {

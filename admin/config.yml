@@ -57,7 +57,33 @@ collections:
         collapsed: true
         summary: "{{fields.text}}"
         field: { label: "Фишка", name: "text", widget: "string" }
-      - { label: "Описание (Документы)", name: "docs", widget: "markdown", required: false, modes: ["rich_text", "raw"] }
+      
+      # Обновленный продвинутый редактор для "Описание (Документы)"
+      - label: "Описание (Документы)"
+        name: "docs"
+        widget: "markdown"
+        required: false
+        modes: ["rich_text", "raw"]
+        use_emoji_autocomplete: true
+        buttons:
+          - bold
+          - italic
+          - strikethrough
+          - code
+          - link
+          - heading-one
+          - heading-two
+          - heading-three
+          - heading-four
+          - bulleted-list
+          - numbered-list
+          - quote
+          - align
+        editor_components:
+          - image
+          - code-block
+          - table
+          - hr
 
   - name: "akrap"
     label: "Выхлоп Akrapovič"
@@ -95,4 +121,30 @@ collections:
         collapsed: true
         summary: "{{fields.text}}"
         field: { label: "Фишка", name: "text", widget: "string" }
-      - { label: "Полное описание", name: "body", widget: "markdown", required: false, modes: ["rich_text", "raw"] }
+      
+      # Обновленный продвинутый редактор для "Полное описание"
+      - label: "Полное описание"
+        name: "body"
+        widget: "markdown"
+        required: false
+        modes: ["rich_text", "raw"]
+        use_emoji_autocomplete: true
+        buttons:
+          - bold
+          - italic
+          - strikethrough
+          - code
+          - link
+          - heading-one
+          - heading-two
+          - heading-three
+          - heading-four
+          - bulleted-list
+          - numbered-list
+          - quote
+          - align
+        editor_components:
+          - image
+          - code-block
+          - table
+          - hr

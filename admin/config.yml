@@ -8,6 +8,9 @@ backend:
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
+site_url: https://motogarage-nsk.ru
+display_url: https://motogarage-nsk.ru
+
 collections:
   - name: "moto"
     label: "Мотоциклы в наличии"
@@ -19,18 +22,27 @@ collections:
           - label: "Мотоциклы"
             name: "items"
             widget: "list"
+            summary: "{{title}} — {{price}}"  # <--- Теперь в списке будет видно название и цену
             fields:
-              - { label: "ID (латиницей, напр. ninja-2017)", name: "id", widget: "string" }
+              - { label: "ID (латиницей, напр. ninja-2017)", name: "id", widget: "string", hint: "Уникальный код. Латиницей без пробелов." }
               - { label: "Название", name: "title", widget: "string" }
               - { label: "Цена", name: "price", widget: "string" }
               - { label: "Короткое описание (для карточки)", name: "desc", widget: "string" }
               - { label: "Статус", name: "status", widget: "select", options: ["В наличии", "В пути"], default: "В наличии" }
               - { label: "Главное фото", name: "image", widget: "image" }
-              - { label: "Галерея (доп. фото)", name: "gallery", widget: "list", required: false, field: { label: "Фото", name: "image", widget: "image" } }
+              - label: "Галерея (доп. фото)"
+                name: "gallery"
+                widget: "list"
+                required: false
+                collapsed: true      # <--- Блок свернут в админке
+                summary: "Фото галереи"
+                field: { label: "Фото", name: "image", widget: "image" }
               - label: "Характеристики (Таблица)"
                 name: "specs"
                 widget: "list"
                 required: false
+                collapsed: true      # <--- Блок свернут в админке
+                summary: "{{label}}: {{value}}"
                 fields:
                   - { label: "Название (напр. Год выпуска)", name: "label", widget: "string" }
                   - { label: "Значение (напр. 2015 г.)", name: "value", widget: "string" }
@@ -38,6 +50,8 @@ collections:
                 name: "features"
                 widget: "list"
                 required: false
+                collapsed: true      # <--- Блок свернут в админке
+                summary: "{{text}}"
                 field: { label: "Фишка", name: "text", widget: "string" }
               - { label: "Документы и доставка", name: "docs", widget: "markdown", required: false }
 
@@ -51,6 +65,7 @@ collections:
           - label: "Выхлопы"
             name: "items"
             widget: "list"
+            summary: "{{title}} — {{price}}"  # <--- Теперь в списке будет видно название и цену
             fields:
               - { label: "ID (латиницей)", name: "id", widget: "string" }
               - { label: "Название", name: "title", widget: "string" }
@@ -58,11 +73,19 @@ collections:
               - { label: "Короткое описание (для карточки)", name: "desc", widget: "string" }
               - { label: "Статус", name: "status", widget: "select", options: ["В наличии", "В пути"], default: "В наличии" }
               - { label: "Главное фото", name: "image", widget: "image" }
-              - { label: "Галерея (доп. фото)", name: "gallery", widget: "list", required: false, field: { label: "Фото", name: "image", widget: "image" } }
+              - label: "Галерея (доп. фото)"
+                name: "gallery"
+                widget: "list"
+                required: false
+                collapsed: true
+                summary: "Фото галереи"
+                field: { label: "Фото", name: "image", widget: "image" }
               - label: "Характеристики (Таблица)"
                 name: "specs"
                 widget: "list"
                 required: false
+                collapsed: true
+                summary: "{{label}}: {{value}}"
                 fields:
                   - { label: "Название", name: "label", widget: "string" }
                   - { label: "Значение", name: "value", widget: "string" }

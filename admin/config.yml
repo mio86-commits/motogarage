@@ -27,11 +27,15 @@ collections:
       - { label: "Статус", name: "status", widget: "select", options: ["В наличии", "В пути"], default: "В наличии" }
       - { label: "Главное фото", name: "image", widget: "image" }
       - label: "Галерея"
+         label: "Галерея"
         name: "gallery"
         widget: "list"
         required: false
         collapsed: true
-        summary: "Фото добавлено" # Заголовок свернутого блока
+        summary: "Фото добавлено"
+        media_library:
+          config:
+            allow_multiple: true   # ← вот эта строка
         field: { label: "Фото", name: "image", widget: "image" }
       - label: "Характеристики"
         name: "specs"

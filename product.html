@@ -138,53 +138,35 @@
   const type = params.get('type') || 'moto';
   const id = params.get('id');
 
-  // Функция для преобразования Markdown в HTML (жирный шрифт и переносы строк)
   function parseMarkdown(text) {
     if (!text) return '';
-    return text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **жирный**
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')           // *курсив*
-      .replace(/\n/g, '<br>');                        // переносы строк
+    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
   }
 
   if (!id) {
     document.getElementById('loading').innerText = "Ошибка: Товар не найден.";
   } else {
-    fetch(`data/${type}.json`)
-      .then(res => res.json())
-      .then(data => {
-        const item = data.items.find(i => i.id === id);
-        if (!item) throw new Error("Товар не найден в базе");
-
+    // ИЗМЕНЕНИЕ ЗДЕСЬ: Теперь мы ищем файл в папке: data/akrap/id.json
+    fetch(`data/${type}/${id}.json`)
+      .then(res => {
+        if (!res.ok) throw new Error("Файл товара не найден");
+        return res.json();
+      })
+      .then(item => {
         document.title = item.title + " — MotoGarage NSK";
         
-        // ==========================================
-        // 1. БЕЗОПАСНАЯ СБОРКА ГАЛЕРЕИ
-        // ==========================================
         currentImages = [];
         if (item.image) currentImages.push(item.image);
-        
         if (item.gallery && Array.isArray(item.gallery)) { 
             item.gallery.forEach(g => {
-                // Если это просто строка (старый формат)
-                if (typeof g === 'string' && g.trim() !== '') {
-                    currentImages.push(g);
-                } 
-                // Если это объект вида {"image": "путь"}
-                else if (g && typeof g === 'object' && g.image) {
-                    currentImages.push(g.image);
-                }
+                if (typeof g === 'string' && g.trim() !== '') currentImages.push(g);
+                else if (g && typeof g === 'object' && g.image) currentImages.push(g.image);
             }); 
         }
-        
-        // Если картинок вообще нет, ставим заглушку
-        if (currentImages.length === 0) {
-            currentImages.push('favicon.png'); 
-        }
+        if (currentImages.length === 0) currentImages.push('favicon.png'); 
 
         let mainImgHtml = '';
         let thumbsHtml = '';
-        
         currentImages.forEach((img, index) => {
           mainImgHtml += `<img src="${img}" alt="${item.title}" onclick="handleImgClick(${index})">`;
           thumbsHtml += `<div class="thumb ${index===0?'active':''}" onclick="changePhoto(${index}, this)"><img src="${img}"></div>`;
@@ -192,9 +174,6 @@
 
         const statusBadge = item.status === 'В пути' ? '<span class="badge badge-blue">🚢 В пути</span>' : '<span class="badge">В наличии</span>';
 
-        // ==========================================
-        // 2. БЕЗОПАСНАЯ СБОРКА ХАРАКТЕРИСТИК
-        // ==========================================
         let specsHtml = '';
         if (item.specs && Array.isArray(item.specs) && item.specs.length > 0) {
           specsHtml = '<ul class="specs">';
@@ -206,32 +185,20 @@
           specsHtml += '</ul>';
         }
 
-        // ==========================================
-        // 3. БЕЗОПАСНАЯ СБОРКА ФИШЕК (лечим undefined)
-        // ==========================================
         let featuresHtml = '';
         if (item.features && Array.isArray(item.features) && item.features.length > 0) {
           let tempFeatures = '';
           item.features.forEach(feat => {
-            let text = '';
-            if (typeof feat === 'string') text = feat;         // Если строка
-            else if (feat && feat.text) text = feat.text;      // Если объект {text: "..."}
-            
-            if (text && text.trim() !== '') {
-              tempFeatures += `<li>🔥 ${text}</li>`;
-            }
+            let text = typeof feat === 'string' ? feat : (feat && feat.text ? feat.text : '');
+            if (text.trim() !== '') tempFeatures += `<li>🔥 ${text}</li>`;
           });
-          
           if (tempFeatures !== '') {
              featuresHtml = `<div class="desc-title">Главные фишки:</div><ul class="features-list">${tempFeatures}</ul>`;
           }
         }
 
-        // ==========================================
-        // 4. ТЕКСТОВОЕ ОПИСАНИЕ
-        // ==========================================
         let docsHtml = '';
-        const rawText = item.docs || item.body || ''; // У мотоциклов docs, у выхлопов body
+        const rawText = item.docs || item.body || '';
         if (rawText && rawText.trim() !== '') {
           docsHtml = `<div class="desc-title" style="margin-top:20px;">Описание</div><div class="desc-text">${parseMarkdown(rawText)}</div>`;
         }
@@ -245,26 +212,21 @@
             <h1>${item.title || 'Без названия'}</h1>
             <div>${statusBadge}</div>
             <div class="price">${item.price || 'Цена по запросу'}</div>
-            
             ${specsHtml}
             ${featuresHtml}
             ${docsHtml}
-            
             <div style="text-align: center; margin-top: 20px; padding: 15px; background: #16161a; border: 1px solid #24242a; border-radius: 10px;">
                 <div style="color: #9a9a9a; font-size: 14px; margin-bottom: 8px;">Связаться напрямую:</div>
                 <a href="tel:+79833112444" style="display: inline-block; font-size: 24px; font-weight: 800; color: #ff5a1f; text-decoration: none; padding: 8px 16px; background: #24242a; border-radius: 8px;">+7 (983) 311-24-44</a>
             </div>
-            
             <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
                 <a href="https://t.me/Ivan_IM_Moto" target="_blank" class="btn-buy" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 140px; margin-top: 0; text-decoration: none; font-size: 16px;">
-                    <svg style="fill: #fff; width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-                    Telegram
+                    <svg style="fill: #fff; width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg> Telegram
                 </a>
                 <a href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" class="btn-buy" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 140px; margin-top: 0; background: #0077FF; color: #fff; text-decoration: none; font-size: 16px;">
                     <span style="display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 50%; width: 24px; height: 24px;">
                         <img src="MAX.png" alt="MAX" style="height: 16px; width: auto; border-radius: 2px;">
-                    </span>
-                    MAX
+                    </span> MAX
                 </a>
             </div>
           </div>
@@ -272,8 +234,6 @@
         
         document.getElementById('loading').style.display = 'none';
         document.getElementById('product-content').style.display = 'grid';
-
-        // Инициализация скрипта галереи
         initGallery();
       })
       .catch(err => {
@@ -284,28 +244,18 @@
   function initGallery() {
     const slider = document.getElementById('mainSlider');
     const thumbs = document.querySelectorAll('.thumb');
-    
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let isSwiping = false;
+    let touchStartX = 0, touchStartY = 0, isSwiping = false;
 
     slider.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      isSwiping = false;
+      touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; isSwiping = false;
     }, { passive: true });
 
     slider.addEventListener('touchmove', (e) => {
-      if (Math.abs(e.touches[0].clientX - touchStartX) > 10 || Math.abs(e.touches[0].clientY - touchStartY) > 10) {
-        isSwiping = true;
-      }
+      if (Math.abs(e.touches[0].clientX - touchStartX) > 10 || Math.abs(e.touches[0].clientY - touchStartY) > 10) isSwiping = true;
     }, { passive: true });
 
     slider.addEventListener('click', (e) => {
-      if (isSwiping) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
+      if (isSwiping) { e.preventDefault(); e.stopPropagation(); }
     }, true);
 
     slider.addEventListener('scroll', () => { 

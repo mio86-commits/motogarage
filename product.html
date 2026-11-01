@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Загрузка... — MotoGarage NSK</title>
-<!-- Сначала грузим локальный файл (работает мгновенно и без интернета) -->
 <script src="marked.min.js"></script>
 <script>
-  // Если локальный файл вдруг не нашелся, грузим из интернета (CDN)
   if (typeof marked === 'undefined') {
     document.write('<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\/script>');
   }
@@ -67,13 +65,9 @@
   .specs .label { width: 160px; color: #9a9a9a; flex-shrink: 0; }
   .specs .value { color: #eaeaea; font-weight: 500; }
   .desc-title { font-size: 18px; margin-bottom: 10px; color: #fff; }
-  
-  /* Стили для текста описания */
   .desc-text { color: #b5b5b5; font-size: 15px; margin-bottom: 20px; }
-  .desc-text p { margin-bottom: 8px; } /* Уменьшили отступ между абзацами */
+  .desc-text p { margin-bottom: 8px; }
   .desc-text strong { color: #fff; }
-  
-  /* Стили для Markdown-элементов внутри описания */
   .desc-text h1, .desc-text h2, .desc-text h3, .desc-text h4 { color: #fff; margin-top: 20px; margin-bottom: 10px; font-weight: 700; }
   .desc-text ul, .desc-text ol { margin-bottom: 15px; padding-left: 20px; }
   .desc-text li { margin-bottom: 5px; }
@@ -134,9 +128,7 @@
 
 <div class="wrap">
   <a href="index.html" class="back-link">← Вернуться в каталог</a>
-  <div class="product-grid" id="product-content" style="display: none;">
-    <!-- Данные вставятся сюда через скрипт -->
-  </div>
+  <div class="product-grid" id="product-content" style="display: none;"></div>
   <div id="loading" style="text-align:center; padding: 50px; color: #ff5a1f; font-weight: bold;">Загрузка данных...</div>
 </div>
 
@@ -155,34 +147,16 @@
   const type = params.get('type') || 'moto';
   const id = params.get('id');
 
-  // НОВАЯ ФУНКЦИЯ ПАРСИНГА MARKDOWN И СМАЙЛОВ
   function parseMarkdown(text) {
     if (!text) return '';
     
-    // 1. Замена смайлов
     const emojiMap = {
-      ':fire:': '🔥',
-      ':white_check_mark:': '✅',
-      ':heavy_check_mark:': '✔️',
-      ':star:': '⭐',
-      ':star2:': '🌟',
-      ':motorcycle:': '🏍️',
-      ':dash:': '💨',
-      ':zap:': '⚡',
-      ':wrench:': '🔧',
-      ':hammer_and_wrench:': '🛠️',
-      ':gear:': '⚙️',
-      ':shield:': '🛡️',
-      ':warning:': '⚠️',
-      ':x:': '❌',
-      ':moneybag:': '💰',
-      ':thumbsup:': '👍',
-      ':100:': '💯',
-      ':gift:': '🎁',
-      ':page_facing_up:': '📄',
-      ':clipboard:': '📋',
-      ':passport_control:': '🛂',
-      ':memo:': '📝'
+      ':fire:': '🔥', ':white_check_mark:': '✅', ':heavy_check_mark:': '✔️',
+      ':star:': '⭐', ':star2:': '🌟', ':motorcycle:': '🏍️', ':dash:': '💨',
+      ':zap:': '⚡', ':wrench:': '🔧', ':hammer_and_wrench:': '🛠️', ':gear:': '⚙️',
+      ':shield:': '🛡️', ':warning:': '⚠️', ':x:': '❌', ':moneybag:': '💰',
+      ':thumbsup:': '👍', ':100:': '💯', ':gift:': '🎁', ':page_facing_up:': '📄',
+      ':clipboard:': '📋', ':passport_control:': '🛂', ':memo:': '📝'
     };
     
     let processedText = text;
@@ -190,9 +164,7 @@
       processedText = processedText.split(code).join(emoji);
     }
 
-    // 2. Защита: если библиотека не загрузилась
     if (typeof marked !== 'undefined') {
-      // breaks: true делает так, что даже одинарный Enter (если он сохранится) будет переносить строку
       return marked.parse(processedText, { breaks: true });
     } else {
       return processedText.replace(/\n/g, '<br>');
@@ -202,9 +174,19 @@
   if (!id) {
     document.getElementById('loading').innerText = "Ошибка: Товар не найден.";
   } else {
+    // УМНЫЙ ПОИСК ФАЙЛА: сначала ищем как есть, потом заменяем пробелы на дефисы
+    const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    
     fetch(`data/${type}/${id}.json`)
       .then(res => {
-        if (!res.ok) throw new Error("Файл товара не найден");
+        if (!res.ok) {
+           // Если не нашли по оригинальному ID, пробуем "чистое" имя
+           return fetch(`data/${type}/${cleanId}.json`);
+        }
+        return res;
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Файл товара не найден ни по ID, ни по очищенному названию");
         return res.json();
       })
       .then(item => {

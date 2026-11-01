@@ -67,8 +67,10 @@
   .specs .label { width: 160px; color: #9a9a9a; flex-shrink: 0; }
   .specs .value { color: #eaeaea; font-weight: 500; }
   .desc-title { font-size: 18px; margin-bottom: 10px; color: #fff; }
+  
+  /* Стили для текста описания */
   .desc-text { color: #b5b5b5; font-size: 15px; margin-bottom: 20px; }
-  .desc-text p { margin-bottom: 10px; }
+  .desc-text p { margin-bottom: 8px; } /* Уменьшили отступ между абзацами */
   .desc-text strong { color: #fff; }
   
   /* Стили для Markdown-элементов внутри описания */
@@ -188,11 +190,11 @@
       processedText = processedText.split(code).join(emoji);
     }
 
-    // 2. Защита: если библиотека не загрузилась (нет интернета или заблокирована)
+    // 2. Защита: если библиотека не загрузилась
     if (typeof marked !== 'undefined') {
-      return marked.parse(processedText);
+      // breaks: true делает так, что даже одинарный Enter (если он сохранится) будет переносить строку
+      return marked.parse(processedText, { breaks: true });
     } else {
-      // Просто делаем переносы строк, чтобы текст не превратился в сплошную кашу
       return processedText.replace(/\n/g, '<br>');
     }
   }

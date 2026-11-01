@@ -1,0 +1,51 @@
+{
+  "price": "415 000 ₽",
+  "desc": "Пробег 16000 км. Выхлоп Nassert Beet.",
+  "gallery": [
+    {
+      "image": "k2.jpg"
+    },
+    {
+      "image": "k3.jpg"
+    },
+    {
+      "image": "k4.jpg"
+    },
+    {
+      "image": "k5.jpg"
+    },
+    {
+      "image": "k6.jpg"
+    }
+  ],
+  "status": "В наличии",
+  "specs": [
+    {
+      "label": "Пробег",
+      "value": "16 000 км"
+    },
+    {
+      "label": "ЭПТС",
+      "value": "от 28.08.2026"
+    },
+    {
+      "label": "Состояние",
+      "value": "Готов к эксплуатации"
+    }
+  ],
+  "title": "Kawasaki Ninja 400R 2012",
+  "id": "kawasaki-ninja-400r-2012",
+  "image": "photo3.jpg",
+  "docs": "Растаможен, готов к постановке на учет (ЭПТС, СБКТС, ГТД, ДКП).",
+  "features": [
+    {
+      "text": "Полная выпускная система Nassert Beet"
+    },
+    {
+      "text": "Ручки, хагер, подножки, зарядка Daytona"
+    },
+    {
+      "text": "Рамка под номер Daytona"
+    }
+  ]
+}

@@ -11,7 +11,6 @@
   a { color: inherit; text-decoration: none; }
   .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
-  /* --- ОБНОВЛЕННАЯ ШАПКА САЙТА --- */
   header { padding: 12px 0; border-bottom: 1px solid #222; margin-bottom: 15px; }
   header .wrap { display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 12px;}
   .logo { display: flex; align-items: center; font-weight: 900; font-size: 22px; text-transform: uppercase; color: #fff; letter-spacing: 1px; gap: 10px; line-height: 1; }
@@ -87,7 +86,6 @@
 </head>
 <body>
 
-<!-- НОВАЯ ШАПКА -->
 <header>
   <div class="wrap" style="padding-top:0; padding-bottom:0;">
     <a href="index.html" class="logo" title="На главную">
@@ -134,14 +132,14 @@
   <a href="index.html" class="back-link">← Вернуться в каталог</a>
   <div class="product-grid">
     <div class="gallery">
-      <!-- ВАЖНО: Здесь убраны все onclick -->
+      <!-- ВАЖНО: Здесь изменены onclick на handleImageClick -->
       <div class="main-img" id="mainSlider">
-        <img src="a1.jpg" alt="фото 1">
-        <img src="a2.jpg" alt="фото 2">
-        <img src="a3.jpg" alt="фото 3">
-        <img src="a4.jpg" alt="фото 4">
-        <img src="a5.jpg" alt="фото 5">
-        <img src="a6.jpg" alt="фото 6">
+        <img src="a1.jpg" alt="фото 1" onclick="handleImageClick(0)">
+        <img src="a2.jpg" alt="фото 2" onclick="handleImageClick(1)">
+        <img src="a3.jpg" alt="фото 3" onclick="handleImageClick(2)">
+        <img src="a4.jpg" alt="фото 4" onclick="handleImageClick(3)">
+        <img src="a5.jpg" alt="фото 5" onclick="handleImageClick(4)">
+        <img src="a6.jpg" alt="фото 6" onclick="handleImageClick(5)">
       </div>
       <div class="thumbs">
         <div class="thumb active" onclick="changePhoto(0, this)"><img src="a1.jpg" alt="фото 1"></div>
@@ -207,62 +205,42 @@
   const thumbs = document.querySelectorAll('.thumb');
   const modal = document.getElementById('photoModal');
   const modalImg = document.getElementById('modalImg');
-  const images = ['a1.jpg', 'a2.jpg', 'a3.jpg', 'a4.jpg', 'a5.jpg', 'a6.jpg'];
-  let currentIndex = 0;
   
-  // Умный скрипт, который понимает: свайп или клик
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let isMoving = false;
+  // Массив с картинками. Если у вас другие названия файлов, поменяйте здесь.
+  const images = ['a1.jpg', 'a2.jpg', 'a3.jpg', 'a4.jpg', 'a5.jpg', 'a6.jpg'];
+  
+  let currentIndex = 0;
+  let isScrolling = false;
 
-  slider.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-    isMoving = false;
-  }, {passive: true});
+  // Отслеживаем скролл. Если пользователь свайпнул — ставим флаг isScrolling.
+  slider.addEventListener('scroll', () => {
+    isScrolling = true;
+    clearTimeout(window.scrollTimer);
+    // Если скролл прекратился 150мс назад, значит палец убрали и это был свайп
+    window.scrollTimer = setTimeout(() => { isScrolling = false; }, 150);
 
-  slider.addEventListener('touchmove', (e) => {
-    const moveX = Math.abs(e.changedTouches[0].screenX - touchStartX);
-    const moveY = Math.abs(e.changedTouches[0].screenY - touchStartY);
-    // Если палец сдвинулся больше 10 пикселей — это свайп
-    if (moveX > 10 || moveY > 10) {
-      isMoving = true;
+    // Синхронизация миниатюр при свайпе
+    const index = Math.round(slider.scrollLeft / slider.clientWidth);
+    if (thumbs[index]) {
+      thumbs.forEach(t => t.classList.remove('active'));
+      thumbs[index].classList.add('active');
     }
   }, {passive: true});
 
-  slider.addEventListener('touchend', (e) => {
-    // Если это был не свайп, а обычный клик — открываем фото
-    if (!isMoving) {
-      const index = Math.round(slider.scrollLeft / slider.clientWidth);
-      openModal(index);
-    }
-  }, {passive: true});
+  // Функция клика по большому фото
+  function handleImageClick(index) {
+    if (isScrolling) return; // Если это был свайп, ничего не делаем
+    openModal(index);        // Если это был клик, открываем фото
+  }
 
-  // Для ПК (мышка)
-  let mouseStartX = 0;
-  slider.addEventListener('mousedown', (e) => { mouseStartX = e.pageX; isMoving = false; });
-  slider.addEventListener('mousemove', (e) => { if (Math.abs(e.pageX - mouseStartX) > 10) isMoving = true; });
-  slider.addEventListener('mouseup', (e) => { 
-    if (!isMoving) {
-      const index = Math.round(slider.scrollLeft / slider.clientWidth);
-      openModal(index);
-    }
-  });
-
+  // Клик по миниатюрам
   function changePhoto(index, element) { 
     slider.scrollTo({ left: index * slider.clientWidth, behavior: 'smooth' }); 
     thumbs.forEach(t => t.classList.remove('active')); 
     if (element) element.classList.add('active'); 
   }
 
-  slider.addEventListener('scroll', () => { 
-    const index = Math.round(slider.scrollLeft / slider.clientWidth); 
-    if (thumbs[index]) { 
-      thumbs.forEach(t => t.classList.remove('active')); 
-      thumbs[index].classList.add('active'); 
-    } 
-  });
-
+  // Модальное окно
   function openModal(index) { 
     currentIndex = index; 
     modalImg.src = images[currentIndex]; 

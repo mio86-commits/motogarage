@@ -11,6 +11,12 @@ public_folder: "/images/uploads"
 site_url: https://motogarage-nsk.ru
 display_url: https://motogarage-nsk.ru
 
+# Автоматическая очистка имен файлов (защита от пробелов и кириллицы)
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: '-'
+
 collections:
   - name: "moto"
     label: "Мотоциклы"
@@ -40,7 +46,7 @@ collections:
         widget: "list"
         required: false
         collapsed: true
-        summary: "{{fields.label}}: {{fields.value}}" # Показывает "Год: 2017" в свернутом виде
+        summary: "{{fields.label}}: {{fields.value}}"
         fields:
           - { label: "Название", name: "label", widget: "string" }
           - { label: "Значение", name: "value", widget: "string" }
@@ -49,7 +55,7 @@ collections:
         widget: "list"
         required: false
         collapsed: true
-        summary: "{{fields.text}}" # Показывает сам текст фишки в свернутом виде
+        summary: "{{fields.text}}"
         field: { label: "Фишка", name: "text", widget: "string" }
       - { label: "Описание (Документы)", name: "docs", widget: "markdown", required: false, modes: ["rich_text", "raw"] }
 

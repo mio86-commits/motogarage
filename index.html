@@ -112,7 +112,8 @@
 
 <header>
   <div class="wrap">
-    <a href="index.html" class="logo" title="На главную">
+    <!-- ИСПРАВЛЕНО: ссылка на главную теперь всегда обновляет кэш -->
+    <a href="index.html" onclick="window.location.replace('index.html?v=' + new Date().getTime()); return false;" class="logo" title="На главную">
       <svg class="speedo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#444" stroke-width="7" stroke-linecap="round"/>
         <path d="M 10 50 L 18 50" stroke="#777" stroke-width="4"/>
@@ -297,7 +298,12 @@
     if (badge) { badge.style.display = 'none'; badge.remove(); }
   }, 500);
 
-  // 2. Умная загрузка каталога (Stale-While-Revalidate)
+  // 2. Принудительное обновление при возврате (назад из браузера)
+  if (performance.navigation.type === 2) {
+    location.reload(true);
+  }
+
+  // 3. Умная загрузка каталога (Stale-While-Revalidate)
   async function loadCatalog(folder, containerId) {
     const container = document.getElementById(containerId);
     const cacheKey = `catalog_${folder}`;
@@ -351,7 +357,7 @@
     }
   }
 
-  // 3. Отрисовка карточек
+  // 4. Отрисовка карточек
   function renderCards(items, container, folder) {
     container.innerHTML = '';
     if (items.length === 0) {

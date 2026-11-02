@@ -135,14 +135,8 @@
   let currentIndex = 0;
 
   const params = new URLSearchParams(window.location.search);
-  const type = window.location.pathname.includes('/akrap/') ? 'akrap' : (params.get('type') || 'moto');
-  
+  const type = params.get('type') || 'moto';
   let id = params.get('id');
-  if (!id) {
-    const pathParts = window.location.pathname.split('/');
-    let fileName = pathParts[pathParts.length - 1];
-    id = fileName.replace('.html', '').toLowerCase().split('?')[0];
-  }
 
   function parseMarkdown(text) {
     if (!text) return '';
@@ -153,14 +147,13 @@
   }
 
   if (!id) {
-    document.getElementById('loading').innerText = "Ошибка: Товар не найден (нет ID).";
+    document.getElementById('loading').innerText = "Ошибка: Товар не найден.";
   } else {
-    const cleanId = id.toLowerCase();
-    const jsonUrl = `data/${type}/${cleanId}.json`;
+    const jsonUrl = `data/${type}/${id}.json`;
 
     fetch(jsonUrl)
       .then(res => {
-        if (!res.ok) throw new Error(`Файл ${cleanId}.json не найден в папке data/${type}`);
+        if (!res.ok) throw new Error(`Файл ${id}.json не найден в папке data/${type}`);
         return res.json();
       })
       .then(item => {

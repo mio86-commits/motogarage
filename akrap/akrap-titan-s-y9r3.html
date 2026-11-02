@@ -135,7 +135,8 @@
   let currentIndex = 0;
 
   const params = new URLSearchParams(window.location.search);
-  const type = params.get('type') || 'moto';
+  // УМНОЕ ОПРЕДЕЛЕНИЕ ПАПКИ: если в ссылке есть /akrap/, то ищем в akrap, иначе в moto
+  const type = window.location.pathname.includes('/akrap/') ? 'akrap' : (params.get('type') || 'moto');
   
   let id = params.get('id');
   if (!id) {

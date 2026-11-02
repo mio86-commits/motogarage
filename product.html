@@ -166,8 +166,8 @@
     document.getElementById('loading').innerText = "Ошибка: Товар не найден (нет ID).";
   } else {
     // Жестко указываем путь к JSON
-    let jsonUrl = `data/${type}/${id}.json`;
-    
+const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+let jsonUrl = `data/${type}/${cleanId}.json`;    
     fetch(jsonUrl)
       .then(res => {
         // Если не нашли по прямому пути, пробуем заменить все не-буквы на дефисы

@@ -35,7 +35,7 @@ TYPES.forEach(type => {
     const pageUrl = `${SITE_URL}/${type}/${id}.html`;
 
     // Читаем наш шаблон (product.html)
-const templatePath = path.join(OUTPUT_DIR, 'prod.html');
+const templatePath = path.join(OUTPUT_DIR, 'd.html');
     if (!fs.existsSync(templatePath)) {
         console.error('Нет файла product.html!');
         return;

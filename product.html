@@ -138,7 +138,6 @@
 
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type') || 'moto';
-  
   // УМНЫЙ ПОИСК ID
   let id = params.get('id');
   
@@ -146,9 +145,12 @@
   if (!id) {
     const pathParts = window.location.pathname.split('/');
     let fileName = pathParts[pathParts.length - 1];
-    // Очищаем от .html и возможных параметров в конце
-    id = fileName.split('.html')[0].split('?')[0];
+    
+    // Очищаем от .html, приводим к нижнему регистру и убираем возможные параметры
+    id = fileName.replace('.html', '').toLowerCase().split('?')[0];
   }
+
+  console.log('Ищем товар с ID:', id, 'Тип:', type);
 
   console.log('Ищем товар с ID:', id, 'Тип:', type);
 

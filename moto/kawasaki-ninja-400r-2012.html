@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Kawasaki Ninja 400R 2012 — MotoGarage NSK</title>
-<meta name="description" content="Пробег 16000 км. Выхлоп Nassert Beet.">
+<meta name="description" content="Оригинальные мотоциклы и выхлоп Akrapovič из Японии. Доставка в Новосибирск и по России.">
 <meta property="og:type" content="product">
 <meta property="og:site_name" content="MotoGarage NSK">
-<meta property="og:title" content="Kawasaki Ninja 400R 2012 — MotoGarage NSK">
-<meta property="og:description" content="Пробег 16000 км. Выхлоп Nassert Beet.">
-<meta property="og:image" content="https://motogarage-nsk.ru/photo3.jpg">
-<meta property="og:url" content="https://motogarage-nsk.ru/moto/kawasaki-ninja-400r-2012.html">
+<meta property="og:title" content="MotoGarage NSK — мотоциклы и выхлоп Akrapovič">
+<meta property="og:description" content="Проверенная техника и оригинальные комплекты выхлопных систем. Доставка из Японии.">
+<meta property="og:image" content="https://motogarage-nsk.ru/favicon.png">
+<meta property="og:url" content="https://motogarage-nsk.ru/product.html">
 <meta name="twitter:card" content="summary_large_image">
 
 <script src="marked.min.js"></script>
@@ -88,7 +88,6 @@
   .modal-next { right: 20px; }
   @media (max-width: 800px) { .modal-prev, .modal-next { width: 45px; height: 45px; font-size: 20px; } .modal-close { font-size: 35px; top: 10px; right: 15px; } }
 </style>
-  <link rel="canonical" href="https://motogarage-nsk.ru/moto/kawasaki-ninja-400r-2012.html">
 </head>
 <body>
 <header>
@@ -193,9 +192,12 @@
         if (!cleanDescription) { cleanDescription = 'Оригинальный выхлоп Akrapovič и мотоциклы из Японии в Новосибирске.'; }
         
         let imgPath = item.image || 'favicon.png';
-        if (!imgPath.includes('/')) {
+        if (!imgPath.startsWith('/') && !imgPath.startsWith('http')) {
+            // Если это просто имя файла, пробуем найти его в корне и в uploads
+            // Сначала проверяем, есть ли он в images/uploads/
             imgPath = 'images/uploads/' + imgPath;
         }
+        imgPath = imgPath.toLowerCase();
         imgPath = imgPath.toLowerCase();
         const imageUrl = window.location.origin + '/' + imgPath.replace(/^\//, '');
 

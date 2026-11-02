@@ -151,7 +151,7 @@
   } else {
     const jsonUrl = `data/${type}/${id}.json`;
 
-    fetch(jsonUrl)
+    fetch(jsonUrl + '?v=' + Date.now())
       .then(res => {
         if (!res.ok) throw new Error(`Файл ${id}.json не найден в папке data/${type}`);
         return res.json();

@@ -139,18 +139,20 @@
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type') || 'moto';
   
-  // Получаем ID из URL (для старых ссылок)
+  // УМНЫЙ ПОИСК ID
   let id = params.get('id');
   
-  // Если ID нет (новая ссылка), берем имя файла
+  // Если ID нет в ссылке (мы на новой странице), берем имя файла
   if (!id) {
     const pathParts = window.location.pathname.split('/');
-    const fileName = pathParts[pathParts.length - 1];
-    // Если файл называется kawasaki-z1000-2008.html, то ID будет kawasaki-z1000-2008
-    id = decodeURIComponent(fileName).replace('.html', '');
+    let fileName = pathParts[pathParts.length - 1];
+    // Очищаем от .html и возможных параметров в конце
+    id = fileName.split('.html')[0].split('?')[0];
   }
 
-  function parseMarkdown(text) { /* ... (без изменений) ... */ 
+  console.log('Ищем товар с ID:', id, 'Тип:', type);
+
+  function parseMarkdown(text) {
     if (!text) return '';
     const emojiMap = { ':fire:': '🔥', ':white_check_mark:': '✅', ':heavy_check_mark:': '✔️', ':star:': '⭐', ':star2:': '🌟', ':motorcycle:': '🏍️', ':dash:': '💨', ':zap:': '⚡', ':wrench:': '🔧', ':hammer_and_wrench:': '🛠️', ':gear:': '⚙️', ':shield:': '🛡️', ':warning:': '⚠️', ':x:': '❌', ':moneybag:': '💰', ':thumbsup:': '👍', ':100:': '💯', ':gift:': '🎁', ':page_facing_up:': '📄', ':clipboard:': '📋', ':passport_control:': '🛂', ':memo:': '📝' };
     let processedText = text;
@@ -159,20 +161,22 @@
   }
 
   if (!id) {
-    document.getElementById('loading').innerText = "Ошибка: Товар не найден.";
+    document.getElementById('loading').innerText = "Ошибка: Товар не найден (нет ID).";
   } else {
-    // Берем оригинальный ID без замены на дефисы, чтобы точно совпало с JSON
-    fetch(`data/${type}/${id}.json`)
+    // Жестко указываем путь к JSON
+    let jsonUrl = `data/${type}/${id}.json`;
+    
+    fetch(jsonUrl)
       .then(res => {
+        // Если не нашли по прямому пути, пробуем заменить все не-буквы на дефисы
         if (!res.ok) {
-            // На всякий случай пробуем очищенное имя
             const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
             return fetch(`data/${type}/${cleanId}.json`);
         }
         return res;
       })
       .then(res => {
-        if (!res.ok) throw new Error("Файл товара не найден");
+        if (!res.ok) throw new Error(`Файл ${id}.json не найден в папке data/${type}`);
         return res.json();
       })
       .then(item => {
@@ -264,7 +268,7 @@
         initGallery();
       })
       .catch(err => {
-        document.getElementById('loading').innerText = "Ошибка загрузки: " + err.message;
+        document.getElementById('loading').innerHTML = `<span style="color:red;">Ошибка: ${err.message}</span>`;
       });
   }
 

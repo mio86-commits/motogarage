@@ -150,7 +150,13 @@
 
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type') || 'moto';
-  const id = params.get('id');
+  let id = params.get('id');
+if (!id) {
+  // Если ID нет в ссылке, берем его из имени файла (например, из .../moto/kawasaki-z1000-2008.html)
+  const pathParts = window.location.pathname.split('/');
+  const fileName = pathParts[pathParts.length - 1];
+  id = fileName.replace('.html', '');
+}
 
   function parseMarkdown(text) {
     if (!text) return '';

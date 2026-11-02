@@ -45,7 +45,7 @@ TYPES.forEach(type => {
     let item;
     try { item = JSON.parse(rawData); } catch (e) { return; }
 
-    const id = item.id || file.replace('.json', '');
+        const id = file.replace('.json', ''); // Берем имя файла как ID
     const title = item.title || 'Товар';
     const description = cleanDescription(item);
     

@@ -155,31 +155,14 @@
   if (!id) {
     document.getElementById('loading').innerText = "Ошибка: Товар не найден (нет ID).";
   } else {
-    fetch(`data/${type}/${id}.json`)
+    // Берем имя файла напрямую
+    const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const jsonUrl = `data/${type}/${cleanId}.json`;
+
+    fetch(jsonUrl)
       .then(res => {
-        if (res.ok) return res.json();
-        return fetch(`data/${type}/${id.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.json`)
-          .then(r => {
-            if (r.ok) return r.json();
-            return fetch(`https://api.github.com/repos/mio86-commits/motogarage/contents/data/${type}?t=${Date.now()}`)
-              .then(r => r.json())
-              .then(files => {
-                const promises = files.filter(f => f.name.endsWith('.json')).map(f => fetch(f.download_url).then(res => res.json()));
-                return Promise.all(promises);
-              })
-              .then(items => {
-                const cleanTarget = id.toLowerCase().replace(/[^a-z0-9]+/g, ' ');
-                const item = items.find(i => {
-                  const iId = (i.id || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ');
-                  const iTitle = (i.title || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ');
-                  return iId === cleanTarget || iTitle.includes(cleanTarget) || cleanTarget.includes(iTitle);
-                });
-                if (item) return item;
-                const fallback = items.find(i => (i.title || '').toLowerCase().includes('titan'));
-                if (fallback) return fallback;
-                throw new Error(`Товар "${id}" не найден.`);
-              });
-          });
+        if (!res.ok) throw new Error(`Файл ${cleanId}.json не найден в папке data/${type}`);
+        return res.json();
       })
       .then(item => {
         const titleText = (item.title || 'Товар') + " — MotoGarage NSK";

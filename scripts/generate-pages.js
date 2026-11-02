@@ -25,19 +25,14 @@ TYPES.forEach(type => {
     
     // Ищем первую картинку
     let imgPath = item.image || 'favicon.png';
-    if (!imgPath.includes('/')) {
-      // Если картинка в корне, просто добавляем её
-      imgPath = imgPath;
-    }
-    // Убираем лишние слеши в начале
     imgPath = imgPath.replace(/^\//, '');
     const imageUrl = `${SITE_URL}/${imgPath}`;
     const pageUrl = `${SITE_URL}/${type}/${id}.html`;
 
-    // Читаем наш шаблон (product.html)
-const templatePath = path.join(OUTPUT_DIR, 'd.html');
+    // Читаем наш шаблон (p.html)
+    const templatePath = path.join(OUTPUT_DIR, 'p.html');
     if (!fs.existsSync(templatePath)) {
-        console.error('Нет файла product.html!');
+        console.error('Нет файла p.html!');
         return;
     }
     let newHtml = fs.readFileSync(templatePath, 'utf8');
@@ -50,6 +45,16 @@ const templatePath = path.join(OUTPUT_DIR, 'd.html');
       .replace(/<meta property="og:description" content=".*?">/, `<meta property="og:description" content="${description}">`)
       .replace(/<meta property="og:image" content=".*?">/, `<meta property="og:image" content="${imageUrl}">`)
       .replace(/<meta property="og:url" content=".*?">/, `<meta property="og:url" content="${pageUrl}">`);
+
+    // ПРИНУДИТЕЛЬНО ВШИВАЕМ ID И ПАПКУ В СКРИПТ, ЧТОБЫ БРАУЗЕР НЕ ИСКАЛ ИХ В ССЫЛКЕ
+    newHtml = newHtml.replace(
+        /const type = window\.location\.pathname\.includes\('\/akrap\/'\) \? 'akrap' : \(params\.get\('type'\) \|\| 'moto'\);/,
+        `const type = '${type}';`
+    );
+    newHtml = newHtml.replace(
+        /let id = params\.get\('id'\);/,
+        `let id = '${id}';`
+    );
 
     // СОЗДАЕМ ФАЙЛ
     const outDir = path.join(OUTPUT_DIR, type);

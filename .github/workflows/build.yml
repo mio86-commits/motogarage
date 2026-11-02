@@ -7,6 +7,7 @@ on:
       - 'data/**'
   repository_dispatch:
     types: [sveltia-cms-publish]
+  workflow_dispatch:
 
 permissions:
   contents: write

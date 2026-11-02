@@ -155,7 +155,7 @@
   if (!id) {
     document.getElementById('loading').innerText = "Ошибка: Товар не найден (нет ID).";
   } else {
-    const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const cleanId = id.toLowerCase();
     const jsonUrl = `data/${type}/${cleanId}.json`;
 
     fetch(jsonUrl)

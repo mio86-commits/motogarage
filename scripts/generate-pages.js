@@ -2,18 +2,10 @@ const fs = require('fs');
 const path = require('path');
 
 const SITE_URL = 'https://motogarage-nsk.ru';
-const TEMPLATE_PATH = path.join(__dirname, '..', 'product.html');
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const OUTPUT_DIR = path.join(__dirname, '..');
 
 const TYPES = ['moto', 'akrap'];
-
-if (!fs.existsSync(TEMPLATE_PATH)) {
-  console.error('Шаблон product.html не найден!');
-  process.exit(1);
-}
-
-const template = fs.readFileSync(TEMPLATE_PATH, 'utf8');
 
 TYPES.forEach(type => {
   const typeDir = path.join(DATA_DIR, type);
@@ -26,21 +18,44 @@ TYPES.forEach(type => {
     let item;
     try { item = JSON.parse(rawData); } catch (e) { return; }
 
-    // ЖЕСТКО БЕРЕМ ИМЯ ФАЙЛА КАК ID (без .json)
+    // ID = имя файла без .json
     const id = file.replace('.json', '');
-    
     const title = item.title || 'Товар';
+    const description = item.desc || 'Оригинальный выхлоп Akrapovič и мотоциклы из Японии.';
+    
+    // Ищем первую картинку
+    let imgPath = item.image || 'favicon.png';
+    if (!imgPath.includes('/')) {
+      // Если картинка в корне, просто добавляем её
+      imgPath = imgPath;
+    }
+    // Убираем лишние слеши в начале
+    imgPath = imgPath.replace(/^\//, '');
+    const imageUrl = `${SITE_URL}/${imgPath}`;
     const pageUrl = `${SITE_URL}/${type}/${id}.html`;
-    
-    // Просто подставляем ID в шаблон. Мета-теги подтянутся скриптом на странице
-    let newHtml = template.replace(/<title>.*?<\/title>/, `<title>${title} — MotoGarage NSK</title>`);
-    
+
+    // Читаем наш шаблон (product.html)
+    const templatePath = path.join(OUTPUT_DIR, 'product.html');
+    if (!fs.existsSync(templatePath)) {
+        console.error('Нет файла product.html!');
+        return;
+    }
+    let newHtml = fs.readFileSync(templatePath, 'utf8');
+
+    // ЖЕСТКО ПРОПИСЫВАЕМ SEO ТЕГИ В HTML
+    newHtml = newHtml
+      .replace(/<title>.*?<\/title>/, `<title>${title} — MotoGarage NSK</title>`)
+      .replace(/<meta name="description" content=".*?">/, `<meta name="description" content="${description}">`)
+      .replace(/<meta property="og:title" content=".*?">/, `<meta property="og:title" content="${title} — MotoGarage NSK">`)
+      .replace(/<meta property="og:description" content=".*?">/, `<meta property="og:description" content="${description}">`)
+      .replace(/<meta property="og:image" content=".*?">/, `<meta property="og:image" content="${imageUrl}">`)
+      .replace(/<meta property="og:url" content=".*?">/, `<meta property="og:url" content="${pageUrl}">`);
+
+    // СОЗДАЕМ ФАЙЛ
     const outDir = path.join(OUTPUT_DIR, type);
     if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
-
-    const outPath = path.join(outDir, `${id}.html`);
-    fs.writeFileSync(outPath, newHtml);
+    fs.writeFileSync(path.join(outDir, `${id}.html`), newHtml);
     console.log(`Сгенерирован: ${type}/${id}.html`);
   });
 });
-console.log('Готово!');
+console.log('Все страницы сгенерированы!');

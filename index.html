@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
@@ -22,23 +22,18 @@
   a { color: inherit; text-decoration: none; }
   .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-  /* --- ШАПКА САЙТА --- */
   header { padding: 12px 0; border-bottom: 1px solid #222; position: sticky; top:0; background:#0e0e10ee; backdrop-filter: blur(6px); z-index:10; }
   header .wrap { display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 12px;}
   
-  /* --- ЛОГОТИП СО СПИДОМЕТРОМ --- */
   .logo { display: flex; align-items: center; font-weight: 900; font-size: 24px; text-transform: uppercase; color: #fff; letter-spacing: 1px; gap: 12px; line-height: 1; }
   .logo-text-wrap { display: flex; align-items: center; }
   .speedo-icon { width: 38px; height: 38px; flex-shrink: 0; display: block; margin-top: 16px; }
   .needle { transform-origin: 50px 50px; animation: rev-engine 3.5s ease-in-out infinite; }
-  @keyframes rev-engine {
-    0% { transform: rotate(-90deg); } 10% { transform: rotate(15deg); } 20% { transform: rotate(-20deg); } 30% { transform: rotate(50deg); } 40% { transform: rotate(10deg); } 50% { transform: rotate(85deg); } 55% { transform: rotate(70deg); } 60% { transform: rotate(85deg); } 65% { transform: rotate(75deg); } 75% { transform: rotate(85deg); } 90% { transform: rotate(-90deg); } 100% { transform: rotate(-90deg); }
-  }
+  @keyframes rev-engine { 0% { transform: rotate(-90deg); } 10% { transform: rotate(15deg); } 20% { transform: rotate(-20deg); } 30% { transform: rotate(50deg); } 40% { transform: rotate(10deg); } 50% { transform: rotate(85deg); } 55% { transform: rotate(70deg); } 60% { transform: rotate(85deg); } 65% { transform: rotate(75deg); } 75% { transform: rotate(85deg); } 90% { transform: rotate(-90deg); } 100% { transform: rotate(-90deg); } }
   .logo-badge { border: 2px solid #ff5a1f; color: #ff5a1f; padding: 2px 8px; border-radius: 6px; margin: 0 6px; transition: 0.3s; }
   .logo:hover .logo-badge { background: #ff5a1f; color: #fff; box-shadow: 0 0 15px rgba(255, 90, 31, 0.4); }
   .logo-nsk { font-size: 15px; color: #777; font-weight: 600; }
 
-  /* Контакты в шапке */
   .header-contacts { display: flex; align-items: center; gap: 10px; }
   .contact-text { color: #9a9a9a; font-size: 14px; font-weight: 500; margin-right: 5px; }
   .header-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
@@ -47,7 +42,6 @@
   .social-btn img { height: 18px; width: auto; }
   .tg-icon { fill: #229ED9; width: 18px; height: 18px; }
 
-  /* --- ОСНОВНОЙ КОНТЕНТ --- */
   .hero { padding: 15px 0 25px; text-align:center; }
   .hero h1 { font-size: 40px; line-height:1.15; margin-bottom: 16px; }
   .hero h1 span { color:#ff5a1f; }
@@ -86,7 +80,6 @@
 
   footer { border-top:1px solid #222; padding:26px 0; text-align:center; font-size:13px; color:#666; }
 
-  /* --- НАСТРОЙКИ ДЛЯ МОБИЛЬНЫХ ТЕЛЕФОНОВ --- */
   @media (max-width: 600px){
     .logo { font-size: 19px; gap: 8px; }
     .speedo-icon { width: 32px; height: 32px; margin-top: 12px; }
@@ -292,13 +285,11 @@
 
 <!-- СКРИПТ АВТОМАТИЧЕСКОЙ ЗАГРУЗКИ ТОВАРОВ С АВТООБНОВЛЕНИЕМ -->
 <script>
-  // 1. Жесткое удаление значка Netlify
   setInterval(function() {
     const badge = document.querySelector('#netlify-badge, a[href*="netlify.com"], div[class*="netlify"]');
     if (badge) { badge.style.display = 'none'; badge.remove(); }
   }, 500);
 
-  // 2. Умная загрузка каталога (Stale-While-Revalidate)
   async function loadCatalog(folder, containerId) {
     const container = document.getElementById(containerId);
     const cacheKey = `catalog_${folder}`;
@@ -314,14 +305,12 @@
       }
     } catch(e) {}
 
-    // ШАГ 1: Мгновенно показываем старые данные (если они есть)
     if (cachedData && cachedData.length > 0) {
       renderCards(cachedData, container, folder);
     } else {
       container.innerHTML = '<p style="color:#9a9a9a; text-align:center; grid-column: 1/-1;">Загрузка товаров...</p>';
     }
 
-    // ШАГ 2: Проверяем обновления на GitHub (не чаще 1 раза в минуту)
     const ttl = 60 * 1000; 
     
     if (!cachedData || (Date.now() - cacheTime > ttl)) {
@@ -337,10 +326,8 @@
         const promises = jsonFiles.map(file => fetch(file.download_url + `?t=${Date.now()}`).then(r => r.json()));
         const items = await Promise.all(promises);
         
-        // Сохраняем в кэш вместе с текущим временем
         localStorage.setItem(cacheKey, JSON.stringify({ data: items, time: Date.now() }));
         
-        // Обновляем карточки на экране свежими данными
         renderCards(items, container, folder);
         
       } catch (e) {
@@ -352,7 +339,6 @@
     }
   }
 
-  // 3. Отрисовка карточек
   function renderCards(items, container, folder) {
     container.innerHTML = '';
     if (items.length === 0) {
@@ -364,7 +350,7 @@
       const img = item.image || 'favicon.png';
       
       container.innerHTML += `
-         <a class="card active-card" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}&v=${Date.now()}">
+         <a class="card active-card" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
           ${statusBadge}
           <div class="img" style="background-image:url('${img}')"></div>
           <div class="body">
@@ -378,7 +364,6 @@
     });
   }
 
-  // Запускаем загрузку
   loadCatalog('moto', 'moto-container');
   loadCatalog('akrap', 'akrap-container');
 </script>

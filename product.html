@@ -4,16 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Загрузка товара — MotoGarage NSK</title>
-
-<!-- Базовые SEO-теги -->
 <meta name="description" content="Оригинальные мотоциклы и выхлоп Akrapovič из Японии. Доставка в Новосибирск и по России.">
 <meta property="og:type" content="product">
 <meta property="og:site_name" content="MotoGarage NSK">
 <meta property="og:image" content="https://motogarage-nsk.ru/favicon.png">
 <meta name="twitter:card" content="summary_large_image">
 
-<!-- Markdown-парсер -->
-<script src="marked.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/marked/marked.min.js';document.head.appendChild(s);"></script>
+<!-- Markdown-парсер (безопасный фолбэк без document.write) -->
+<script src="marked.min.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', function() {
+    if (typeof marked === 'undefined') {
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+      document.head.appendChild(s);
+    }
+  });
+</script>
 
 <link rel="icon" type="image/png" href="favicon.png">
 <style>
@@ -151,13 +158,11 @@
   const type = params.get('type') || 'moto';
   const id = params.get('id');
 
-  // Утилита для безопасного вывода текста (защита от XSS и кавычек в названии)
   function esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  // Утилита для правильного пути картинки
   function absoluteImageUrl(p) {
     if (!p) return window.location.origin + '/favicon.png';
     p = String(p).trim();
@@ -166,7 +171,6 @@
     return window.location.origin + '/' + encodeURI(p);
   }
 
-  // Парсер Markdown
   function parseMarkdown(text) {
     if (!text) return '';
     const emojiMap = {
@@ -192,7 +196,8 @@
   } else {
     const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
-    fetch(`data/${type}/${id}.json`)
+    // Пытаемся загрузить точный ID, если не вышло — пробуем cleanId
+    fetch(`data/${type}/${encodeURIComponent(id)}.json`)
       .then(res => res.ok ? res : fetch(`data/${type}/${cleanId}.json`))
       .then(res => {
         if (!res.ok) throw new Error("Файл товара не найден");
@@ -201,7 +206,7 @@
       .then(item => {
         document.title = (item.title || 'Товар') + " — MotoGarage NSK";
 
-        // === ОБНОВЛЕНИЕ SEO ТЕГОВ ===
+        // SEO
         let cleanDescription = item.desc || 'Оригинальный выхлоп Akrapovič и мотоциклы из Японии в Новосибирске.';
         if (item.docs || item.body) {
           cleanDescription = String(item.docs || item.body).replace(/<[^>]*>?/gm, '').replace(/\*\*/g, '').replace(/\s+/g, ' ').trim().substring(0, 160) + '...';
@@ -216,9 +221,8 @@
         setMeta('meta[property="og:title"]', (item.title || 'Товар') + ' — MotoGarage NSK');
         setMeta('meta[property="og:description"]', cleanDescription);
         setMeta('meta[property="og:image"]', imageUrl);
-        // ==============================
 
-        // === СБОР КАРТИНОК ===
+        // Галерея
         currentImages = [];
         if (item.image) currentImages.push(item.image);
         if (Array.isArray(item.gallery)) {
@@ -270,7 +274,6 @@
           docsHtml = `<div class="desc-title" style="margin-top:20px;">Описание</div><div class="desc-text">${parseMarkdown(rawText)}</div>`;
         }
 
-        // === РЕНДЕР ===
         document.getElementById('product-content').innerHTML = `
           <div class="gallery">
             <div class="main-img" id="mainSlider">${mainImgHtml}</div>

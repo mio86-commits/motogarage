@@ -135,7 +135,6 @@
   let currentIndex = 0;
 
   const params = new URLSearchParams(window.location.search);
-  // УМНОЕ ОПРЕДЕЛЕНИЕ ПАПКИ: если в ссылке есть /akrap/, то ищем в akrap, иначе в moto
   const type = window.location.pathname.includes('/akrap/') ? 'akrap' : (params.get('type') || 'moto');
   
   let id = params.get('id');
@@ -156,7 +155,6 @@
   if (!id) {
     document.getElementById('loading').innerText = "Ошибка: Товар не найден (нет ID).";
   } else {
-    // Берем имя файла напрямую
     const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     const jsonUrl = `data/${type}/${cleanId}.json`;
 

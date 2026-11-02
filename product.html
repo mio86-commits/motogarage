@@ -192,9 +192,12 @@
         if (!cleanDescription) { cleanDescription = 'Оригинальный выхлоп Akrapovič и мотоциклы из Японии в Новосибирске.'; }
         
         let imgPath = item.image || 'favicon.png';
-        if (!imgPath.includes('/')) {
+        if (!imgPath.startsWith('/') && !imgPath.startsWith('http')) {
+            // Если это просто имя файла, пробуем найти его в корне и в uploads
+            // Сначала проверяем, есть ли он в images/uploads/
             imgPath = 'images/uploads/' + imgPath;
         }
+        imgPath = imgPath.toLowerCase();
         imgPath = imgPath.toLowerCase();
         const imageUrl = window.location.origin + '/' + imgPath.replace(/^\//, '');
 

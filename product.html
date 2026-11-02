@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Базовые теги для ботов (скрипт их обновит, когда загрузит товар) -->
 <title>Загрузка товара — MotoGarage NSK</title>
-<meta name="description" content="Оригинальные мотоциклы и выхлоп Akrapovič из Японии. Доставка в Новосибирск.">
+
+<!-- Базовые SEO-теги -->
+<meta name="description" content="Оригинальные мотоциклы и выхлоп Akrapovič из Японии. Доставка в Новосибирск и по России.">
 <meta property="og:type" content="product">
 <meta property="og:site_name" content="MotoGarage NSK">
 <meta property="og:image" content="https://motogarage-nsk.ru/favicon.png">
+<meta name="twitter:card" content="summary_large_image">
 
-<script src="marked.min.js"></script>
-<script>
-  if (typeof marked === 'undefined') {
-    document.write('<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\/script>');
-  }
-</script>
+<!-- Markdown-парсер -->
+<script src="marked.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/marked/marked.min.js';document.head.appendChild(s);"></script>
+
 <link rel="icon" type="image/png" href="favicon.png">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,7 +22,7 @@
   a { color: inherit; text-decoration: none; }
   .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
-  /* --- ТОЧНАЯ КОПИЯ ШАПКИ С ГЛАВНОЙ --- */
+  /* Шапка */
   header { padding: 12px 0; border-bottom: 1px solid #222; margin-bottom: 15px; }
   header .wrap { display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 12px; padding-top:0; padding-bottom:0;}
   .logo { display: flex; align-items: center; font-weight: 900; font-size: 22px; text-transform: uppercase; color: #fff; letter-spacing: 1px; gap: 10px; line-height: 1; }
@@ -46,7 +45,7 @@
   .back-link { color: #9a9a9a; font-size: 14px; display: block; margin-bottom: 10px; }
   .back-link:hover { color: #ff5a1f; }
 
-  /* Сетка товара */
+  /* Сетка */
   .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
   @media (max-width: 800px) { .product-grid { grid-template-columns: 1fr; gap: 20px; } .contact-text { display: none; } header .wrap { justify-content: center; } .speedo-icon { width: 28px; height: 28px; margin-top: 10px; } .logo { font-size: 18px; gap: 6px; } .logo-nsk { font-size: 12px; } }
 
@@ -78,7 +77,6 @@
   .desc-text ul, .desc-text ol { margin-bottom: 15px; padding-left: 20px; }
   .desc-text li { margin-bottom: 5px; }
   .desc-text a { color: #ff5a1f; text-decoration: underline; }
-
   .features-list { list-style: none; padding-left: 0; margin: 15px 0; background: #16161a; padding: 15px; border-radius: 8px; border: 1px solid #24242a; }
   .features-list li { margin-bottom: 8px; display: flex; align-items: flex-start; font-size: 15px; color: #fff; font-weight: 500; }
   .features-list li:last-child { margin-bottom: 0; }
@@ -153,6 +151,22 @@
   const type = params.get('type') || 'moto';
   const id = params.get('id');
 
+  // Утилита для безопасного вывода текста (защита от XSS и кавычек в названии)
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // Утилита для правильного пути картинки
+  function absoluteImageUrl(p) {
+    if (!p) return window.location.origin + '/favicon.png';
+    p = String(p).trim();
+    if (/^https?:\/\//i.test(p)) return p;
+    p = p.replace(/^\/+/, '');
+    return window.location.origin + '/' + encodeURI(p);
+  }
+
+  // Парсер Markdown
   function parseMarkdown(text) {
     if (!text) return '';
     const emojiMap = {
@@ -169,119 +183,123 @@
     }
     if (typeof marked !== 'undefined') {
       return marked.parse(processedText, { breaks: true });
-    } else {
-      return processedText.replace(/\n/g, '<br>');
     }
+    return processedText.replace(/\n/g, '<br>');
   }
 
   if (!id) {
     document.getElementById('loading').innerText = "Ошибка: Товар не найден.";
   } else {
     const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    
+
     fetch(`data/${type}/${id}.json`)
-      .then(res => {
-        if (!res.ok) return fetch(`data/${type}/${cleanId}.json`);
-        return res;
-      })
+      .then(res => res.ok ? res : fetch(`data/${type}/${cleanId}.json`))
       .then(res => {
         if (!res.ok) throw new Error("Файл товара не найден");
         return res.json();
       })
       .then(item => {
-        document.title = item.title + " — MotoGarage NSK";
-        
-        // === ОБНОВЛЯЕМ SEO-ТЕГИ ДЛЯ БОТОВ ===
+        document.title = (item.title || 'Товар') + " — MotoGarage NSK";
+
+        // === ОБНОВЛЕНИЕ SEO ТЕГОВ ===
         let cleanDescription = item.desc || 'Оригинальный выхлоп Akrapovič и мотоциклы из Японии в Новосибирске.';
         if (item.docs || item.body) {
-           cleanDescription = (item.docs || item.body).replace(/<[^>]*>?/gm, '').replace(/\*\*/g, '').substring(0, 160) + '...';
+          cleanDescription = String(item.docs || item.body).replace(/<[^>]*>?/gm, '').replace(/\*\*/g, '').replace(/\s+/g, ' ').trim().substring(0, 160) + '...';
         }
-        const imageUrl = item.image ? window.location.origin + '/' + item.image.replace(/^\//, '') : window.location.origin + '/favicon.png';
+        const imageUrl = absoluteImageUrl(item.image);
 
-        document.querySelector('meta[name="description"]').setAttribute("content", cleanDescription);
-        document.querySelector('meta[property="og:title"]').setAttribute("content", item.title + " — MotoGarage NSK");
-        document.querySelector('meta[property="og:description"]').setAttribute("content", cleanDescription);
-        document.querySelector('meta[property="og:image"]').setAttribute("content", imageUrl);
-        document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
-        // ==================================
+        function setMeta(selector, value) {
+          const el = document.querySelector(selector);
+          if (el) el.setAttribute('content', value);
+        }
+        setMeta('meta[name="description"]', cleanDescription);
+        setMeta('meta[property="og:title"]', (item.title || 'Товар') + ' — MotoGarage NSK');
+        setMeta('meta[property="og:description"]', cleanDescription);
+        setMeta('meta[property="og:image"]', imageUrl);
+        // ==============================
 
+        // === СБОР КАРТИНОК ===
         currentImages = [];
         if (item.image) currentImages.push(item.image);
-        if (item.gallery && Array.isArray(item.gallery)) { 
-            item.gallery.forEach(g => {
-                if (typeof g === 'string' && g.trim() !== '') currentImages.push(g);
-                else if (g && typeof g === 'object' && g.image) currentImages.push(g.image);
-            }); 
+        if (Array.isArray(item.gallery)) {
+          item.gallery.forEach(g => {
+            if (typeof g === 'string' && g.trim()) currentImages.push(g.trim());
+            else if (g && typeof g === 'object' && g.image) currentImages.push(g.image);
+          });
         }
-        if (currentImages.length === 0) currentImages.push('favicon.png'); 
+        currentImages = currentImages.filter(x => x && String(x).trim());
+        if (currentImages.length === 0) currentImages.push('favicon.png');
 
         let mainImgHtml = '';
         let thumbsHtml = '';
         currentImages.forEach((img, index) => {
-          mainImgHtml += `<img src="${img}" alt="${item.title}" onclick="handleImgClick(${index})">`;
-          thumbsHtml += `<div class="thumb ${index===0?'active':''}" onclick="changePhoto(${index}, this)"><img src="${img}"></div>`;
+          const src = esc(img);
+          const alt = esc(item.title || 'Фото');
+          mainImgHtml += `<img src="${src}" alt="${alt}" onclick="handleImgClick(${index})">`;
+          thumbsHtml += `<div class="thumb ${index === 0 ? 'active' : ''}" onclick="changePhoto(${index}, this)"><img src="${src}" alt=""></div>`;
         });
 
         const statusBadge = item.status === 'В пути' ? '<span class="badge badge-blue">🚢 В пути</span>' : '<span class="badge">В наличии</span>';
 
         let specsHtml = '';
-        if (item.specs && Array.isArray(item.specs) && item.specs.length > 0) {
+        if (Array.isArray(item.specs) && item.specs.length > 0) {
           specsHtml = '<ul class="specs">';
           item.specs.forEach(spec => {
-            if (spec.label || spec.value) {
-              specsHtml += `<li><span class="label">${spec.label || ''}</span><span class="value">${spec.value || ''}</span></li>`;
+            if (spec && (spec.label || spec.value)) {
+              specsHtml += `<li><span class="label">${esc(spec.label || '')}</span><span class="value">${esc(spec.value || '')}</span></li>`;
             }
           });
           specsHtml += '</ul>';
         }
 
         let featuresHtml = '';
-        if (item.features && Array.isArray(item.features) && item.features.length > 0) {
+        if (Array.isArray(item.features) && item.features.length > 0) {
           let tempFeatures = '';
           item.features.forEach(feat => {
             let text = typeof feat === 'string' ? feat : (feat && feat.text ? feat.text : '');
-            if (text.trim() !== '') tempFeatures += `<li>🔥 ${text}</li>`;
+            if (text && text.trim()) tempFeatures += `<li>🔥 ${esc(text.trim())}</li>`;
           });
-          if (tempFeatures !== '') {
-             featuresHtml = `<div class="desc-title">Главные фишки:</div><ul class="features-list">${tempFeatures}</ul>`;
+          if (tempFeatures) {
+            featuresHtml = `<div class="desc-title">Главные фишки:</div><ul class="features-list">${tempFeatures}</ul>`;
           }
         }
 
         let docsHtml = '';
         const rawText = item.docs || item.body || '';
-        if (rawText && rawText.trim() !== '') {
+        if (rawText && String(rawText).trim()) {
           docsHtml = `<div class="desc-title" style="margin-top:20px;">Описание</div><div class="desc-text">${parseMarkdown(rawText)}</div>`;
         }
 
+        // === РЕНДЕР ===
         document.getElementById('product-content').innerHTML = `
           <div class="gallery">
             <div class="main-img" id="mainSlider">${mainImgHtml}</div>
             <div class="thumbs">${thumbsHtml}</div>
           </div>
           <div class="info-block">
-            <h1>${item.title || 'Без названия'}</h1>
+            <h1>${esc(item.title || 'Без названия')}</h1>
             <div>${statusBadge}</div>
-            <div class="price">${item.price || 'Цена по запросу'}</div>
+            <div class="price">${esc(item.price || 'Цена по запросу')}</div>
             ${specsHtml}
             ${featuresHtml}
             ${docsHtml}
             <div style="text-align: center; margin-top: 20px; padding: 15px; background: #16161a; border: 1px solid #24242a; border-radius: 10px;">
-                <div style="color: #9a9a9a; font-size: 14px; margin-bottom: 8px;">Связаться напрямую:</div>
-                <a href="tel:+79833112444" style="display: inline-block; font-size: 24px; font-weight: 800; color: #ff5a1f; text-decoration: none; padding: 8px 16px; background: #24242a; border-radius: 8px;">+7 (983) 311-24-44</a>
+              <div style="color: #9a9a9a; font-size: 14px; margin-bottom: 8px;">Связаться напрямую:</div>
+              <a href="tel:+79833112444" style="display: inline-block; font-size: 24px; font-weight: 800; color: #ff5a1f; text-decoration: none; padding: 8px 16px; background: #24242a; border-radius: 8px;">+7 (983) 311-24-44</a>
             </div>
             <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
-                <a href="https://t.me/Ivan_IM_Moto" target="_blank" class="btn-buy" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 140px; margin-top: 0; text-decoration: none; font-size: 16px;">
-                    <svg style="fill: #fff; width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg> Telegram
-                </a>
-                <a href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" class="btn-buy" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 140px; margin-top: 0; background: #0077FF; color: #fff; text-decoration: none; font-size: 16px;">
-                    <span style="display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 50%; width: 24px; height: 24px;">
-                        <img src="MAX.png" alt="MAX" style="height: 16px; width: auto; border-radius: 2px;">
-                    </span> MAX
-                </a>
+              <a href="https://t.me/Ivan_IM_Moto" target="_blank" rel="noopener" class="btn-buy" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 140px; margin-top: 0; text-decoration: none; font-size: 16px;">
+                <svg style="fill: #fff; width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg> Telegram
+              </a>
+              <a href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" rel="noopener" class="btn-buy" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 140px; margin-top: 0; background: #0077FF; color: #fff; text-decoration: none; font-size: 16px;">
+                <span style="display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 50%; width: 24px; height: 24px;">
+                  <img src="MAX.png" alt="MAX" style="height: 16px; width: auto; border-radius: 2px;">
+                </span> MAX
+              </a>
             </div>
           </div>
         `;
-        
+
         document.getElementById('loading').style.display = 'none';
         document.getElementById('product-content').style.display = 'grid';
         initGallery();
@@ -293,6 +311,7 @@
 
   function initGallery() {
     const slider = document.getElementById('mainSlider');
+    if (!slider) return;
     const thumbs = document.querySelectorAll('.thumb');
     let touchStartX = 0, touchStartY = 0, isSwiping = false;
 
@@ -308,20 +327,22 @@
       if (isSwiping) { e.preventDefault(); e.stopPropagation(); }
     }, true);
 
-    slider.addEventListener('scroll', () => { 
-      const index = Math.round(slider.scrollLeft / slider.clientWidth); 
-      if (thumbs[index]) { 
-        thumbs.forEach(t => t.classList.remove('active')); 
-        thumbs[index].classList.add('active'); 
-      } 
+    slider.addEventListener('scroll', () => {
+      if (slider.clientWidth === 0) return;
+      const index = Math.round(slider.scrollLeft / slider.clientWidth);
+      if (thumbs[index]) {
+        thumbs.forEach(t => t.classList.remove('active'));
+        thumbs[index].classList.add('active');
+      }
     });
   }
 
-  function changePhoto(index, element) { 
+  function changePhoto(index, element) {
     const slider = document.getElementById('mainSlider');
-    slider.scrollTo({ left: index * slider.clientWidth, behavior: 'smooth' }); 
-    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active')); 
-    if (element) element.classList.add('active'); 
+    if (!slider || slider.clientWidth === 0) return;
+    slider.scrollTo({ left: index * slider.clientWidth, behavior: 'smooth' });
+    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+    if (element) element.classList.add('active');
   }
 
   function handleImgClick(index) {
@@ -344,13 +365,13 @@
     document.getElementById('modalImg').src = currentImages[currentIndex];
   }
 
-  document.addEventListener('keydown', function(event) { 
+  document.addEventListener('keydown', function(event) {
     const modal = document.getElementById('photoModal');
-    if (modal.classList.contains('show')) { 
-      if (event.key === 'Escape') closeModal(); 
-      if (event.key === 'ArrowLeft') changeModalPhoto(-1); 
-      if (event.key === 'ArrowRight') changeModalPhoto(1); 
-    } 
+    if (modal && modal.classList.contains('show')) {
+      if (event.key === 'Escape') closeModal();
+      if (event.key === 'ArrowLeft') changeModalPhoto(-1);
+      if (event.key === 'ArrowRight') changeModalPhoto(1);
+    }
   });
 
   document.getElementById('photoModal').addEventListener('click', function(event) {

@@ -1,0 +1,38 @@
+name: Generate Static Product Pages
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'data/**'
+  repository_dispatch:
+    types: [sveltia-cms-publish]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate Static Pages
+        run: node scripts/generate-pages.js
+
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

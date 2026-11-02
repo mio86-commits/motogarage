@@ -1,21 +1,21 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- ЗАЩИТА ОТ КЭША (чтобы браузер всегда брал свежий файл) -->
+  <!-- ЗАЩИТА ОТ КЭША -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
 
   <title>MotoGarage NSK — мотоциклы и выхлоп Akrapovič</title>
   
-  <!-- SEO И OPENGRAPH ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
+  <!-- SEO И OPENGRAPH -->
   <meta name="description" content="MotoGarage NSK — продажа мотоциклов и оригинальных выхлопных систем Akrapovič из Японии. Доставка в Новосибирск и по всей России.">
   <meta property="og:title" content="MotoGarage NSK — мотоциклы и выхлоп Akrapovič">
   <meta property="og:description" content="Проверенная техника и оригинальные комплекты выхлопных систем. Доставка из Японии.">
-  <meta property="og:image" content="https://motogarage-nsk.ru/favicon.png">
+  <meta property="og:image" content="https://motogarage-nsk.ru/a1.jpg"> <!-- Лучше потом поменять на логотип -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://motogarage-nsk.ru/">
   <meta property="og:site_name" content="MotoGarage NSK">
@@ -118,7 +118,6 @@
 
 <header>
   <div class="wrap">
-    <!-- ИСПРАВЛЕНО: ссылка на главную теперь всегда обновляет кэш -->
     <a href="index.html" onclick="window.location.replace('index.html?v=' + new Date().getTime()); return false;" class="logo" title="На главную">
       <svg class="speedo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#444" stroke-width="7" stroke-linecap="round"/>
@@ -180,6 +179,10 @@
   <h2 class="section-title" style="margin-top: 50px;">🏆 Наша гордость: уже продано</h2>
   <p style="text-align: center; color: #9a9a9a; margin-bottom: 20px;">С 2019 года мы привезли и передали владельцам десятки мотоциклов. Вот лишь некоторые из них:</p>
   
+  <!-- СЮДА БУДУТ ПАДАТЬ ПРОДАННЫЕ МОТОЦИКЛЫ ИЗ АДМИНКИ -->
+  <div class="grid" id="sold-moto-container" style="margin-bottom: 20px;"></div>
+
+  <!-- СТАТИЧЕСКИЕ КАРТОЧКИ (ОСТАЮТСЯ КАК ИСТОРИЯ) -->
   <div class="grid">
     <div class="card sold-card">
       <div class="status-sold">Продан</div>
@@ -298,19 +301,16 @@
 
 <!-- СКРИПТ АВТОМАТИЧЕСКОЙ ЗАГРУЗКИ ТОВАРОВ С АВТООБНОВЛЕНИЕМ -->
 <script>
-  // 1. Жесткое удаление значка Netlify
   setInterval(function() {
     const badge = document.querySelector('#netlify-badge, a[href*="netlify.com"], div[class*="netlify"]');
     if (badge) { badge.style.display = 'none'; badge.remove(); }
   }, 500);
 
-  // 2. Принудительное обновление при возврате (назад из браузера)
   if (performance.navigation.type === 2) {
     location.reload(true);
   }
 
-  // 3. Умная загрузка каталога (Stale-While-Revalidate)
-  async function loadCatalog(folder, containerId) {
+  async function loadCatalog(folder, containerId, soldContainerId) {
     const container = document.getElementById(containerId);
     const cacheKey = `catalog_${folder}`;
     
@@ -325,14 +325,12 @@
       }
     } catch(e) {}
 
-    // ШАГ 1: Мгновенно показываем старые данные (если они есть)
     if (cachedData && cachedData.length > 0) {
-      renderCards(cachedData, container, folder);
+      renderCards(cachedData, container, folder, soldContainerId);
     } else {
       container.innerHTML = '<p style="color:#9a9a9a; text-align:center; grid-column: 1/-1;">Загрузка товаров...</p>';
     }
 
-    // ШАГ 2: Проверяем обновления на GitHub (не чаще 1 раза в минуту)
     const ttl = 60 * 1000; 
     
     if (!cachedData || (Date.now() - cacheTime > ttl)) {
@@ -348,11 +346,8 @@
         const promises = jsonFiles.map(file => fetch(file.download_url + `?t=${Date.now()}`).then(r => r.json()));
         const items = await Promise.all(promises);
         
-        // Сохраняем в кэш вместе с текущим временем
         localStorage.setItem(cacheKey, JSON.stringify({ data: items, time: Date.now() }));
-        
-        // Обновляем карточки на экране свежими данными
-        renderCards(items, container, folder);
+        renderCards(items, container, folder, soldContainerId);
         
       } catch (e) {
         console.error(e);
@@ -363,35 +358,57 @@
     }
   }
 
-  // 4. Отрисовка карточек
-  function renderCards(items, container, folder) {
+  function renderCards(items, container, folder, soldContainerId) {
     container.innerHTML = '';
-    if (items.length === 0) {
-       container.innerHTML = '<p style="color:#9a9a9a; text-align:center; grid-column: 1/-1;">Товаров пока нет.</p>';
-       return;
+    const soldContainer = soldContainerId ? document.getElementById(soldContainerId) : null;
+    if (soldContainer) soldContainer.innerHTML = '';
+
+    const activeItems = items.filter(item => item.status !== 'Продан');
+    const soldItems = items.filter(item => item.status === 'Продан');
+
+    if (activeItems.length === 0) {
+       container.innerHTML = '<p style="color:#9a9a9a; text-align:center; grid-column: 1/-1;">Товаров в наличии пока нет.</p>';
+    } else {
+        activeItems.forEach(item => {
+          const statusBadge = item.status === 'В пути' ? '<div class="status-badge">🚢 В пути</div>' : '';
+          const img = item.image || 'favicon.png';
+          
+          container.innerHTML += `
+             <a class="card active-card" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
+              ${statusBadge}
+              <div class="img" style="background-image:url('${img}')"></div>
+              <div class="body">
+                <h3>${item.title}</h3>
+                <div class="desc">${item.desc}</div>
+                <div class="price">${item.price}</div>
+                <div class="btn btn-detail">Подробнее</div>
+              </div>
+            </a>
+          `;
+        });
     }
-    items.forEach(item => {
-      const statusBadge = item.status === 'В пути' ? '<div class="status-badge">🚢 В пути</div>' : '';
-      const img = item.image || 'favicon.png';
-      
-      container.innerHTML += `
-         <a class="card active-card" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
-          ${statusBadge}
-          <div class="img" style="background-image:url('${img}')"></div>
-          <div class="body">
-            <h3>${item.title}</h3>
-            <div class="desc">${item.desc}</div>
-            <div class="price">${item.price}</div>
-            <div class="btn btn-detail">Подробнее</div>
-          </div>
-        </a>
-      `;
-    });
+
+    if (soldContainer && soldItems.length > 0) {
+        soldItems.forEach(item => {
+          const img = item.image || 'favicon.png';
+          soldContainer.innerHTML += `
+             <div class="card sold-card">
+              <div class="status-sold">Продан</div>
+              <div class="img" style="background-image:url('${img}')"></div>
+              <div class="body">
+                <h3>${item.title}</h3>
+                <div class="desc">${item.desc}</div>
+                <div class="price" style="color: #666; text-decoration: line-through;">${item.price}</div>
+              </div>
+            </div>
+          `;
+        });
+    }
   }
 
-  // Запускаем загрузку
-  loadCatalog('moto', 'moto-container');
-  loadCatalog('akrap', 'akrap-container');
+  // Запускаем загрузку с указанием контейнеров для проданных
+  loadCatalog('moto', 'moto-container', 'sold-moto-container');
+  loadCatalog('akrap', 'akrap-container', null); // Для выхлопов не делаем блок "продано", если не нужно
 </script>
 
 </body>

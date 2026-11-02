@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Загрузка... — MotoGarage NSK</title>
+<!-- Базовые теги для ботов (скрипт их обновит, когда загрузит товар) -->
+<title>Загрузка товара — MotoGarage NSK</title>
+<meta name="description" content="Оригинальные мотоциклы и выхлоп Akrapovič из Японии. Доставка в Новосибирск.">
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="MotoGarage NSK">
+<meta property="og:image" content="https://motogarage-nsk.ru/favicon.png">
+
 <script src="marked.min.js"></script>
 <script>
   if (typeof marked === 'undefined') {
@@ -149,7 +155,6 @@
 
   function parseMarkdown(text) {
     if (!text) return '';
-    
     const emojiMap = {
       ':fire:': '🔥', ':white_check_mark:': '✅', ':heavy_check_mark:': '✔️',
       ':star:': '⭐', ':star2:': '🌟', ':motorcycle:': '🏍️', ':dash:': '💨',
@@ -158,12 +163,10 @@
       ':thumbsup:': '👍', ':100:': '💯', ':gift:': '🎁', ':page_facing_up:': '📄',
       ':clipboard:': '📋', ':passport_control:': '🛂', ':memo:': '📝'
     };
-    
     let processedText = text;
     for (const [code, emoji] of Object.entries(emojiMap)) {
       processedText = processedText.split(code).join(emoji);
     }
-
     if (typeof marked !== 'undefined') {
       return marked.parse(processedText, { breaks: true });
     } else {
@@ -174,24 +177,34 @@
   if (!id) {
     document.getElementById('loading').innerText = "Ошибка: Товар не найден.";
   } else {
-    // УМНЫЙ ПОИСК ФАЙЛА: сначала ищем как есть, потом заменяем пробелы на дефисы
     const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     
     fetch(`data/${type}/${id}.json`)
       .then(res => {
-        if (!res.ok) {
-           // Если не нашли по оригинальному ID, пробуем "чистое" имя
-           return fetch(`data/${type}/${cleanId}.json`);
-        }
+        if (!res.ok) return fetch(`data/${type}/${cleanId}.json`);
         return res;
       })
       .then(res => {
-        if (!res.ok) throw new Error("Файл товара не найден ни по ID, ни по очищенному названию");
+        if (!res.ok) throw new Error("Файл товара не найден");
         return res.json();
       })
       .then(item => {
         document.title = item.title + " — MotoGarage NSK";
         
+        // === ОБНОВЛЯЕМ SEO-ТЕГИ ДЛЯ БОТОВ ===
+        let cleanDescription = item.desc || 'Оригинальный выхлоп Akrapovič и мотоциклы из Японии в Новосибирске.';
+        if (item.docs || item.body) {
+           cleanDescription = (item.docs || item.body).replace(/<[^>]*>?/gm, '').replace(/\*\*/g, '').substring(0, 160) + '...';
+        }
+        const imageUrl = item.image ? window.location.origin + '/' + item.image.replace(/^\//, '') : window.location.origin + '/favicon.png';
+
+        document.querySelector('meta[name="description"]').setAttribute("content", cleanDescription);
+        document.querySelector('meta[property="og:title"]').setAttribute("content", item.title + " — MotoGarage NSK");
+        document.querySelector('meta[property="og:description"]').setAttribute("content", cleanDescription);
+        document.querySelector('meta[property="og:image"]').setAttribute("content", imageUrl);
+        document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
+        // ==================================
+
         currentImages = [];
         if (item.image) currentImages.push(item.image);
         if (item.gallery && Array.isArray(item.gallery)) { 

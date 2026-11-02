@@ -364,7 +364,7 @@
       const img = item.image || 'favicon.png';
       
       container.innerHTML += `
-         <a class="card active-card" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
+         <a class="card active-card" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}&v=${Date.now()}">
           ${statusBadge}
           <div class="img" style="background-image:url('${img}')"></div>
           <div class="body">

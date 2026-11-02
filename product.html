@@ -164,21 +164,14 @@
 
   if (!id) {
     document.getElementById('loading').innerText = "Ошибка: Товар не найден (нет ID).";
-  } else {
-    // Жестко указываем путь к JSON
-const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-let jsonUrl = `data/${type}/${cleanId}.json`;    
-    fetch(jsonUrl)
+    } else {
+    // Формируем "чистое" имя для поиска файла (например, kawasaki-ninja-400-2015)
+    const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    
+    // Ищем файл сразу по правильному пути
+    fetch(`data/${type}/${cleanId}.json`)
       .then(res => {
-        // Если не нашли по прямому пути, пробуем заменить все не-буквы на дефисы
-        if (!res.ok) {
-            const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-            return fetch(`data/${type}/${cleanId}.json`);
-        }
-        return res;
-      })
-      .then(res => {
-        if (!res.ok) throw new Error(`Файл ${id}.json не найден в папке data/${type}`);
+        if (!res.ok) throw new Error(`Файл ${cleanId}.json не найден в папке data/${type}`);
         return res.json();
       })
       .then(item => {

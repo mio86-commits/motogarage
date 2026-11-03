@@ -148,7 +148,6 @@
   if (!id) {
     document.getElementById('loading').innerText = "Ошибка: Товар не найден.";
   } else {
-    // УМНЫЙ ПОИСК (тот самый, который мы делали)
     const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     
     fetch(`data/${type}/${id}.json`)
@@ -169,13 +168,16 @@
         setMeta('meta[property="og:image"]', imageUrl);
         setMeta('meta[property="og:url"]', window.location.href);
 
-        // Галерея
+        // ГАЛЕРЕЯ (УМНЫЙ СБОРЩИК)
         currentImages = [];
         if (item.image) currentImages.push(item.image);
         if (item.gallery && Array.isArray(item.gallery)) { 
             item.gallery.forEach(g => {
-                if (typeof g === 'string' && g.trim() !== '') currentImages.push(g);
-                else if (g && typeof g === 'object' && g.image) currentImages.push(g.image);
+                if (typeof g === 'string' && g.trim() !== '') {
+                    currentImages.push(g); // Новый формат Sveltia (просто строка)
+                } else if (g && typeof g === 'object' && g.image) {
+                    currentImages.push(g.image); // Старый формат (объект)
+                }
             }); 
         }
         if (currentImages.length === 0) currentImages.push('favicon.png'); 

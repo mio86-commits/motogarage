@@ -11,7 +11,7 @@ public_folder: "/images/uploads"
 site_url: https://motogarage-nsk.ru
 display_url: https://motogarage-nsk.ru
 
-# --- АВТОМАТИЧЕСКОЕ СЖАТИЕ ФОТО (JPEG ДЛЯ IPHONE) ---
+# --- АВТОМАТИЧЕСКОЕ СЖАТИЕ ФОТО ---
 media_libraries:
   default:
     config:

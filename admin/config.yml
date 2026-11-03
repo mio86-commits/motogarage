@@ -11,6 +11,17 @@ public_folder: "/images/uploads"
 site_url: https://motogarage-nsk.ru
 display_url: https://motogarage-nsk.ru
 
+# --- АВТОМАТИЧЕСКОЕ СЖАТИЕ ФОТО ---
+media_libraries:
+  default:
+    config:
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2048
+          height: 2048
+
 collections:
   - name: "moto"
     label: "Мотоциклы"

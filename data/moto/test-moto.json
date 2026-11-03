@@ -5,8 +5,12 @@
   "desc": "1",
   "status": "В наличии",
   "image": "/images/uploads/m6.JPG",
-  "gallery": [],
+  "gallery": [
+    "/images/uploads/k5.jpg"
+  ],
   "specs": [],
-  "features": [],
-  "docs": "1"
+  "features": [
+    "111"
+  ],
+  "docs": "111"
 }

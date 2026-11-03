@@ -16,10 +16,10 @@ collections:
     label: "Мотоциклы"
     folder: "data/moto"
     create: true
-    slug: "{{fields.id}}"
+    slug: "{{title | slugify}}"  # Имя файла создается из названия (Kawasaki Ninja 400 -> kawasaki-ninja-400)
     extension: "json"
     fields:
-      - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Например: kawasaki-ninja-400. Только латиница и дефисы!" }
+      - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Оставь пустым, если хочешь, чтобы ID совпадал с названием файла. Или впиши вручную (латиницей)." }
       - { label: "Название", name: "title", widget: "string" }
       - { label: "Цена", name: "price", widget: "string" }
       - { label: "Короткое описание", name: "desc", widget: "string" }
@@ -54,10 +54,10 @@ collections:
     label: "Выхлоп Akrapovič"
     folder: "data/akrap"
     create: true
-    slug: "{{fields.id}}"
+    slug: "{{title | slugify}}"  # Имя файла создается из названия (Yamaha MT-09 -> yamaha-mt-09)
     extension: "json"
     fields:
-      - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Например: akrap-yamaha-mt09. Только латиница и дефисы!" }
+      - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Оставь пустым, если хочешь, чтобы ID совпадал с названием файла. Или впиши вручную (латиницей)." }
       - { label: "Название", name: "title", widget: "string" }
       - { label: "Цена", name: "price", widget: "string" }
       - { label: "Короткое описание", name: "desc", widget: "string" }

@@ -1,8 +1,8 @@
 {
   "id": "test-akr",
-  "title": "test-akr",
-  "price": "50",
-  "desc": "test-akr",
+  "title": "Глушитель Akrapovic Yamaha MT-09",
+  "price": "88000 Р",
+  "desc": "Глушитель Akrapovic Yamaha MT-09",
   "status": "Продан",
   "image": "/images/uploads/IMG_1241.jpeg",
   "gallery": [
@@ -20,5 +20,5 @@
   ],
   "specs": [],
   "features": [],
-  "body": "test-akr"
+  "body": "Глушитель Akrapovic Yamaha MT-09"
 }

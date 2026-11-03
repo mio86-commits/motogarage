@@ -3,15 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Базовые теги для SEO (скрипт их обновит) -->
 <title>Загрузка товара — MotoGarage NSK</title>
 <meta name="description" content="Оригинальные мотоциклы и выхлоп Akrapovič из Японии.">
 <meta property="og:type" content="product">
 <meta property="og:site_name" content="MotoGarage NSK">
-<meta property="og:title" content="MotoGarage NSK">
-<meta property="og:description" content="Оригинальные мотоциклы и выхлоп Akrapovič из Японии.">
 <meta property="og:image" content="https://motogarage-nsk.ru/favicon.png">
-<meta property="og:url" content="https://motogarage-nsk.ru/">
 
 <script src="marked.min.js"></script>
 <script>
@@ -25,7 +21,6 @@
   body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; background:#0e0e10; color:#eaeaea; line-height:1.6; }
   a { color: inherit; text-decoration: none; }
   .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
-
   header { padding: 12px 0; border-bottom: 1px solid #222; margin-bottom: 15px; }
   header .wrap { display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 12px; padding-top:0; padding-bottom:0;}
   .logo { display: flex; align-items: center; font-weight: 900; font-size: 22px; text-transform: uppercase; color: #fff; letter-spacing: 1px; gap: 10px; line-height: 1; }
@@ -36,7 +31,6 @@
   .logo-badge { border: 2px solid #ff5a1f; color: #ff5a1f; padding: 2px 6px; border-radius: 6px; margin: 0 4px; transition: 0.3s; }
   .logo:hover .logo-badge { background: #ff5a1f; color: #fff; box-shadow: 0 0 15px rgba(255, 90, 31, 0.4); }
   .logo-nsk { font-size: 14px; color: #777; font-weight: 600; }
-  
   .header-contacts { display: flex; align-items: center; gap: 10px; }
   .contact-text { color: #9a9a9a; font-size: 14px; font-weight: 500; margin-right: 5px; }
   .header-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
@@ -44,13 +38,10 @@
   .social-btn:hover { border-color: #ff5a1f; background: #24242a; transform: translateY(-1px); }
   .social-btn img { height: 18px; width: auto; }
   .tg-icon { fill: #229ED9; width: 18px; height: 18px; }
-
   .back-link { color: #9a9a9a; font-size: 14px; display: block; margin-bottom: 10px; }
   .back-link:hover { color: #ff5a1f; }
-
   .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
   @media (max-width: 800px) { .product-grid { grid-template-columns: 1fr; gap: 20px; } .contact-text { display: none; } header .wrap { justify-content: center; } .speedo-icon { width: 28px; height: 28px; margin-top: 10px; } .logo { font-size: 18px; gap: 6px; } .logo-nsk { font-size: 12px; } }
-
   .gallery { display: flex; flex-direction: column; gap: 10px; }
   .main-img { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid #24242a; aspect-ratio: 4/3; background: #16161a; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .main-img::-webkit-scrollbar { display: none; }
@@ -59,7 +50,6 @@
   .thumb { aspect-ratio: 1/1; border-radius: 6px; overflow: hidden; border: 2px solid transparent; cursor: pointer; opacity: 0.6; transition: 0.2s; background: #222; }
   .thumb:hover, .thumb.active { opacity: 1; border-color: #ff5a1f; }
   .thumb img { width: 100%; height: 100%; object-fit: cover; }
-
   .info-block h1 { font-size: 26px; margin-bottom: 8px; line-height: 1.2; }
   .badge { display: inline-block; background: #ff5a1f22; color: #ff5a1f; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-bottom: 10px; margin-right: 5px; }
   .badge-blue { background: #0077FF22; color: #4da6ff; }
@@ -77,14 +67,11 @@
   .desc-text ul, .desc-text ol { margin-bottom: 15px; padding-left: 20px; }
   .desc-text li { margin-bottom: 5px; }
   .desc-text a { color: #ff5a1f; text-decoration: underline; }
-
   .features-list { list-style: none; padding-left: 0; margin: 15px 0; background: #16161a; padding: 15px; border-radius: 8px; border: 1px solid #24242a; }
   .features-list li { margin-bottom: 8px; display: flex; align-items: flex-start; font-size: 15px; color: #fff; font-weight: 500; }
   .features-list li:last-child { margin-bottom: 0; }
-  
   .btn-buy { display: block; width: 100%; text-align: center; background: #ff5a1f; color: #fff; padding: 16px; border-radius: 10px; font-weight: 700; font-size: 18px; border: none; cursor: pointer; transition: 0.2s; margin-top: 20px; text-decoration: none; }
   .btn-buy:hover { opacity: 0.9; }
-
   .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
   .modal.show { display: flex; opacity: 1; }
   .modal-content { max-width: 90%; max-height: 90vh; object-fit: contain; border-radius: 8px; animation: zoomIn 0.3s ease; }
@@ -161,7 +148,8 @@
   if (!id) {
     document.getElementById('loading').innerText = "Ошибка: Товар не найден.";
   } else {
-    const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    // УМНЫЙ ПОИСК (тот самый, который мы делали)
+    const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     
     fetch(`data/${type}/${id}.json`)
       .then(res => { if (!res.ok) return fetch(`data/${type}/${cleanId}.json`); return res; })
@@ -169,25 +157,19 @@
       .then(item => {
         document.title = item.title + " — MotoGarage NSK";
         
-        // === ОБНОВЛЯЕМ SEO-ТЕГИ (Защита от null) ===
+        // SEO
         let cleanDescription = item.desc || 'Оригинальный выхлоп Akrapovič и мотоциклы из Японии.';
         if (item.docs || item.body) cleanDescription = (item.docs || item.body).replace(/<[^>]*>?/gm, '').replace(/\*\*/g, '').substring(0, 160) + '...';
-        
         const imgName = item.image || 'favicon.png';
         const imageUrl = imgName.startsWith('http') ? imgName : window.location.origin + '/' + imgName.replace(/^\//, '');
-
-        const setMeta = (selector, content) => {
-          const el = document.querySelector(selector);
-          if (el) el.setAttribute("content", content);
-        };
-
+        const setMeta = (selector, content) => { const el = document.querySelector(selector); if (el) el.setAttribute("content", content); };
         setMeta('meta[name="description"]', cleanDescription);
         setMeta('meta[property="og:title"]', item.title + " — MotoGarage NSK");
         setMeta('meta[property="og:description"]', cleanDescription);
         setMeta('meta[property="og:image"]', imageUrl);
         setMeta('meta[property="og:url"]', window.location.href);
-        // ===========================================
 
+        // Галерея
         currentImages = [];
         if (item.image) currentImages.push(item.image);
         if (item.gallery && Array.isArray(item.gallery)) { 
@@ -205,24 +187,19 @@
           thumbsHtml += `<div class="thumb ${index===0?'active':''}" onclick="changePhoto(${index}, this)"><img src="${img}"></div>`;
         });
 
-        const statusBadge = item.status === 'В пути' ? '<span class="badge badge-blue">🚢 В пути</span>' : '<span class="badge">В наличии</span>';
+        const statusBadge = item.status === 'В пути' ? '<span class="badge badge-blue">🚢 В пути</span>' : (item.status === 'Продан' ? '<span class="badge" style="background:#e6394622; color:#e63946;">Продан</span>' : '<span class="badge">В наличии</span>');
 
         let specsHtml = '';
         if (item.specs && Array.isArray(item.specs) && item.specs.length > 0) {
           specsHtml = '<ul class="specs">';
-          item.specs.forEach(spec => {
-            if (spec.label || spec.value) specsHtml += `<li><span class="label">${spec.label || ''}</span><span class="value">${spec.value || ''}</span></li>`;
-          });
+          item.specs.forEach(spec => { if (spec.label || spec.value) specsHtml += `<li><span class="label">${spec.label || ''}</span><span class="value">${spec.value || ''}</span></li>`; });
           specsHtml += '</ul>';
         }
 
         let featuresHtml = '';
         if (item.features && Array.isArray(item.features) && item.features.length > 0) {
           let tempFeatures = '';
-          item.features.forEach(feat => {
-            let text = typeof feat === 'string' ? feat : (feat && feat.text ? feat.text : '');
-            if (text.trim() !== '') tempFeatures += `<li>🔥 ${text}</li>`;
-          });
+          item.features.forEach(feat => { let text = typeof feat === 'string' ? feat : (feat && feat.text ? feat.text : ''); if (text.trim() !== '') tempFeatures += `<li>🔥 ${text}</li>`; });
           if (tempFeatures !== '') featuresHtml = `<div class="desc-title">Главные фишки:</div><ul class="features-list">${tempFeatures}</ul>`;
         }
 
@@ -272,15 +249,10 @@
     const slider = document.getElementById('mainSlider');
     const thumbs = document.querySelectorAll('.thumb');
     let touchStartX = 0, touchStartY = 0, isSwiping = false;
-
     slider.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; isSwiping = false; }, { passive: true });
     slider.addEventListener('touchmove', (e) => { if (Math.abs(e.touches[0].clientX - touchStartX) > 10 || Math.abs(e.touches[0].clientY - touchStartY) > 10) isSwiping = true; }, { passive: true });
     slider.addEventListener('click', (e) => { if (isSwiping) { e.preventDefault(); e.stopPropagation(); } }, true);
-
-    slider.addEventListener('scroll', () => { 
-      const index = Math.round(slider.scrollLeft / slider.clientWidth); 
-      if (thumbs[index]) { thumbs.forEach(t => t.classList.remove('active')); thumbs[index].classList.add('active'); } 
-    });
+    slider.addEventListener('scroll', () => { const index = Math.round(slider.scrollLeft / slider.clientWidth); if (thumbs[index]) { thumbs.forEach(t => t.classList.remove('active')); thumbs[index].classList.add('active'); } });
   }
 
   function changePhoto(index, element) { 

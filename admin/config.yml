@@ -11,17 +11,6 @@ public_folder: "/images/uploads"
 site_url: https://motogarage-nsk.ru
 display_url: https://motogarage-nsk.ru
 
-# --- АВТОМАТИЧЕСКОЕ СЖАТИЕ ФОТО ---
-media_libraries:
-  default:
-    config:
-      transformations:
-        raster_image:
-          format: webp
-          quality: 85
-          width: 2048
-          height: 2048
-
 collections:
   - name: "moto"
     label: "Мотоциклы"
@@ -30,7 +19,7 @@ collections:
     slug: "{{title | slugify}}"
     extension: "json"
     fields:
-      - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Оставь пустым, чтобы ID совпал с названием файла." }
+      - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Только латиница и дефисы (например, kawasaki-ninja-400)" }
       - { label: "Название", name: "title", widget: "string" }
       - { label: "Цена", name: "price", widget: "string" }
       - { label: "Короткое описание", name: "desc", widget: "string" }
@@ -42,11 +31,7 @@ collections:
         required: false
         collapsed: true
         summary: "🖼️ {{fields.image}}"
-        field: 
-          label: "Фото"
-          name: "image"
-          widget: "image"
-          multiple: true
+        field: { label: "Фото", name: "image", widget: "image" }
       - label: "Характеристики"
         name: "specs"
         widget: "list"
@@ -72,7 +57,7 @@ collections:
     slug: "{{title | slugify}}"
     extension: "json"
     fields:
-      - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Оставь пустым, чтобы ID совпал с названием файла." }
+      - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Только латиница и дефисы (например, akrap-yamaha-mt09)" }
       - { label: "Название", name: "title", widget: "string" }
       - { label: "Цена", name: "price", widget: "string" }
       - { label: "Короткое описание", name: "desc", widget: "string" }
@@ -84,11 +69,7 @@ collections:
         required: false
         collapsed: true
         summary: "🖼️ {{fields.image}}"
-        field: 
-          label: "Фото"
-          name: "image"
-          widget: "image"
-          multiple: true
+        field: { label: "Фото", name: "image", widget: "image" }
       - label: "Характеристики"
         name: "specs"
         widget: "list"

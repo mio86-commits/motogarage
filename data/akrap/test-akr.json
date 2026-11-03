@@ -1,0 +1,24 @@
+{
+  "id": "test-akr",
+  "title": "test-akr",
+  "price": "50",
+  "desc": "test-akr",
+  "status": "В пути",
+  "image": "/images/uploads/IMG_0579.jpeg",
+  "gallery": [
+    [
+      "/images/uploads/k5.jpg",
+      "/images/uploads/m6.JPG",
+      "/images/uploads/img_5591.jpeg",
+      "/images/uploads/img_5550.jpeg",
+      "/images/uploads/img_5549.jpeg",
+      "/images/uploads/img_5544.jpeg",
+      "/images/uploads/IMG_0727.jpeg",
+      "/images/uploads/IMG_0726.jpeg",
+      "/images/uploads/IMG_0690.jpeg"
+    ]
+  ],
+  "specs": [],
+  "features": [],
+  "body": "test-akr"
+}

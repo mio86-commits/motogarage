@@ -16,10 +16,10 @@ collections:
     label: "Мотоциклы"
     folder: "data/moto"
     create: true
-    slug: "{{title | slugify}}"  # Имя файла создается из названия (Kawasaki Ninja 400 -> kawasaki-ninja-400)
+    slug: "{{title | slugify}}"
     extension: "json"
     fields:
-      - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Оставь пустым, если хочешь, чтобы ID совпадал с названием файла. Или впиши вручную (латиницей)." }
+      - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Оставь пустым, чтобы ID совпал с названием файла." }
       - { label: "Название", name: "title", widget: "string" }
       - { label: "Цена", name: "price", widget: "string" }
       - { label: "Короткое описание", name: "desc", widget: "string" }
@@ -31,7 +31,11 @@ collections:
         required: false
         collapsed: true
         summary: "🖼️ {{fields.image}}"
-        field: { label: "Фото", name: "image", widget: "image" }
+        field: 
+          label: "Фото"
+          name: "image"
+          widget: "image"
+          multiple: true
       - label: "Характеристики"
         name: "specs"
         widget: "list"
@@ -54,10 +58,10 @@ collections:
     label: "Выхлоп Akrapovič"
     folder: "data/akrap"
     create: true
-    slug: "{{title | slugify}}"  # Имя файла создается из названия (Yamaha MT-09 -> yamaha-mt-09)
+    slug: "{{title | slugify}}"
     extension: "json"
     fields:
-      - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Оставь пустым, если хочешь, чтобы ID совпадал с названием файла. Или впиши вручную (латиницей)." }
+      - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Оставь пустым, чтобы ID совпал с названием файла." }
       - { label: "Название", name: "title", widget: "string" }
       - { label: "Цена", name: "price", widget: "string" }
       - { label: "Короткое описание", name: "desc", widget: "string" }
@@ -69,7 +73,11 @@ collections:
         required: false
         collapsed: true
         summary: "🖼️ {{fields.image}}"
-        field: { label: "Фото", name: "image", widget: "image" }
+        field: 
+          label: "Фото"
+          name: "image"
+          widget: "image"
+          multiple: true
       - label: "Характеристики"
         name: "specs"
         widget: "list"

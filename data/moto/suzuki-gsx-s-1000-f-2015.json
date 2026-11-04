@@ -1,16 +1,20 @@
 {
   "id": "suzuki-gsx-s-1000-f-2015",
+  "order": 0,
   "title": "Suzuki GSX-S 1000 F 2015",
   "price": "785 000 ₽",
   "desc": "Аукцион BDS 5 баллов, Пробег 32000км, 145 л.с. Прибытие в декабре.",
   "status": "В пути",
   "image": "photo4.JPG",
   "gallery": [
-    [],
-    [],
-    [],
-    [],
-    []
+    [
+      "/images/uploads/s1.webp",
+      "/images/uploads/s2.webp",
+      "/images/uploads/s3.webp",
+      "/images/uploads/s4.webp",
+      "/images/uploads/s5.webp",
+      "/images/uploads/s6.webp"
+    ]
   ],
   "specs": [
     {

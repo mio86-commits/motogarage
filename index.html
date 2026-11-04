@@ -85,12 +85,25 @@
 
   footer { border-top:1px solid #222; padding:26px 0; text-align:center; font-size:13px; color:#666; }
 
+  /* Кнопка "Наверх" */
+  .scroll-to-top {
+    position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+    background: #ff5a1f; color: #fff; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 4px 15px rgba(255, 90, 31, 0.4);
+    z-index: 999; opacity: 0; visibility: hidden;
+    transition: all 0.3s ease; transform: translateY(20px);
+  }
+  .scroll-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+  .scroll-to-top:hover { background: #e64a0e; transform: translateY(-3px); }
+  .scroll-to-top svg { width: 24px; height: 24px; fill: #fff; }
+  @media (max-width: 600px) { .scroll-to-top { bottom: 20px; right: 20px; width: 44px; height: 44px; } }
+
   @media (max-width: 600px){
     .logo { font-size: 19px; gap: 8px; }
     .speedo-icon { width: 32px; height: 32px; margin-top: 12px; }
     .logo-badge { padding: 2px 6px; margin: 0 4px; border-width: 1.5px; }
     .logo-nsk { font-size: 12px; }
-    
     .hero h1 { font-size: 26px; }
     .hero p { font-size: 15px; }
     header .wrap { justify-content: center; }
@@ -119,36 +132,21 @@
         <path d="M 50 10 L 50 18" stroke="#777" stroke-width="4"/>
         <path d="M 70 20 L 66 26" stroke="#777" stroke-width="4"/>
         <path d="M 90 50 L 82 50" stroke="#777" stroke-width="4"/>
-        <g class="needle">
-          <path d="M 45 50 L 55 50 L 50 15 Z" fill="#ff5a1f" />
-        </g>
+        <g class="needle"><path d="M 45 50 L 55 50 L 50 15 Z" fill="#ff5a1f" /></g>
         <circle cx="50" cy="50" r="8" fill="#fff" />
         <circle cx="50" cy="50" r="4" fill="#ff5a1f" />
       </svg>
-      <div class="logo-text-wrap">
-        MOTO <span class="logo-badge">GARAGE</span> <span class="logo-nsk">NSK</span>
-      </div>
+      <div class="logo-text-wrap">MOTO <span class="logo-badge">GARAGE</span> <span class="logo-nsk">NSK</span></div>
     </a>
     
     <div class="header-contacts">
       <span class="contact-text">Написать нам:</span>
       <div class="header-buttons">
-        <a class="social-btn" href="https://www.avito.ru/user/61802a3f2baf9ed9b426a1ccdd2c506c/profile?src=sharing" target="_blank" title="Мы на Авито">
-          <img src="avito.png" alt="Авито" style="background:#fff; padding:2px; border-radius:3px; height: 20px;">
-        </a>
-        <a class="social-btn" href="https://www.drom.ru/my/bulletins/actual/moto/" target="_blank" title="Мы на Дроме">
-          <img src="drom.png" alt="Дром" style="background:#fff; padding:2px; border-radius:3px; height: 20px;">
-        </a>
-        <a class="social-btn" href="https://t.me/Ivan_IM_Moto" target="_blank" title="Написать в Telegram">
-          <svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-        </a>
-        <a class="social-btn" href="https://t.me/MotoGarage_NSK" target="_blank" title="Наш Telegram-канал">
-          <svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-          <span style="font-size: 12px; color: #229ED9;">Канал</span>
-        </a>
-        <a class="social-btn" href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" title="Написать в MAX">
-          <img src="MAX.png" alt="MAX" style="height: 24px; border-radius: 4px;">
-        </a>
+        <a class="social-btn" href="https://www.avito.ru/user/61802a3f2baf9ed9b426a1ccdd2c506c/profile?src=sharing" target="_blank" title="Мы на Авито"><img src="avito.png" alt="Авито" style="background:#fff; padding:2px; border-radius:3px; height: 20px;"></a>
+        <a class="social-btn" href="https://www.drom.ru/my/bulletins/actual/moto/" target="_blank" title="Мы на Дроме"><img src="drom.png" alt="Дром" style="background:#fff; padding:2px; border-radius:3px; height: 20px;"></a>
+        <a class="social-btn" href="https://t.me/Ivan_IM_Moto" target="_blank" title="Написать в Telegram"><svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg></a>
+        <a class="social-btn" href="https://t.me/MotoGarage_NSK" target="_blank" title="Наш Telegram-канал"><svg class="tg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg><span style="font-size: 12px; color: #229ED9;">Канал</span></a>
+        <a class="social-btn" href="https://max.ru/u/f9LHodD0cOIYpSD8AUCYkLZKmE0f8CdTlq5y6NLPn32YOVnJ2PjDBT_Iim0" target="_blank" title="Написать в MAX"><img src="MAX.png" alt="MAX" style="height: 24px; border-radius: 4px;"></a>
       </div>
     </div>
   </div>
@@ -290,7 +288,22 @@
   </div>
 </footer>
 
+<!-- Кнопка "Наверх" -->
+<div class="scroll-to-top" id="scrollToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+  <svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
+</div>
+
 <script>
+  // Кнопка "Наверх"
+  const scrollBtn = document.getElementById('scrollToTop');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      scrollBtn.classList.add('show');
+    } else {
+      scrollBtn.classList.remove('show');
+    }
+  });
+
   setInterval(function() {
     const badge = document.querySelector('#netlify-badge, a[href*="netlify.com"], div[class*="netlify"]');
     if (badge) { badge.style.display = 'none'; badge.remove(); }
@@ -351,7 +364,6 @@
   function renderCards(items, container, folder, soldContainerId) {
     container.innerHTML = '';
     
-    // СОРТИРОВКА ПО ПОЛЮ ORDER
     items.sort((a, b) => {
       const orderA = a.order || 9999;
       const orderB = b.order || 9999;

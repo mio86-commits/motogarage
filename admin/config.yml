@@ -42,7 +42,11 @@ collections:
         required: false
         collapsed: true
         summary: "🖼️ {{fields.image}}"
-        field: { label: "Фото", name: "image", widget: "image" }
+        field: 
+          label: "Фото"
+          name: "image"
+          widget: "image"
+          multiple: true
       - label: "Характеристики"
         name: "specs"
         widget: "list"
@@ -81,7 +85,11 @@ collections:
         required: false
         collapsed: true
         summary: "🖼️ {{fields.image}}"
-        field: { label: "Фото", name: "image", widget: "image" }
+        field: 
+          label: "Фото"
+          name: "image"
+          widget: "image"
+          multiple: true
       - label: "Характеристики"
         name: "specs"
         widget: "list"

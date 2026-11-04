@@ -492,6 +492,15 @@
   function handleImgClick(index) {
     currentIndex = index;
     const modalSlider = document.getElementById('modalSlider');
+    
+    // СБРОС СТИЛЕЙ У ВСЕХ КАРТИНОК ПЕРЕД ОТКРЫТИЕМ
+    const allImgs = modalSlider.querySelectorAll('img');
+    allImgs.forEach(img => {
+      img.style.transform = '';
+      img.style.opacity = '1';
+      img.classList.remove('dragging');
+    });
+
     modalSlider.scrollTo({ left: index * modalSlider.clientWidth, behavior: 'auto' });
     document.getElementById('photoModal').classList.add('show');
     document.body.style.overflow = 'hidden';
@@ -500,6 +509,16 @@
   function closeModal() {
     document.getElementById('photoModal').classList.remove('show');
     document.body.style.overflow = '';
+    
+    // СБРОС СТИЛЕЙ ПРИ ЗАКРЫТИИ
+    const modalSlider = document.getElementById('modalSlider');
+    const allImgs = modalSlider.querySelectorAll('img');
+    allImgs.forEach(img => {
+      img.style.transform = '';
+      img.style.opacity = '1';
+      img.classList.remove('dragging');
+    });
+
     changePhoto(currentIndex, document.querySelectorAll('.thumb')[currentIndex]);
   }
 
@@ -517,7 +536,7 @@
       if (event.key === 'Escape') closeModal(); 
       if (event.key === 'ArrowLeft') changeModalPhoto(-1); 
       if (event.key === 'ArrowRight') changeModalPhoto(1); 
-    } 
+    }
   });
 
   document.getElementById('photoModal').addEventListener('click', function(event) { if (event.target === this) closeModal(); });

@@ -7,7 +7,17 @@
   "status": "В наличии",
   "image": "photo2.JPG",
   "gallery": [
-    "/images/uploads/48037246-AEDE-46ED-977F-651DBC7743E0.webp"
+    [
+      "/images/uploads/48037246-AEDE-46ED-977F-651DBC7743E0.webp",
+      "/images/uploads/E762D00F-B701-4C21-9DB9-E731A633832C.webp",
+      "/images/uploads/EDBDB0FF-2A55-4951-BA29-E3E0E67E086F.webp",
+      "/images/uploads/FF2A439E-9892-4EC2-900A-A0DDA3F21DA7.webp",
+      "/images/uploads/C25D72DB-07EA-44AE-9B52-374A0785F48B.webp",
+      "/images/uploads/8A715AD5-24CA-4826-978E-BB0CF8A9D476.webp",
+      "/images/uploads/3B1DD9DC-1869-4A46-AF09-7FAA162EBC39.webp",
+      "/images/uploads/885c11cf-ea31-4254-8728-606688e61b14.webp",
+      "/images/uploads/4D668DB3-A8D7-4EB6-9B74-68289ACC7390.webp"
+    ]
   ],
   "specs": [
     {

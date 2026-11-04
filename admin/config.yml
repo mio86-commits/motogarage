@@ -11,7 +11,6 @@ public_folder: "/images/uploads"
 site_url: https://motogarage-nsk.ru
 display_url: https://motogarage-nsk.ru
 
-# --- АВТОМАТИЧЕСКОЕ СЖАТИЕ ФОТО (WEBP) ---
 media_libraries:
   default:
     config:
@@ -31,6 +30,7 @@ collections:
     extension: "json"
     fields:
       - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Только латиница и дефисы (например, kawasaki-ninja-400)" }
+      - { label: "Порядок (1, 2, 3...)", name: "order", widget: "number", default: 0, hint: "Чем меньше число, тем выше товар на главной" }
       - { label: "Название", name: "title", widget: "string" }
       - { label: "Цена", name: "price", widget: "string" }
       - { label: "Короткое описание", name: "desc", widget: "string" }
@@ -42,11 +42,7 @@ collections:
         required: false
         collapsed: true
         summary: "🖼️ {{fields.image}}"
-        field: 
-          label: "Фото"
-          name: "image"
-          widget: "image"
-          multiple: true
+        field: { label: "Фото", name: "image", widget: "image" }
       - label: "Характеристики"
         name: "specs"
         widget: "list"
@@ -73,6 +69,7 @@ collections:
     extension: "json"
     fields:
       - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Только латиница и дефисы (например, akrap-yamaha-mt09)" }
+      - { label: "Порядок (1, 2, 3...)", name: "order", widget: "number", default: 0, hint: "Чем меньше число, тем выше товар на главной" }
       - { label: "Название", name: "title", widget: "string" }
       - { label: "Цена", name: "price", widget: "string" }
       - { label: "Короткое описание", name: "desc", widget: "string" }
@@ -84,11 +81,7 @@ collections:
         required: false
         collapsed: true
         summary: "🖼️ {{fields.image}}"
-        field: 
-          label: "Фото"
-          name: "image"
-          widget: "image"
-          multiple: true
+        field: { label: "Фото", name: "image", widget: "image" }
       - label: "Характеристики"
         name: "specs"
         widget: "list"

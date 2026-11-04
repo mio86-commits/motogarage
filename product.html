@@ -85,6 +85,12 @@
   .modal-prev { left: 20px; }
   .modal-next { right: 20px; }
   @media (max-width: 800px) { .modal-prev, .modal-next { display: none; } .modal-close { font-size: 35px; top: 10px; right: 15px; } }
+
+  /* Стили для карточек похожих товаров */
+  .grid { display: grid; }
+  .card { display: flex; flex-direction: column; background:#16161a; border:1px solid #24242a; border-radius: 12px; overflow:hidden; position: relative; -webkit-tap-highlight-color: transparent; transition: .2s; }
+  .card:hover { border-color:#ff5a1f55; transform: translateY(-2px); }
+  .card .img { background:#222 center/cover no-repeat; }
 </style>
 </head>
 <body>
@@ -252,12 +258,19 @@
                     </span> MAX
                 </a>
             </div>
+
+            <!-- БЛОК ПОХОЖИХ ТОВАРОВ -->
+            <div id="related-products" style="margin-top: 40px; display: none;">
+              <h3 style="font-size: 22px; margin-bottom: 15px; border-top: 1px solid #24242a; padding-top: 20px;">Смотрите также</h3>
+              <div class="grid" id="related-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px;"></div>
+            </div>
           </div>
         `;
         
         document.getElementById('loading').style.display = 'none';
         document.getElementById('product-content').style.display = 'grid';
         initGallery();
+        loadRelatedProducts(item.id, type);
       })
       .catch(err => {
         document.getElementById('loading').innerText = "Ошибка загрузки: " + err.message;
@@ -296,13 +309,11 @@
 
     modalSlider.addEventListener('touchend', (e) => {
       const diffY = e.changedTouches[0].screenY - modalTouchStartY;
-      // Свайп вверх (закрыть) - только если это не было горизонтальное перелистывание
       if (diffY < -50 && Math.abs(e.changedTouches[0].screenX - modalTouchStartX) < 50) {
         closeModal();
       }
     }, { passive: true });
 
-    // Синхронизация маленькой галереи с модалкой при скролле модалки
     modalSlider.addEventListener('scroll', () => {
       const index = Math.round(modalSlider.scrollLeft / modalSlider.clientWidth);
       currentIndex = index;
@@ -310,47 +321,7 @@
     });
   }
 
-  function changePhoto(index, element) { 
-    const slider = document.getElementById('mainSlider');
-    slider.scrollTo({ left: index * slider.clientWidth, behavior: 'smooth' }); 
-    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active')); 
-    if (element) element.classList.add('active'); 
-  }
-
-  function handleImgClick(index) {
-    currentIndex = index;
-    const modalSlider = document.getElementById('modalSlider');
-    modalSlider.scrollTo({ left: index * modalSlider.clientWidth, behavior: 'auto' }); // Мгновенно открываем на нужном фото
-    document.getElementById('photoModal').classList.add('show');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal() {
-    document.getElementById('photoModal').classList.remove('show');
-    document.body.style.overflow = '';
-    // При закрытии синхронизируем маленькую галерею с тем фото, на котором остановились
-    changePhoto(currentIndex, document.querySelectorAll('.thumb')[currentIndex]);
-  }
-
-  function changeModalPhoto(direction) {
-    const modalSlider = document.getElementById('modalSlider');
-    const newIndex = currentIndex + direction;
-    if (newIndex >= 0 && newIndex < currentImages.length) {
-      modalSlider.scrollTo({ left: newIndex * modalSlider.clientWidth, behavior: 'smooth' });
-    }
-  }
-
-  document.addEventListener('keydown', function(event) { 
-    const modal = document.getElementById('photoModal');
-    if (modal.classList.contains('show')) { 
-      if (event.key === 'Escape') closeModal(); 
-      if (event.key === 'ArrowLeft') changeModalPhoto(-1); 
-      if (event.key === 'ArrowRight') changeModalPhoto(1); 
-    } 
-  });
-
-  document.getElementById('photoModal').addEventListener('click', function(event) { if (event.target === this) closeModal(); });
-</script>
-
-</body>
-</html>
+  // --- ЗАГРУЗКА ПОХОЖИХ ТОВАРОВ ---
+  async function loadRelatedProducts(currentId, folder) {
+    try {
+      const res = await fetch(`https://api.github.com/repos/mio86-

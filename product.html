@@ -324,4 +324,85 @@
   // --- ЗАГРУЗКА ПОХОЖИХ ТОВАРОВ ---
   async function loadRelatedProducts(currentId, folder) {
     try {
-      const res = await fetch(`https://api.github.com/repos/mio86-
+      const res = await fetch(`https://api.github.com/repos/mio86-commits/motogarage/contents/data/${folder}`);
+      if (!res.ok) throw new Error("Не удалось загрузить список");
+      
+      const files = await res.json();
+      const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+      
+      const promises = jsonFiles.map(file => fetch(file.download_url).then(r => r.json()));
+      const allItems = await Promise.all(promises);
+
+      const relatedItems = allItems.filter(item => 
+        item.id !== currentId && item.status !== 'Продан'
+      );
+
+      const itemsToShow = relatedItems.slice(0, 4);
+
+      if (itemsToShow.length > 0) {
+        const container = document.getElementById('related-grid');
+        const wrapper = document.getElementById('related-products');
+        
+        itemsToShow.forEach(item => {
+          const img = item.image || 'favicon.png';
+          container.innerHTML += `
+             <a class="card" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
+              <div class="img" style="background-image:url('${img}'); aspect-ratio: 4/3;"></div>
+              <div style="padding: 10px; display: flex; flex-direction: column; justify-content: space-between; flex: 1;">
+                <h3 style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px;">${item.title}</h3>
+                <div class="price" style="font-size: 14px; font-weight: 700; color: #ff5a1f;">${item.price}</div>
+              </div>
+            </a>
+          `;
+        });
+        
+        wrapper.style.display = 'block';
+      }
+    } catch (e) {
+      console.error("Ошибка загрузки похожих товаров:", e);
+    }
+  }
+
+  function changePhoto(index, element) { 
+    const slider = document.getElementById('mainSlider');
+    slider.scrollTo({ left: index * slider.clientWidth, behavior: 'smooth' }); 
+    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active')); 
+    if (element) element.classList.add('active'); 
+  }
+
+  function handleImgClick(index) {
+    currentIndex = index;
+    const modalSlider = document.getElementById('modalSlider');
+    modalSlider.scrollTo({ left: index * modalSlider.clientWidth, behavior: 'auto' });
+    document.getElementById('photoModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('photoModal').classList.remove('show');
+    document.body.style.overflow = '';
+    changePhoto(currentIndex, document.querySelectorAll('.thumb')[currentIndex]);
+  }
+
+  function changeModalPhoto(direction) {
+    const modalSlider = document.getElementById('modalSlider');
+    const newIndex = currentIndex + direction;
+    if (newIndex >= 0 && newIndex < currentImages.length) {
+      modalSlider.scrollTo({ left: newIndex * modalSlider.clientWidth, behavior: 'smooth' });
+    }
+  }
+
+  document.addEventListener('keydown', function(event) { 
+    const modal = document.getElementById('photoModal');
+    if (modal.classList.contains('show')) { 
+      if (event.key === 'Escape') closeModal(); 
+      if (event.key === 'ArrowLeft') changeModalPhoto(-1); 
+      if (event.key === 'ArrowRight') changeModalPhoto(1); 
+    } 
+  });
+
+  document.getElementById('photoModal').addEventListener('click', function(event) { if (event.target === this) closeModal(); });
+</script>
+
+</body>
+</html>

@@ -401,7 +401,10 @@
 
     modalSlider.addEventListener('touchend', (e) => {
       const diffY = e.changedTouches[0].screenY - modalTouchStartY;
-      if (diffY < -50 && Math.abs(e.changedTouches[0].screenX - modalTouchStartX) < 50) {
+      const diffX = Math.abs(e.changedTouches[0].screenX - modalTouchStartX);
+      
+      // Свайп вверх или вниз для закрытия
+      if ((diffY < -50 || diffY > 50) && diffX < 50) {
         closeModal();
       }
     }, { passive: true });

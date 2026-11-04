@@ -101,6 +101,22 @@
   .card:hover { border-color:#ff5a1f55; transform: translateY(-2px); }
   .card .img { background:#222 center/cover no-repeat; }
 
+  /* Скелетон загрузки */
+  @keyframes skeleton-pulse {
+    0% { background-color: #1c1c22; }
+    50% { background-color: #2a2a32; }
+    100% { background-color: #1c1c22; }
+  }
+  .skeleton-card {
+    background: #16161a; border: 1px solid #24242a; border-radius: 12px;
+    overflow: hidden; display: flex; flex-direction: column; height: 100%;
+  }
+  .skeleton-img { width: 100%; aspect-ratio: 4/3; animation: skeleton-pulse 1.5s infinite ease-in-out; }
+  .skeleton-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .skeleton-line { height: 16px; border-radius: 4px; animation: skeleton-pulse 1.5s infinite ease-in-out; }
+  .skeleton-line.short { width: 60%; height: 20px; }
+  .skeleton-line.price { width: 40%; height: 22px; margin-top: auto; }
+
   /* Кнопка "Наверх" */
   .scroll-to-top {
     position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
@@ -150,8 +166,23 @@
 
 <div class="wrap">
   <a href="index.html" onclick="window.location.replace('index.html?v=' + new Date().getTime()); return false;" class="back-link">← Вернуться в каталог</a>
-  <div class="product-grid" id="product-content" style="display: none;"></div>
-  <div id="loading" style="text-align:center; padding: 50px; color: #ff5a1f; font-weight: bold;">Загрузка данных...</div>
+  <div class="product-grid" id="product-content" style="display: grid;">
+    
+    <!-- Скелетон для загрузки -->
+    <div class="skeleton-card" id="product-skeleton" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; border: none; background: transparent; grid-column: 1 / -1;">
+      <div class="skeleton-img" style="border-radius: 12px; border: 1px solid #24242a;"></div>
+      <div style="padding-top: 20px;">
+        <div class="skeleton-line short" style="margin-bottom: 15px;"></div>
+        <div class="skeleton-line" style="width: 30%; margin-bottom: 20px;"></div>
+        <div class="skeleton-line" style="width: 40%; height: 40px; margin-bottom: 30px;"></div>
+        <div class="skeleton-line" style="margin-bottom: 10px;"></div>
+        <div class="skeleton-line" style="margin-bottom: 10px;"></div>
+        <div class="skeleton-line" style="width: 80%;"></div>
+      </div>
+    </div>
+
+  </div>
+  <div id="loading" style="display: none;"></div>
 </div>
 
 <div id="photoModal" class="modal">
@@ -193,7 +224,7 @@
   }
 
   if (!id) {
-    document.getElementById('loading').innerText = "Ошибка: Товар не найден.";
+    document.getElementById('product-skeleton').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Ошибка: Товар не найден.</p>';
   } else {
     const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     
@@ -268,7 +299,10 @@
         const rawText = item.docs || item.body || '';
         if (rawText && rawText.trim() !== '') docsHtml = `<div class="desc-title" style="margin-top:20px;">Описание</div><div class="desc-text">${parseMarkdown(rawText)}</div>`;
 
-        document.getElementById('product-content').innerHTML = `
+        document.getElementById('product-skeleton').style.display = 'none';
+        
+        const productContainer = document.getElementById('product-content');
+        productContainer.innerHTML = `
           <div class="gallery fade-in-up">
             <div class="main-img" id="mainSlider">${mainImgHtml}</div>
             <div class="thumbs">${thumbsHtml}</div>
@@ -310,13 +344,11 @@
           </div>
         `;
         
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('product-content').style.display = 'grid';
         initGallery();
         loadRelatedProducts(item.id, type);
       })
       .catch(err => {
-        document.getElementById('loading').innerText = "Ошибка загрузки: " + err.message;
+        document.getElementById('product-skeleton').innerHTML = `<p style="color:red; text-align:center; grid-column: 1/-1;">Ошибка загрузки: ${err.message}</p>`;
       });
   }
 
@@ -342,6 +374,8 @@
     const thumbs = document.querySelectorAll('.thumb');
     let touchStartX = 0, touchStartY = 0, isSwiping = false;
     
+    if (!slider) return;
+
     slider.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; isSwiping = false; }, { passive: true });
     slider.addEventListener('touchmove', (e) => { if (Math.abs(e.touches[0].clientX - touchStartX) > 10 || Math.abs(e.touches[0].clientY - touchStartY) > 10) isSwiping = true; }, { passive: true });
     slider.addEventListener('click', (e) => { if (isSwiping) { e.preventDefault(); e.stopPropagation(); } }, true);
@@ -419,6 +453,7 @@
 
   function changePhoto(index, element) { 
     const slider = document.getElementById('mainSlider');
+    if (!slider) return;
     slider.scrollTo({ left: index * slider.clientWidth, behavior: 'smooth' }); 
     document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active')); 
     if (element) element.classList.add('active'); 

@@ -72,16 +72,19 @@
   .features-list li:last-child { margin-bottom: 0; }
   .btn-buy { display: block; width: 100%; text-align: center; background: #ff5a1f; color: #fff; padding: 16px; border-radius: 10px; font-weight: 700; font-size: 18px; border: none; cursor: pointer; transition: 0.2s; margin-top: 20px; text-decoration: none; }
   .btn-buy:hover { opacity: 0.9; }
+  
+  /* Модалка с плавным слайдером */
   .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
   .modal.show { display: flex; opacity: 1; }
-  .modal-content { max-width: 90%; max-height: 90vh; object-fit: contain; border-radius: 8px; animation: zoomIn 0.3s ease; }
-  @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; width: 100%; height: 100%; align-items: center; }
+  .modal-slider::-webkit-scrollbar { display: none; }
+  .modal-slider img { flex: 0 0 100%; scroll-snap-align: center; max-width: 100%; max-height: 90vh; object-fit: contain; }
   .modal-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 1001; }
   .modal-prev, .modal-next { position: absolute; top: 50%; transform: translateY(-50%); color: #fff; font-size: 30px; font-weight: bold; cursor: pointer; padding: 15px; user-select: none; z-index: 1001; background: rgba(255,255,255,0.1); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
   .modal-prev:hover, .modal-next:hover { background: #ff5a1f; }
   .modal-prev { left: 20px; }
   .modal-next { right: 20px; }
-  @media (max-width: 800px) { .modal-prev, .modal-next { width: 45px; height: 45px; font-size: 20px; } .modal-close { font-size: 35px; top: 10px; right: 15px; } }
+  @media (max-width: 800px) { .modal-prev, .modal-next { display: none; } .modal-close { font-size: 35px; top: 10px; right: 15px; } }
 </style>
 </head>
 <body>
@@ -125,7 +128,7 @@
 <div id="photoModal" class="modal">
   <span class="modal-close" onclick="closeModal()">&times;</span>
   <span class="modal-prev" onclick="changeModalPhoto(-1)">&#10094;</span>
-  <img class="modal-content" id="modalImg">
+  <div class="modal-slider" id="modalSlider"></div>
   <span class="modal-next" onclick="changeModalPhoto(1)">&#10095;</span>
 </div>
 
@@ -168,7 +171,7 @@
         setMeta('meta[property="og:image"]', imageUrl);
         setMeta('meta[property="og:url"]', window.location.href);
 
-        // ГАЛЕРЕЯ (УМНЫЙ СБОРЩИК С ПОДДЕРЖКОЙ ДВОЙНЫХ МАССИВОВ)
+        // ГАЛЕРЕЯ (УМНЫЙ СБОРЩИК)
         currentImages = [];
         if (item.image) currentImages.push(item.image);
         
@@ -195,10 +198,13 @@
 
         let mainImgHtml = '';
         let thumbsHtml = '';
+        let modalImagesHtml = '';
         currentImages.forEach((img, index) => {
           mainImgHtml += `<img src="${img}" alt="${item.title}" onclick="handleImgClick(${index})">`;
           thumbsHtml += `<div class="thumb ${index===0?'active':''}" onclick="changePhoto(${index}, this)"><img src="${img}"></div>`;
+          modalImagesHtml += `<img src="${img}" alt="${item.title}">`;
         });
+        document.getElementById('modalSlider').innerHTML = modalImagesHtml;
 
         const statusBadge = item.status === 'В пути' ? '<span class="badge badge-blue">🚢 В пути</span>' : (item.status === 'Продан' ? '<span class="badge" style="background:#e6394622; color:#e63946;">Продан</span>' : '<span class="badge">В наличии</span>');
 
@@ -262,38 +268,46 @@
     const slider = document.getElementById('mainSlider');
     const thumbs = document.querySelectorAll('.thumb');
     let touchStartX = 0, touchStartY = 0, isSwiping = false;
+    
+    // Логика для маленькой галереи
     slider.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; isSwiping = false; }, { passive: true });
     slider.addEventListener('touchmove', (e) => { if (Math.abs(e.touches[0].clientX - touchStartX) > 10 || Math.abs(e.touches[0].clientY - touchStartY) > 10) isSwiping = true; }, { passive: true });
     slider.addEventListener('click', (e) => { if (isSwiping) { e.preventDefault(); e.stopPropagation(); } }, true);
     slider.addEventListener('scroll', () => { const index = Math.round(slider.scrollLeft / slider.clientWidth); if (thumbs[index]) { thumbs.forEach(t => t.classList.remove('active')); thumbs[index].classList.add('active'); } });
 
-    // --- СВАЙПЫ ДЛЯ МОДАЛЬНОГО ОКНА (ПОЛНОЭКРАННОЕ ФОТО) ---
+    // --- ЛОГИКА ДЛЯ БОЛЬШОЙ МОДАЛКИ (ПЛАВНЫЙ СВАЙП) ---
     const modal = document.getElementById('photoModal');
+    const modalSlider = document.getElementById('modalSlider');
     let modalTouchStartX = 0;
     let modalTouchStartY = 0;
+    let modalIsSwiping = false;
 
-    modal.addEventListener('touchstart', (e) => {
-      modalTouchStartX = e.changedTouches[0].screenX;
-      modalTouchStartY = e.changedTouches[0].screenY;
+    modalSlider.addEventListener('touchstart', (e) => {
+      modalTouchStartX = e.touches[0].clientX;
+      modalTouchStartY = e.touches[0].clientY;
+      modalIsSwiping = false;
     }, { passive: true });
 
-    modal.addEventListener('touchend', (e) => {
-      const diffX = e.changedTouches[0].screenX - modalTouchStartX;
-      const diffY = e.changedTouches[0].screenY - modalTouchStartY;
-
-      // Свайп вверх (закрыть)
-      if (diffY < -50) {
-        closeModal();
-      } 
-      // Свайп влево (следующее фото)
-      else if (diffX < -50) {
-        changeModalPhoto(1);
-      } 
-      // Свайп вправо (предыдущее фото)
-      else if (diffX > 50) {
-        changeModalPhoto(-1);
+    modalSlider.addEventListener('touchmove', (e) => {
+      if (Math.abs(e.touches[0].clientX - modalTouchStartX) > 10 || Math.abs(e.touches[0].clientY - modalTouchStartY) > 10) {
+        modalIsSwiping = true;
       }
     }, { passive: true });
+
+    modalSlider.addEventListener('touchend', (e) => {
+      const diffY = e.changedTouches[0].screenY - modalTouchStartY;
+      // Свайп вверх (закрыть) - только если это не было горизонтальное перелистывание
+      if (diffY < -50 && Math.abs(e.changedTouches[0].screenX - modalTouchStartX) < 50) {
+        closeModal();
+      }
+    }, { passive: true });
+
+    // Синхронизация маленькой галереи с модалкой при скролле модалки
+    modalSlider.addEventListener('scroll', () => {
+      const index = Math.round(modalSlider.scrollLeft / modalSlider.clientWidth);
+      currentIndex = index;
+      changePhoto(index, document.querySelectorAll('.thumb')[index]);
+    });
   }
 
   function changePhoto(index, element) { 
@@ -305,7 +319,8 @@
 
   function handleImgClick(index) {
     currentIndex = index;
-    document.getElementById('modalImg').src = currentImages[currentIndex];
+    const modalSlider = document.getElementById('modalSlider');
+    modalSlider.scrollTo({ left: index * modalSlider.clientWidth, behavior: 'auto' }); // Мгновенно открываем на нужном фото
     document.getElementById('photoModal').classList.add('show');
     document.body.style.overflow = 'hidden';
   }
@@ -313,14 +328,16 @@
   function closeModal() {
     document.getElementById('photoModal').classList.remove('show');
     document.body.style.overflow = '';
+    // При закрытии синхронизируем маленькую галерею с тем фото, на котором остановились
     changePhoto(currentIndex, document.querySelectorAll('.thumb')[currentIndex]);
   }
 
   function changeModalPhoto(direction) {
-    currentIndex += direction;
-    if (currentIndex < 0) currentIndex = currentImages.length - 1;
-    if (currentIndex >= currentImages.length) currentIndex = 0;
-    document.getElementById('modalImg').src = currentImages[currentIndex];
+    const modalSlider = document.getElementById('modalSlider');
+    const newIndex = currentIndex + direction;
+    if (newIndex >= 0 && newIndex < currentImages.length) {
+      modalSlider.scrollTo({ left: newIndex * modalSlider.clientWidth, behavior: 'smooth' });
+    }
   }
 
   document.addEventListener('keydown', function(event) { 

@@ -85,6 +85,22 @@
 
   footer { border-top:1px solid #222; padding:26px 0; text-align:center; font-size:13px; color:#666; }
 
+  /* Скелетон загрузки */
+  @keyframes skeleton-pulse {
+    0% { background-color: #1c1c22; }
+    50% { background-color: #2a2a32; }
+    100% { background-color: #1c1c22; }
+  }
+  .skeleton-card {
+    background: #16161a; border: 1px solid #24242a; border-radius: 12px;
+    overflow: hidden; display: flex; flex-direction: column; height: 100%;
+  }
+  .skeleton-img { width: 100%; aspect-ratio: 4/3; animation: skeleton-pulse 1.5s infinite ease-in-out; }
+  .skeleton-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .skeleton-line { height: 16px; border-radius: 4px; animation: skeleton-pulse 1.5s infinite ease-in-out; }
+  .skeleton-line.short { width: 60%; height: 20px; }
+  .skeleton-line.price { width: 40%; height: 22px; margin-top: auto; }
+
   /* Кнопка "Наверх" */
   .scroll-to-top {
     position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
@@ -117,6 +133,7 @@
     .status-badge { font-size: 10px; padding: 2px 6px; top: 5px; right: 5px; }
     .status-sold { font-size: 10px; padding: 2px 6px; top: 5px; right: 5px; }
     .section-title { font-size: 20px; margin: 20px 0 15px; }
+    .skeleton-line { height: 12px; }
   }
 </style>
 </head>
@@ -331,7 +348,19 @@
     if (cachedData && cachedData.length > 0) {
       renderCards(cachedData, container, folder, soldContainerId);
     } else {
-      container.innerHTML = '<p style="color:#9a9a9a; text-align:center; grid-column: 1/-1;">Загрузка товаров...</p>';
+      container.innerHTML = '';
+      for (let i = 0; i < 4; i++) {
+        container.innerHTML += `
+          <div class="skeleton-card">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line" style="width: 80%;"></div>
+              <div class="skeleton-line" style="width: 50%;"></div>
+              <div class="skeleton-line price"></div>
+            </div>
+          </div>
+        `;
+      }
     }
 
     const ttl = 60 * 1000; 

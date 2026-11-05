@@ -85,6 +85,16 @@
 
   footer { border-top:1px solid #222; padding:26px 0; text-align:center; font-size:13px; color:#666; }
 
+  /* Анимация появления карточек */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+    opacity: 0;
+  }
+
   /* Скелетон загрузки */
   @keyframes skeleton-pulse {
     0% { background-color: #1c1c22; }
@@ -190,7 +200,7 @@
   <div class="grid" id="sold-moto-container" style="margin-bottom: 20px;"></div>
 
   <div class="grid">
-    <div class="card sold-card">
+    <div class="card sold-card fade-in-up">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x1.jpg')"></div>
       <div class="body">
@@ -199,7 +209,7 @@
         <div class="price" style="color: #666; text-decoration: line-through;">765 000 ₽</div>
       </div>
     </div>
-    <div class="card sold-card">
+    <div class="card sold-card fade-in-up">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x2.jpg')"></div>
       <div class="body">
@@ -208,7 +218,7 @@
         <div class="price" style="color: #666; text-decoration: line-through;">515 000 ₽</div>
       </div>
     </div>
-    <div class="card sold-card">
+    <div class="card sold-card fade-in-up">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x3.jpg')"></div>
       <div class="body">
@@ -217,7 +227,7 @@
         <div class="price" style="color: #666; text-decoration: line-through;">540 000 ₽</div>
       </div>
     </div>
-    <div class="card sold-card">
+    <div class="card sold-card fade-in-up">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x4.jpg')"></div>
       <div class="body">
@@ -226,7 +236,7 @@
         <div class="price" style="color: #666; text-decoration: line-through;">485 000 ₽</div>
       </div>
     </div>
-    <div class="card sold-card">
+    <div class="card sold-card fade-in-up">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x5.jpg')"></div>
       <div class="body">
@@ -235,7 +245,7 @@
         <div class="price" style="color: #666; text-decoration: line-through;">540 000 ₽</div>
       </div>
     </div>
-    <div class="card sold-card">
+    <div class="card sold-card fade-in-up">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x6.jpg')"></div>
       <div class="body">
@@ -244,7 +254,7 @@
         <div class="price" style="color: #666; text-decoration: line-through;">515 000 ₽</div>
       </div>
     </div>
-    <div class="card sold-card">
+    <div class="card sold-card fade-in-up">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x7.jpg')"></div>
       <div class="body">
@@ -253,7 +263,7 @@
         <div class="price" style="color: #666; text-decoration: line-through;">540 000 ₽</div>
       </div>
     </div>
-    <div class="card sold-card">
+    <div class="card sold-card fade-in-up">
       <div class="status-sold">Продан</div>
       <div class="img" style="background-image:url('x8.jpg')"></div>
       <div class="body">
@@ -408,12 +418,12 @@
     if (activeItems.length === 0) {
        container.innerHTML = '<p style="color:#9a9a9a; text-align:center; grid-column: 1/-1;">Товаров в наличии пока нет.</p>';
     } else {
-        activeItems.forEach(item => {
+        activeItems.forEach((item, index) => {
           const statusBadge = item.status === 'В пути' ? '<div class="status-badge">🚢 В пути</div>' : '';
           const img = item.image || 'favicon.png';
           
           container.innerHTML += `
-             <a class="card active-card" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
+             <a class="card active-card fade-in-up" style="animation-delay: ${index * 0.05}s;" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
               ${statusBadge}
               <div class="img" style="background-image:url('${img}')"></div>
               <div class="body">
@@ -428,10 +438,10 @@
     }
 
     if (soldContainer && soldItems.length > 0) {
-        soldItems.forEach(item => {
+        soldItems.forEach((item, index) => {
           const img = item.image || 'favicon.png';
           soldContainer.innerHTML += `
-             <div class="card sold-card">
+             <div class="card sold-card fade-in-up" style="animation-delay: ${index * 0.05}s;">
               <div class="status-sold">Продан</div>
               <div class="img" style="background-image:url('${img}')"></div>
               <div class="body">

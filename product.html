@@ -380,39 +380,22 @@
     slider.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; isSwiping = false; }, { passive: true });
     slider.addEventListener('touchmove', (e) => { if (Math.abs(e.touches[0].clientX - touchStartX) > 10 || Math.abs(e.touches[0].clientY - touchStartY) > 10) isSwiping = true; }, { passive: true });
     slider.addEventListener('click', (e) => { if (isSwiping) { e.preventDefault(); e.stopPropagation(); } }, true);
-    
-    let isResetting = false;
-    slider.addEventListener('scroll', () => { 
-      if (isResetting) return;
-      
-      const index = Math.round(slider.scrollLeft / slider.clientWidth); 
-      if (thumbs[index]) { 
-        thumbs.forEach(t => t.classList.remove('active')); 
-        thumbs[index].classList.add('active'); 
-      }
-      
-      if (index === currentImages.length - 1) {
-        isResetting = true;
-        slider.style.scrollBehavior = 'auto';
-        setTimeout(() => {
+    slider.addEventListener('scroll', () => { const index = Math.round(slider.scrollLeft / slider.clientWidth); if (thumbs[index]) { thumbs.forEach(t => t.classList.remove('active')); thumbs[index].classList.add('active'); } });
+
+    // Зацикливание для маленькой галереи
+    slider.addEventListener('touchend', () => {
+      setTimeout(() => {
+        const index = Math.round(slider.scrollLeft / slider.clientWidth);
+        if (index === currentImages.length - 1) {
+          slider.style.scrollBehavior = 'auto';
           slider.scrollTo({ left: 0, behavior: 'auto' });
-          thumbs.forEach(t => t.classList.remove('active'));
-          if (thumbs[0]) thumbs[0].classList.add('active');
-          isResetting = false;
           setTimeout(() => { slider.style.scrollBehavior = 'smooth'; }, 50);
-        }, 150);
-      } else if (index === 0) {
-        isResetting = true;
-        slider.style.scrollBehavior = 'auto';
-        setTimeout(() => {
-          const lastIndex = currentImages.length - 1;
-          slider.scrollTo({ left: lastIndex * slider.clientWidth, behavior: 'auto' });
-          thumbs.forEach(t => t.classList.remove('active'));
-          if (thumbs[lastIndex]) thumbs[lastIndex].classList.add('active');
-          isResetting = false;
+        } else if (index === 0 && slider.scrollLeft < 10) {
+          slider.style.scrollBehavior = 'auto';
+          slider.scrollTo({ left: (currentImages.length - 1) * slider.clientWidth, behavior: 'auto' });
           setTimeout(() => { slider.style.scrollBehavior = 'smooth'; }, 50);
-        }, 150);
-      }
+        }
+      }, 100);
     });
 
     const modal = document.getElementById('photoModal');
@@ -467,38 +450,31 @@
       }
       
       currentImg = null;
-    }, { passive: true });
 
-    let modalIsResetting = false;
-    modalSlider.addEventListener('scroll', () => {
-      if (modalIsResetting) return;
-      
-      const index = Math.round(modalSlider.scrollLeft / modalSlider.clientWidth);
-      currentIndex = index;
-      changePhoto(index, document.querySelectorAll('.thumb')[index]);
-      
-      if (index === currentImages.length - 1) {
-        modalIsResetting = true;
-        modalSlider.style.scrollBehavior = 'auto';
-        setTimeout(() => {
+      // Зацикливание для модального окна
+      setTimeout(() => {
+        const index = Math.round(modalSlider.scrollLeft / modalSlider.clientWidth);
+        if (index === currentImages.length - 1) {
+          modalSlider.style.scrollBehavior = 'auto';
           modalSlider.scrollTo({ left: 0, behavior: 'auto' });
           currentIndex = 0;
           changePhoto(0, document.querySelectorAll('.thumb')[0]);
-          modalIsResetting = false;
           setTimeout(() => { modalSlider.style.scrollBehavior = 'smooth'; }, 50);
-        }, 150);
-      } else if (index === 0) {
-        modalIsResetting = true;
-        modalSlider.style.scrollBehavior = 'auto';
-        setTimeout(() => {
+        } else if (index === 0 && modalSlider.scrollLeft < 10) {
+          modalSlider.style.scrollBehavior = 'auto';
           const lastIndex = currentImages.length - 1;
           modalSlider.scrollTo({ left: lastIndex * modalSlider.clientWidth, behavior: 'auto' });
           currentIndex = lastIndex;
           changePhoto(lastIndex, document.querySelectorAll('.thumb')[lastIndex]);
-          modalIsResetting = false;
           setTimeout(() => { modalSlider.style.scrollBehavior = 'smooth'; }, 50);
-        }, 150);
-      }
+        }
+      }, 100);
+    });
+
+    modalSlider.addEventListener('scroll', () => {
+      const index = Math.round(modalSlider.scrollLeft / modalSlider.clientWidth);
+      currentIndex = index;
+      changePhoto(index, document.querySelectorAll('.thumb')[index]);
     });
   }
 

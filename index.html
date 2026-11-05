@@ -356,7 +356,7 @@
     } catch(e) {}
 
     if (cachedData && cachedData.length > 0) {
-      renderCards(cachedData, container, folder, soldContainerId, false);
+      renderCards(cachedData, container, folder, soldContainerId, false); // false = без анимации
     } else {
       container.innerHTML = '';
       for (let i = 0; i < 4; i++) {
@@ -389,8 +389,15 @@
         const items = await Promise.all(promises);
         
         localStorage.setItem(cacheKey, JSON.stringify({ data: items, time: Date.now() }));
-        // Включаем анимацию всегда
-        renderCards(items, container, folder, soldContainerId, true);
+        
+        // Если данных не было в кэше (первая загрузка) — ждем 50 мс и включаем анимацию
+        if (!cachedData) {
+          setTimeout(() => {
+            renderCards(items, container, folder, soldContainerId, true);
+          }, 50);
+        } else {
+          renderCards(items, container, folder, soldContainerId, false);
+        }
         
       } catch (e) {
         console.error(e);

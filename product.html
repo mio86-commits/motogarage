@@ -167,8 +167,23 @@
 
 <div class="wrap">
   <a href="index.html" onclick="window.location.replace('index.html?v=' + new Date().getTime()); return false;" class="back-link">← Вернуться в каталог</a>
-  <div class="product-grid" id="product-content" style="display: none;"></div>
-  <div id="loading" style="text-align:center; padding: 50px; color: #ff5a1f; font-weight: bold;">Загрузка данных...</div>
+  <div class="product-grid" id="product-content" style="display: grid;">
+    
+    <!-- Скелетон для загрузки -->
+    <div class="skeleton-card" id="product-skeleton" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; border: none; background: transparent; grid-column: 1 / -1;">
+      <div class="skeleton-img" style="border-radius: 12px; border: 1px solid #24242a;"></div>
+      <div style="padding-top: 20px;">
+        <div class="skeleton-line short" style="margin-bottom: 15px;"></div>
+        <div class="skeleton-line" style="width: 30%; margin-bottom: 20px;"></div>
+        <div class="skeleton-line" style="width: 40%; height: 40px; margin-bottom: 30px;"></div>
+        <div class="skeleton-line" style="margin-bottom: 10px;"></div>
+        <div class="skeleton-line" style="margin-bottom: 10px;"></div>
+        <div class="skeleton-line" style="width: 80%;"></div>
+      </div>
+    </div>
+
+  </div>
+  <div id="loading" style="display: none;"></div>
 </div>
 
 <div id="photoModal" class="modal">
@@ -210,7 +225,7 @@
   }
 
   if (!id) {
-    document.getElementById('loading').innerText = "Ошибка: Товар не найден.";
+    document.getElementById('product-skeleton').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Ошибка: Товар не найден.</p>';
   } else {
     const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     
@@ -285,27 +300,30 @@
         const rawText = item.docs || item.body || '';
         if (rawText && rawText.trim() !== '') docsHtml = `<div class="desc-title" style="margin-top:20px;">Описание</div><div class="desc-text">${parseMarkdown(rawText)}</div>`;
 
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('product-content').style.display = 'grid';
+        document.getElementById('product-skeleton').style.display = 'none';
         
         const productContainer = document.getElementById('product-content');
         productContainer.innerHTML = `
-          <div class="gallery">
+          <div class="gallery fade-in-up">
             <div class="main-img" id="mainSlider">${mainImgHtml}</div>
             <div class="thumbs">${thumbsHtml}</div>
           </div>
           <div class="info-block">
-            <h1>${item.title || 'Без названия'}</h1>
-            <div>${statusBadge}</div>
-            <div class="price">${item.price || 'Цена по запросу'}</div>
-            ${specsHtml}
-            ${featuresHtml}
-            ${docsHtml}
-            <div style="text-align: center; margin-top: 20px; padding: 15px; background: #16161a; border: 1px solid #24242a; border-radius: 10px;">
+            <h1 class="fade-in-up delay-1">${item.title || 'Без названия'}</h1>
+            <div class="fade-in-up delay-1">${statusBadge}</div>
+            <div class="price fade-in-up delay-2">${item.price || 'Цена по запросу'}</div>
+            <div class="fade-in-up delay-2">
+              ${specsHtml}
+              ${featuresHtml}
+              ${docsHtml}
+            </div>
+            
+            <div class="fade-in-up delay-3" style="text-align: center; margin-top: 20px; padding: 15px; background: #16161a; border: 1px solid #24242a; border-radius: 10px;">
                 <div style="color: #9a9a9a; font-size: 14px; margin-bottom: 8px;">Связаться напрямую:</div>
                 <a href="tel:+79833112444" style="display: inline-block; font-size: 24px; font-weight: 800; color: #ff5a1f; text-decoration: none; padding: 8px 16px; background: #24242a; border-radius: 8px;">+7 (983) 311-24-44</a>
             </div>
-            <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+            
+            <div class="fade-in-up delay-3" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
                 <a href="https://t.me/Ivan_IM_Moto" target="_blank" class="btn-buy" style="flex: 1; min-width: 140px; margin-top: 0;">
                     <svg style="fill: #fff; width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg> Telegram
                 </a>
@@ -315,7 +333,8 @@
                     </span> MAX
                 </a>
             </div>
-            <button onclick="shareProduct()" class="btn-buy" style="background: #24242a; margin-top: 10px; border: 1px solid #333;">
+
+            <button onclick="shareProduct()" class="btn-buy fade-in-up delay-4" style="background: #24242a; margin-top: 10px; border: 1px solid #333;">
                 <svg style="fill: #fff; width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Поделиться
             </button>
           </div>
@@ -330,7 +349,7 @@
         loadRelatedProducts(item.id, type);
       })
       .catch(err => {
-        document.getElementById('loading').innerText = "Ошибка загрузки: " + err.message;
+        document.getElementById('product-skeleton').innerHTML = `<p style="color:red; text-align:center; grid-column: 1/-1;">Ошибка загрузки: ${err.message}</p>`;
       });
   }
 
@@ -445,7 +464,7 @@
         itemsToShow.forEach(item => {
           const img = item.image || 'favicon.png';
           container.innerHTML += `
-             <a class="card" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
+             <a class="card fade-in-up delay-4" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
               <div class="img" style="background-image:url('${img}'); aspect-ratio: 4/3;"></div>
               <div style="padding: 10px; display: flex; flex-direction: column; justify-content: space-between; flex: 1;">
                 <h3 style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px;">${item.title}</h3>
@@ -475,7 +494,6 @@
     const modalSlider = document.getElementById('modalSlider');
     const modal = document.getElementById('photoModal');
     
-    // СБРОС СТИЛЕЙ У ВСЕХ КАРТИНОК ПЕРЕД ОТКРЫТИЕМ
     const allImgs = modalSlider.querySelectorAll('img');
     allImgs.forEach(img => {
       img.style.transform = '';
@@ -483,13 +501,20 @@
       img.classList.remove('dragging');
     });
 
-    // Показываем модалку (это важно сделать ДО скролла)
     modal.classList.add('show');
     document.body.style.overflow = 'hidden';
 
-    // Ждем 10 мс, чтобы браузер понял размеры, и мгновенно ставим на нужное фото
+    // ОТКЛЮЧАЕМ ПЛАВНОСТЬ И ПРИЛИПАНИЕ ДЛЯ МГНОВЕННОГО ОТКРЫТИЯ
+    modalSlider.style.scrollSnapType = 'none';
+    modalSlider.style.scrollBehavior = 'auto';
+    
     setTimeout(() => {
       modalSlider.scrollTo({ left: index * modalSlider.clientWidth, behavior: 'auto' });
+      
+      setTimeout(() => {
+        modalSlider.style.scrollSnapType = 'x mandatory';
+        modalSlider.style.scrollBehavior = 'auto'; // Оставляем auto, чтобы листание было четким на ПК
+      }, 50);
     }, 10);
   }
 
@@ -497,7 +522,6 @@
     document.getElementById('photoModal').classList.remove('show');
     document.body.style.overflow = '';
     
-    // СБРОС СТИЛЕЙ ПРИ ЗАКРЫТИИ
     const modalSlider = document.getElementById('modalSlider');
     const allImgs = modalSlider.querySelectorAll('img');
     allImgs.forEach(img => {
@@ -513,7 +537,7 @@
     const modalSlider = document.getElementById('modalSlider');
     const newIndex = currentIndex + direction;
     if (newIndex >= 0 && newIndex < currentImages.length) {
-      modalSlider.scrollTo({ left: newIndex * modalSlider.clientWidth, behavior: 'smooth' });
+      modalSlider.scrollTo({ left: newIndex * modalSlider.clientWidth, behavior: 'auto' });
     }
   }
 

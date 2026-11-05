@@ -503,14 +503,24 @@
     });
 
     // Показываем модалку
+       // Показываем модалку
     modal.classList.add('show');
     document.body.style.overflow = 'hidden';
+
+    // ПРИНУДИТЕЛЬНО ОТКЛЮЧАЕМ ВСЕ АНИМАЦИИ И ПРИЛИПАНИЯ
+    modalSlider.style.scrollSnapType = 'none';
+    modalSlider.style.scrollBehavior = 'auto';
     
-    // Ждем, пока браузер отрисует модалку (10 мс), и только потом скроллим
+    // Ждем отрисовки и мгновенно ставим на нужное фото
     setTimeout(() => {
       modalSlider.scrollTo({ left: index * modalSlider.clientWidth, behavior: 'auto' });
+      
+      // Возвращаем все обратно через мгновение
+      setTimeout(() => {
+        modalSlider.style.scrollSnapType = 'x mandatory';
+        modalSlider.style.scrollBehavior = 'auto';
+      }, 50);
     }, 10);
-  }
 
   function closeModal() {
     document.getElementById('photoModal').classList.remove('show');

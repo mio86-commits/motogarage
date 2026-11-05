@@ -380,33 +380,6 @@
     slider.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; isSwiping = false; }, { passive: true });
     slider.addEventListener('touchmove', (e) => { if (Math.abs(e.touches[0].clientX - touchStartX) > 10 || Math.abs(e.touches[0].clientY - touchStartY) > 10) isSwiping = true; }, { passive: true });
     slider.addEventListener('click', (e) => { if (isSwiping) { e.preventDefault(); e.stopPropagation(); } }, true);
-    
-    slider.addEventListener('touchend', () => {
-      setTimeout(() => {
-        const index = Math.round(slider.scrollLeft / slider.clientWidth);
-        
-        if (index === currentImages.length - 1) {
-          slider.style.scrollSnapType = 'none';
-          slider.style.scrollBehavior = 'auto';
-          slider.scrollTo({ left: 0, behavior: 'auto' });
-          
-          setTimeout(() => { 
-            slider.style.scrollSnapType = 'x mandatory'; 
-            slider.style.scrollBehavior = 'smooth'; 
-          }, 50);
-        } else if (index === 0 && slider.scrollLeft < 10) {
-          slider.style.scrollSnapType = 'none';
-          slider.style.scrollBehavior = 'auto';
-          slider.scrollTo({ left: (currentImages.length - 1) * slider.clientWidth, behavior: 'auto' });
-          
-          setTimeout(() => { 
-            slider.style.scrollSnapType = 'x mandatory'; 
-            slider.style.scrollBehavior = 'smooth'; 
-          }, 50);
-        }
-      }, 100);
-    });
-
     slider.addEventListener('scroll', () => { const index = Math.round(slider.scrollLeft / slider.clientWidth); if (thumbs[index]) { thumbs.forEach(t => t.classList.remove('active')); thumbs[index].classList.add('active'); } });
 
     const modal = document.getElementById('photoModal');
@@ -461,36 +434,7 @@
       }
       
       currentImg = null;
-
-      setTimeout(() => {
-        const index = Math.round(modalSlider.scrollLeft / modalSlider.clientWidth);
-        
-        if (index === currentImages.length - 1) {
-          modalSlider.style.scrollSnapType = 'none';
-          modalSlider.style.scrollBehavior = 'auto';
-          modalSlider.scrollTo({ left: 0, behavior: 'auto' });
-          currentIndex = 0;
-          changePhoto(0, document.querySelectorAll('.thumb')[0]);
-          
-          setTimeout(() => { 
-            modalSlider.style.scrollSnapType = 'x mandatory'; 
-            modalSlider.style.scrollBehavior = 'smooth'; 
-          }, 50);
-        } else if (index === 0 && modalSlider.scrollLeft < 10) {
-          modalSlider.style.scrollSnapType = 'none';
-          modalSlider.style.scrollBehavior = 'auto';
-          const lastIndex = currentImages.length - 1;
-          modalSlider.scrollTo({ left: lastIndex * modalSlider.clientWidth, behavior: 'auto' });
-          currentIndex = lastIndex;
-          changePhoto(lastIndex, document.querySelectorAll('.thumb')[lastIndex]);
-          
-          setTimeout(() => { 
-            modalSlider.style.scrollSnapType = 'x mandatory'; 
-            modalSlider.style.scrollBehavior = 'smooth'; 
-          }, 50);
-        }
-      }, 100);
-    });
+    }, { passive: true });
 
     modalSlider.addEventListener('scroll', () => {
       const index = Math.round(modalSlider.scrollLeft / modalSlider.clientWidth);
@@ -549,6 +493,7 @@
     currentIndex = index;
     const modalSlider = document.getElementById('modalSlider');
     
+    // СБРОС СТИЛЕЙ У ВСЕХ КАРТИНОК ПЕРЕД ОТКРЫТИЕМ
     const allImgs = modalSlider.querySelectorAll('img');
     allImgs.forEach(img => {
       img.style.transform = '';
@@ -565,6 +510,7 @@
     document.getElementById('photoModal').classList.remove('show');
     document.body.style.overflow = '';
     
+    // СБРОС СТИЛЕЙ ПРИ ЗАКРЫТИИ
     const modalSlider = document.getElementById('modalSlider');
     const allImgs = modalSlider.querySelectorAll('img');
     allImgs.forEach(img => {

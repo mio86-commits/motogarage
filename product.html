@@ -393,20 +393,24 @@
       
       if (index === currentImages.length - 1) {
         isResetting = true;
+        slider.style.scrollBehavior = 'auto';
         setTimeout(() => {
           slider.scrollTo({ left: 0, behavior: 'auto' });
           thumbs.forEach(t => t.classList.remove('active'));
           if (thumbs[0]) thumbs[0].classList.add('active');
           isResetting = false;
+          setTimeout(() => { slider.style.scrollBehavior = 'smooth'; }, 50);
         }, 150);
       } else if (index === 0) {
         isResetting = true;
+        slider.style.scrollBehavior = 'auto';
         setTimeout(() => {
           const lastIndex = currentImages.length - 1;
           slider.scrollTo({ left: lastIndex * slider.clientWidth, behavior: 'auto' });
           thumbs.forEach(t => t.classList.remove('active'));
           if (thumbs[lastIndex]) thumbs[lastIndex].classList.add('active');
           isResetting = false;
+          setTimeout(() => { slider.style.scrollBehavior = 'smooth'; }, 50);
         }, 150);
       }
     });
@@ -475,20 +479,24 @@
       
       if (index === currentImages.length - 1) {
         modalIsResetting = true;
+        modalSlider.style.scrollBehavior = 'auto';
         setTimeout(() => {
           modalSlider.scrollTo({ left: 0, behavior: 'auto' });
           currentIndex = 0;
           changePhoto(0, document.querySelectorAll('.thumb')[0]);
           modalIsResetting = false;
+          setTimeout(() => { modalSlider.style.scrollBehavior = 'smooth'; }, 50);
         }, 150);
       } else if (index === 0) {
         modalIsResetting = true;
+        modalSlider.style.scrollBehavior = 'auto';
         setTimeout(() => {
           const lastIndex = currentImages.length - 1;
           modalSlider.scrollTo({ left: lastIndex * modalSlider.clientWidth, behavior: 'auto' });
           currentIndex = lastIndex;
           changePhoto(lastIndex, document.querySelectorAll('.thumb')[lastIndex]);
           modalIsResetting = false;
+          setTimeout(() => { modalSlider.style.scrollBehavior = 'smooth'; }, 50);
         }, 150);
       }
     });

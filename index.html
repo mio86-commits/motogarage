@@ -356,7 +356,7 @@
     } catch(e) {}
 
     if (cachedData && cachedData.length > 0) {
-      renderCards(cachedData, container, folder, soldContainerId, false); // false = без анимации
+      renderCards(cachedData, container, folder, soldContainerId, false);
     } else {
       container.innerHTML = '';
       for (let i = 0; i < 4; i++) {
@@ -389,8 +389,8 @@
         const items = await Promise.all(promises);
         
         localStorage.setItem(cacheKey, JSON.stringify({ data: items, time: Date.now() }));
-        // Если данных не было в кэше (первая загрузка) — включаем анимацию
-        renderCards(items, container, folder, soldContainerId, !cachedData);
+        // Включаем анимацию всегда
+        renderCards(items, container, folder, soldContainerId, true);
         
       } catch (e) {
         console.error(e);
@@ -401,7 +401,7 @@
     }
   }
 
-  function renderCards(items, container, folder, soldContainerId, isFirstLoad = false) {
+  function renderCards(items, container, folder, soldContainerId, animate = false) {
     container.innerHTML = '';
     
     items.sort((a, b) => {
@@ -423,9 +423,8 @@
           const statusBadge = item.status === 'В пути' ? '<div class="status-badge">🚢 В пути</div>' : '';
           const img = item.image || 'favicon.png';
           
-          // Если это первая загрузка — добавляем анимацию. Если нет — без анимации.
-          const animClass = isFirstLoad ? 'fade-in-up' : '';
-          const animStyle = isFirstLoad ? `style="animation-delay: ${index * 0.05}s;"` : '';
+          const animClass = animate ? 'fade-in-up' : '';
+          const animStyle = animate ? `style="animation-delay: ${index * 0.05}s;"` : '';
           
           container.innerHTML += `
              <a class="card active-card ${animClass}" ${animStyle} href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
@@ -445,8 +444,8 @@
     if (soldContainer && soldItems.length > 0) {
         soldItems.forEach((item, index) => {
           const img = item.image || 'favicon.png';
-          const animClass = isFirstLoad ? 'fade-in-up' : '';
-          const animStyle = isFirstLoad ? `style="animation-delay: ${index * 0.05}s;"` : '';
+          const animClass = animate ? 'fade-in-up' : '';
+          const animStyle = animate ? `style="animation-delay: ${index * 0.05}s;"` : '';
           
           soldContainer.innerHTML += `
              <div class="card sold-card ${animClass}" ${animStyle}>

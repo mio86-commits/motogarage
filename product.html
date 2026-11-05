@@ -492,6 +492,7 @@
   function handleImgClick(index) {
     currentIndex = index;
     const modalSlider = document.getElementById('modalSlider');
+    const modal = document.getElementById('photoModal');
     
     // СБРОС СТИЛЕЙ У ВСЕХ КАРТИНОК ПЕРЕД ОТКРЫТИЕМ
     const allImgs = modalSlider.querySelectorAll('img');
@@ -501,11 +502,14 @@
       img.classList.remove('dragging');
     });
 
-    // МГНОВЕННО ОТКРЫВАЕМ НУЖНОЕ ФОТО
-    modalSlider.scrollTo({ left: index * modalSlider.clientWidth, behavior: 'auto' });
-    
-    document.getElementById('photoModal').classList.add('show');
+    // Показываем модалку
+    modal.classList.add('show');
     document.body.style.overflow = 'hidden';
+    
+    // Ждем, пока браузер отрисует модалку (10 мс), и только потом скроллим
+    setTimeout(() => {
+      modalSlider.scrollTo({ left: index * modalSlider.clientWidth, behavior: 'auto' });
+    }, 10);
   }
 
   function closeModal() {
@@ -528,7 +532,7 @@
     const modalSlider = document.getElementById('modalSlider');
     const newIndex = currentIndex + direction;
     if (newIndex >= 0 && newIndex < currentImages.length) {
-      modalSlider.scrollTo({ left: newIndex * modalSlider.clientWidth, behavior: 'auto' }); // Убрали smooth для четкости
+      modalSlider.scrollTo({ left: newIndex * modalSlider.clientWidth, behavior: 'auto' });
     }
   }
 

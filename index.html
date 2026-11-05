@@ -356,7 +356,7 @@
     } catch(e) {}
 
     if (cachedData && cachedData.length > 0) {
-      renderCards(cachedData, container, folder, soldContainerId);
+      renderCards(cachedData, container, folder, soldContainerId, false); // false = без анимации
     } else {
       container.innerHTML = '';
       for (let i = 0; i < 4; i++) {
@@ -389,7 +389,8 @@
         const items = await Promise.all(promises);
         
         localStorage.setItem(cacheKey, JSON.stringify({ data: items, time: Date.now() }));
-        renderCards(items, container, folder, soldContainerId);
+        // Если данных не было в кэше (первая загрузка) — включаем анимацию
+        renderCards(items, container, folder, soldContainerId, !cachedData);
         
       } catch (e) {
         console.error(e);
@@ -400,7 +401,7 @@
     }
   }
 
-  function renderCards(items, container, folder, soldContainerId) {
+  function renderCards(items, container, folder, soldContainerId, isFirstLoad = false) {
     container.innerHTML = '';
     
     items.sort((a, b) => {
@@ -422,8 +423,12 @@
           const statusBadge = item.status === 'В пути' ? '<div class="status-badge">🚢 В пути</div>' : '';
           const img = item.image || 'favicon.png';
           
+          // Если это первая загрузка — добавляем анимацию. Если нет — без анимации.
+          const animClass = isFirstLoad ? 'fade-in-up' : '';
+          const animStyle = isFirstLoad ? `style="animation-delay: ${index * 0.05}s;"` : '';
+          
           container.innerHTML += `
-             <a class="card active-card fade-in-up" style="animation-delay: ${index * 0.05}s;" href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
+             <a class="card active-card ${animClass}" ${animStyle} href="product.html?type=${folder}&id=${encodeURIComponent(item.id)}">
               ${statusBadge}
               <div class="img" style="background-image:url('${img}')"></div>
               <div class="body">
@@ -440,8 +445,11 @@
     if (soldContainer && soldItems.length > 0) {
         soldItems.forEach((item, index) => {
           const img = item.image || 'favicon.png';
+          const animClass = isFirstLoad ? 'fade-in-up' : '';
+          const animStyle = isFirstLoad ? `style="animation-delay: ${index * 0.05}s;"` : '';
+          
           soldContainer.innerHTML += `
-             <div class="card sold-card fade-in-up" style="animation-delay: ${index * 0.05}s;">
+             <div class="card sold-card ${animClass}" ${animStyle}>
               <div class="status-sold">Продан</div>
               <div class="img" style="background-image:url('${img}')"></div>
               <div class="body">

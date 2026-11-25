@@ -1,0 +1,22 @@
+{
+  "id": "Kawasaki-Z1000",
+  "order": 0,
+  "title": "Kawasaki Z1000 2004",
+  "price": "480000",
+  "desc": "Без пробега по РФ",
+  "status": "В пути",
+  "image": "/images/uploads/IMG_1757.webp",
+  "gallery": [
+    [
+      "/images/uploads/IMG_1755.webp",
+      "/images/uploads/IMG_1756.webp",
+      "/images/uploads/IMG_1758.webp",
+      "/images/uploads/IMG_1759.webp",
+      "/images/uploads/IMG_1760.webp",
+      "/images/uploads/IMG_1757.webp"
+    ]
+  ],
+  "specs": [],
+  "features": [],
+  "docs": "Без пробега по РФ. Аукцион BDS 5 баллов. Пробег 26000 км"
+}

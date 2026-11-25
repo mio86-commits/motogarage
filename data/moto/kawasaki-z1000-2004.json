@@ -1,5 +1,5 @@
 {
-  "id": "Kawasaki-Z1000",
+  "id": "Kawasaki-Z-1000",
   "order": 0,
   "title": "Kawasaki Z1000 2004",
   "price": "480000",
@@ -10,10 +10,10 @@
     [
       "/images/uploads/IMG_1755.webp",
       "/images/uploads/IMG_1756.webp",
+      "/images/uploads/IMG_1757.webp",
       "/images/uploads/IMG_1758.webp",
       "/images/uploads/IMG_1759.webp",
-      "/images/uploads/IMG_1760.webp",
-      "/images/uploads/IMG_1757.webp"
+      "/images/uploads/IMG_1760.webp"
     ]
   ],
   "specs": [],

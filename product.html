@@ -213,7 +213,7 @@
   let currentIndex = 0;
 
   const params = new URLSearchParams(window.location.search);
-  const type = params.get('type') || 'moto';
+  const type = params.get('type') || 'moto'; // moto или akrap
   const id = params.get('id');
 
   function parseMarkdown(text) {
@@ -227,15 +227,13 @@
   if (!id) {
     document.getElementById('product-skeleton').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Ошибка: Товар не найден.</p>';
   } else {
-    // Загружаем общий файл JSON (moto.json или akrap.json)
-    fetch(`data/${type}.json`)
-      .then(res => { if (!res.ok) throw new Error("Файл каталога не найден"); return res.json(); })
-      .then(data => {
-        // Ищем нужный товар в массиве по ID
-        const items = Array.isArray(data) ? data : (data.items || []);
-        const item = items.find(i => String(i.id).trim() === String(id).trim());
-
-        if (!item) throw new Error("Товар с таким ID не найден в каталоге");
+    // Загружаем файл напрямую из папки data (например, data/kawasaki-z1000-2004.json)
+    fetch(`data/${id}.json`)
+      .then(res => { 
+        if (!res.ok) throw new Error("Файл товара не найден на сервере"); 
+        return res.json(); 
+      })
+      .then(item => {
         
         document.title = item.title + " — MotoGarage NSK";
         
@@ -297,7 +295,7 @@
         if (item.features && Array.isArray(item.features) && item.features.length > 0) {
           let tempFeatures = '';
           item.features.forEach(feat => { 
-            // ИСПРАВЛЕНИЕ БАГА: Читаем и строки, и объекты
+            // ИСПРАВЛЕНИЕ БАГА: Читаем и строки, и объекты (на случай старого формата)
             let text = typeof feat === 'string' ? feat : (feat && (feat.text || feat.name) ? (feat.text || feat.name) : ''); 
             if (text.trim() !== '') tempFeatures += `<li>🔥 ${text}</li>`; 
           });
@@ -453,11 +451,16 @@
 
   async function loadRelatedProducts(currentId, folder) {
     try {
-      const res = await fetch(`data/${folder}.json`);
+      // Загружаем список файлов из папки data через GitHub API
+      const apiUrl = `https://api.github.com/repos/mio86-commits/motogarage/contents/data`;
+      const res = await fetch(apiUrl);
       if (!res.ok) throw new Error("Не удалось загрузить список");
       
-      const data = await res.json();
-      const allItems = Array.isArray(data) ? data : (data.items || []);
+      const files = await res.json();
+      const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+      
+      const promises = jsonFiles.map(file => fetch(file.download_url).then(r => r.json()));
+      const allItems = await Promise.all(promises);
 
       const relatedItems = allItems.filter(item => String(item.id) !== String(currentId) && item.status !== 'Продан');
       const itemsToShow = relatedItems.slice(0, 4);

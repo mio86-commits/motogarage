@@ -227,10 +227,19 @@
   if (!id) {
     document.getElementById('product-skeleton').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Ошибка: Товар не найден.</p>';
   } else {
-    // Загружаем файл напрямую из папки data (например, data/kawasaki-z1000-2004.json)
-    fetch(`data/${id}.json`)
+    // 1. Пробуем найти файл с маленькими буквами (как обычно сохраняет админка)
+    const cleanId = id.toLowerCase();
+    const fileUrl = `data/${cleanId}.json`;
+    
+    fetch(fileUrl)
       .then(res => { 
-        if (!res.ok) throw new Error("Файл товара не найден на сервере"); 
+        if (!res.ok) {
+          // 2. Если файла с маленькими буквами нет, пробуем найти ровно так, как написано в ID (вдруг файл сохранен с большими буквами)
+          return fetch(`data/${id}.json`).then(res2 => {
+             if (!res2.ok) throw new Error(`Файл не найден: ${fileUrl}`); 
+             return res2.json();
+          });
+        }
         return res.json(); 
       })
       .then(item => {
@@ -295,7 +304,7 @@
         if (item.features && Array.isArray(item.features) && item.features.length > 0) {
           let tempFeatures = '';
           item.features.forEach(feat => { 
-            // ИСПРАВЛЕНИЕ БАГА: Читаем и строки, и объекты (на случай старого формата)
+            // Читаем и строки, и объекты
             let text = typeof feat === 'string' ? feat : (feat && (feat.text || feat.name) ? (feat.text || feat.name) : ''); 
             if (text.trim() !== '') tempFeatures += `<li>🔥 ${text}</li>`; 
           });
@@ -462,7 +471,7 @@
       const promises = jsonFiles.map(file => fetch(file.download_url).then(r => r.json()));
       const allItems = await Promise.all(promises);
 
-      const relatedItems = allItems.filter(item => String(item.id) !== String(currentId) && item.status !== 'Продан');
+      const relatedItems = allItems.filter(item => String(item.id).toLowerCase() !== String(currentId).toLowerCase() && item.status !== 'Продан');
       const itemsToShow = relatedItems.slice(0, 4);
 
       if (itemsToShow.length > 0) {

@@ -227,12 +227,16 @@
   if (!id) {
     document.getElementById('product-skeleton').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Ошибка: Товар не найден.</p>';
   } else {
-    const cleanId = id.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-    
-    fetch(`data/${type}/${id}.json`)
-      .then(res => { if (!res.ok) return fetch(`data/${type}/${cleanId}.json`); return res; })
-      .then(res => { if (!res.ok) throw new Error("Файл товара не найден"); return res.json(); })
-      .then(item => {
+    // Загружаем общий файл JSON (moto.json или akrap.json)
+    fetch(`data/${type}.json`)
+      .then(res => { if (!res.ok) throw new Error("Файл каталога не найден"); return res.json(); })
+      .then(data => {
+        // Ищем нужный товар в массиве по ID
+        const items = Array.isArray(data) ? data : (data.items || []);
+        const item = items.find(i => String(i.id).trim() === String(id).trim());
+
+        if (!item) throw new Error("Товар с таким ID не найден в каталоге");
+        
         document.title = item.title + " — MotoGarage NSK";
         
         let cleanDescription = item.desc || 'Оригинальный выхлоп Akrapovič и мотоциклы из Японии.';
@@ -292,7 +296,11 @@
         let featuresHtml = '';
         if (item.features && Array.isArray(item.features) && item.features.length > 0) {
           let tempFeatures = '';
-          item.features.forEach(feat => { let text = typeof feat === 'string' ? feat : (feat && feat.text ? feat.text : ''); if (text.trim() !== '') tempFeatures += `<li>🔥 ${text}</li>`; });
+          item.features.forEach(feat => { 
+            // ИСПРАВЛЕНИЕ БАГА: Читаем и строки, и объекты
+            let text = typeof feat === 'string' ? feat : (feat && (feat.text || feat.name) ? (feat.text || feat.name) : ''); 
+            if (text.trim() !== '') tempFeatures += `<li>🔥 ${text}</li>`; 
+          });
           if (tempFeatures !== '') featuresHtml = `<div class="desc-title">Главные фишки:</div><ul class="features-list">${tempFeatures}</ul>`;
         }
 
@@ -445,16 +453,13 @@
 
   async function loadRelatedProducts(currentId, folder) {
     try {
-      const res = await fetch(`https://api.github.com/repos/mio86-commits/motogarage/contents/data/${folder}`);
+      const res = await fetch(`data/${folder}.json`);
       if (!res.ok) throw new Error("Не удалось загрузить список");
       
-      const files = await res.json();
-      const jsonFiles = files.filter(f => f.name.endsWith('.json'));
-      
-      const promises = jsonFiles.map(file => fetch(file.download_url).then(r => r.json()));
-      const allItems = await Promise.all(promises);
+      const data = await res.json();
+      const allItems = Array.isArray(data) ? data : (data.items || []);
 
-      const relatedItems = allItems.filter(item => item.id !== currentId && item.status !== 'Продан');
+      const relatedItems = allItems.filter(item => String(item.id) !== String(currentId) && item.status !== 'Продан');
       const itemsToShow = relatedItems.slice(0, 4);
 
       if (itemsToShow.length > 0) {

@@ -229,15 +229,34 @@
   } else {
     const cleanId = id.toLowerCase();
     const cleanType = type.toLowerCase();
-    
-    // Жестко указываем путь с учетом подпапки: data/moto/id.json или data/akrap/id.json
     const fileUrl = `data/${cleanType}/${cleanId}.json`;
 
-    fetch(fileUrl)
-      .then(res => {
-        if (!res.ok) throw new Error(`Файл не найден по пути: ${fileUrl}`);
-        return res.json();
-      })
+    // Умный поиск: если точного файла нет, ищем по началу названия
+    async function findAndLoadProduct() {
+      try {
+        let res = await fetch(fileUrl);
+        
+        if (!res.ok) {
+          const apiUrl = `https://api.github.com/repos/mio86-commits/motogarage/contents/data/${cleanType}`;
+          const dirRes = await fetch(apiUrl);
+          if (!dirRes.ok) throw new Error("Не удалось получить список файлов");
+          
+          const files = await dirRes.json();
+          const possibleFile = files.find(f => f.name.toLowerCase().startsWith(cleanId));
+          
+          if (possibleFile) {
+            res = await fetch(possibleFile.download_url);
+          } else {
+            throw new Error(`Файл не найден. Проверен путь: ${fileUrl}`);
+          }
+        }
+        return await res.json();
+      } catch (err) {
+        throw err;
+      }
+    }
+
+    findAndLoadProduct()
       .then(item => {
         
         document.title = item.title + " — MotoGarage NSK";

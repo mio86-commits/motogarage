@@ -227,20 +227,16 @@
   if (!id) {
     document.getElementById('product-skeleton').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Ошибка: Товар не найден.</p>';
   } else {
-    // 1. Пробуем найти файл с маленькими буквами (как обычно сохраняет админка)
     const cleanId = id.toLowerCase();
-    const fileUrl = `data/${cleanId}.json`;
+    const cleanType = type.toLowerCase();
     
+    // Жестко указываем путь с учетом подпапки: data/moto/id.json или data/akrap/id.json
+    const fileUrl = `data/${cleanType}/${cleanId}.json`;
+
     fetch(fileUrl)
-      .then(res => { 
-        if (!res.ok) {
-          // 2. Если файла с маленькими буквами нет, пробуем найти ровно так, как написано в ID (вдруг файл сохранен с большими буквами)
-          return fetch(`data/${id}.json`).then(res2 => {
-             if (!res2.ok) throw new Error(`Файл не найден: ${fileUrl}`); 
-             return res2.json();
-          });
-        }
-        return res.json(); 
+      .then(res => {
+        if (!res.ok) throw new Error(`Файл не найден по пути: ${fileUrl}`);
+        return res.json();
       })
       .then(item => {
         
@@ -361,7 +357,7 @@
         `;
         
         initGallery();
-        loadRelatedProducts(item.id, type);
+        loadRelatedProducts(item.id, cleanType);
       })
       .catch(err => {
         document.getElementById('product-skeleton').innerHTML = `<p style="color:red; text-align:center; grid-column: 1/-1;">Ошибка загрузки: ${err.message}</p>`;
@@ -460,8 +456,8 @@
 
   async function loadRelatedProducts(currentId, folder) {
     try {
-      // Загружаем список файлов из папки data через GitHub API
-      const apiUrl = `https://api.github.com/repos/mio86-commits/motogarage/contents/data`;
+      // Загружаем список файлов из конкретной подпапки (data/moto или data/akrap)
+      const apiUrl = `https://api.github.com/repos/mio86-commits/motogarage/contents/data/${folder}`;
       const res = await fetch(apiUrl);
       if (!res.ok) throw new Error("Не удалось загрузить список");
       

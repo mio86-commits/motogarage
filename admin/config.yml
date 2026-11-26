@@ -26,7 +26,8 @@ collections:
     label: "Мотоциклы"
     folder: "data/moto"
     create: true
-    slug: "{{title | slugify}}"
+    # ИСПРАВЛЕНО: теперь имя файла берется из поля ID
+    slug: "{{fields.id}}" 
     extension: "json"
     fields:
       - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Только латиница и дефисы (например, kawasaki-ninja-400)" }
@@ -69,7 +70,8 @@ collections:
     label: "Выхлоп Akrapovič"
     folder: "data/akrap"
     create: true
-    slug: "{{title | slugify}}"
+    # ИСПРАВЛЕНО: теперь имя файла берется из поля ID
+    slug: "{{fields.id}}"
     extension: "json"
     fields:
       - { label: "ID (ссылка на товар)", name: "id", widget: "string", hint: "Только латиница и дефисы (например, akrap-yamaha-mt09)" }
